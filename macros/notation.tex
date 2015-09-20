@@ -1,0 +1,27 @@
+% abbreviations
+\abbreviation{CTMC}{Continuous Time Markov Chains}
+\abbreviation{CDF}{Cumulative Distribution Function}
+\abbreviation{PMF}{Probability mass function}
+
+% terminology
+\terminology{reversible}{reversible}
+\terminology{sigmaalg}{$\sigma$-algebra}
+
+%%%% conventions %%%%
+% vectors: suffix V, e.g. dV, zV, etc
+% densities: prefix f, followed by variable(s) or description, eg. fwxy, femi, etc
+% probability mass function: prefix p, same rule as density otherwise
+% conditioning: use the letter 'l' in the macro, eg. pdlQ for p_{d|Q}
+
+% overwritten constants
+\let\oldOmega\Omega
+\let\oldsqcup\sqcup
+
+% time/phylogeny notation
+\notation*[Sample space]{Omega}{\oldOmega}
+\notation[A $\sigma$-algebra (closed collection of events)]{events}{{\mathcal F}}
+\notation[A collection of events that do not necessarily form a $\sigma$-algebra (a potentially ``broken'' collection of events)]{generators}{{\mathcal S}}
+\notation[The Borel $\sigma$-algebra]{borels}{{\mathcal F}_\text{B}}
+\notation[A set of states]{states}{{\mathcal X}}
+\notation*[Disjoint union]{sqcup}{\oldsqcup}
+

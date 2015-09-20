@@ -1,0 +1,129 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{notation}
+
+\RequirePackage{hyperref}
+\RequirePackage{suffix}
+\RequirePackage{nomencl}
+\RequirePackage{xcolor}
+
+%%
+% notation macro:
+%
+% Creates a notation where the location of the first instance in the text is recorded as the 
+% anchor, and the subsequent usages link to this first anchor.
+%
+% #1: optional description used to generate table of notation
+% #2: variable name for the notation (no space or special symbols allowed)
+% #3: value of the notation
+%
+% eg.: 
+% ---
+% \notation[A difference]{smallDiff}{\delta}
+% $\smallDiff$
+% ...
+% $\smallDiff$ + $\smallDiff$
+% ---
+% will create a link from the second and third instance to the first instance.
+%
+% Known limitations:
+%  - the first instance should not be in a Figure caption
+%
+% Author: Alexandre Bouchard
+%%
+\makeatletter%
+\newcommand\notation[3][]{% 
+  \expandafter\newcommand\csname #2\endcsname{%
+    \processnotation{#1}{#2}{#3}%
+  }%
+}%
+% notation* is similar, but allow overriding existing commands:
+\WithSuffix\newcommand\notation*[3][]{% 
+  \expandafter\renewcommand\csname #2\endcsname{%
+    \processnotation{#1}{#2}{#3}%
+  }%
+}%
+\newcommand\processnotation[3]{%
+  \ifcsname checkifdefined#2\endcsname% Already defined: create a link
+      {\protect\hyperlink{#2}{\color{black}{#3}}}%
+    \else% First occurrence:
+      {\protect\Hy@raisedlink{\protect\hypertarget{#2}{}}{#3}}% Create a target
+      \expandafter\gdef\csname checkifdefined#2\endcsname{1}% Remember it was encountered
+      \def\temp{#1}\ifx\temp\empty%
+        \relax%
+      \else%
+        \nomenclature{\ensuremath{#3}}{#1}%
+      \fi%
+    \fi%
+}%
+\makeatother%
+
+
+
+%%
+% abbreviation macro:
+%
+% Creates an abbreviation where the location of the first instance in the text is recorded as the 
+% anchor, and the subsequent usages link to this first anchor.
+%
+% #1: optional description used to add to the table of notation
+% #2: abbreviation (no space or special symbols allowed)
+% #3: value of the notation (added in parenthesis in the first occurrence)
+%
+% Also create a macro for the plural form e.g. \HMM and \HMMs
+%
+% Known limitations:
+%  - same as \notation
+%
+% Author: Alexandre Bouchard
+%%
+\makeatletter%
+\newcommand\abbreviation[3][]{% 
+  \expandafter\newcommand\csname #2\endcsname{%
+    \processabbreviation{#1}{#2}{#3}{}%
+  }%
+  \expandafter\newcommand\csname #2s\endcsname{%
+    \processabbreviation{#1}{#2}{#3}{s}%
+  }%
+}%
+\newcommand\processabbreviation[4]{%
+  \ifcsname checkifdefined#2\endcsname% Already defined: create a link, and use the abbreviation
+      {\protect\hyperlink{#2}{\color{black}{#2#4}}}%
+    \else% First occurrence:
+      {\protect\Hy@raisedlink{\protect\hypertarget{#2}{}}{#3 (#2#4)}}% Create a target
+      \expandafter\gdef\csname checkifdefined#2\endcsname{1}% Remember it was encountered
+      \def\temp{#1}\ifx\temp\empty%
+        \relax%
+      \else%
+        \nomenclature{#2}{#1}%
+      \fi%
+    \fi%
+}%
+\makeatother%
+
+
+%%
+% terminology macro:
+%
+%
+% Author: Alexandre Bouchard
+%%
+\makeatletter%
+\newcommand\terminology[2]{% 
+  \expandafter\newcommand\csname #1\endcsname{%
+    \processterminology{#1}{#2}{}%
+  }%
+  \expandafter\newcommand\csname #1s\endcsname{%
+    \processterminology{#1}{#2}{s}%
+  }%
+}%
+\newcommand\processterminology[3]{%
+  \ifcsname checkifdefined#1\endcsname% Already defined: create a link, and use the abbreviation
+      {\protect\hyperlink{#1}{\color{black}{#2#3}}}%
+    \else% First occurrence:
+      {\protect\Hy@raisedlink{\protect\hypertarget{#1}{}}{#2#3}}% Create a target
+      \expandafter\gdef\csname checkifdefined#1\endcsname{1}% Remember it was encountered
+    \fi%
+}%
+\makeatother%
+
+\endinput

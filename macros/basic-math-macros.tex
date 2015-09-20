@@ -1,0 +1,43 @@
+% dot product
+\newcommand\dotprod[2]{\langle #1, #2\rangle}  
+
+% reals
+\newcommand\R{{\mathbb R}} 
+\newcommand\G{{\mathbb G}}       
+
+% probability relatex
+\renewcommand\P{{\mathbb P}}        
+\newcommand\E{{\mathbb E}}        % expectation 
+\def\1{{\mathbf 1}}        % indicator (need def b/c of non-alpha macro)
+\newcommand\var{{\mathop{\mathbf Var}}}    % variance
+
+% big O
+\renewcommand\O{\mathcal{O}}
+
+% \int f(x) \ud x
+\newcommand{\ud}{\,\mathrm{d}}    
+
+% conditional defs
+\newcommand\bracearraycond[1]{\left\{ \begin{array}{ll} #1 \end{array} \right.}
+
+% define equal
+\newcommand\defeq{\coloneqq}
+
+
+% support
+\DeclareMathOperator{\support}{support}
+
+% maps to with name
+\newcommand\labelledmapsto[1]{\stackrel{#1}{\longmapsto}}
+
+% distributed according to unnormalized density
+\newcommand\simpropto{\stackrel{\propto}{\sim}}
+
+\def\ascv{\stackrel{\scriptscriptstyle a.s.}{\longrightarrow}}     % almost sure convergnece
+\def\pcv{\stackrel{\scriptscriptstyle \P}{\longrightarrow}}        % convergence in P
+\def\ltcv{\stackrel{\scriptscriptstyle\L^2}{\longrightarrow}}      % L2 convergnece
+\def\lpcv{\stackrel{\scriptscriptstyle\L^p}{\longrightarrow}}      % Lp convergnece
+\def\dcv{\stackrel{\scriptscriptstyle d}{\longrightarrow}}         % convergence in d
+\def\deq{\stackrel{\scriptscriptstyle d}{=}}         % equal in d
+\def\iidsim{\stackrel{\scriptscriptstyle \textrm{iid}}{\sim}}         % iid
+
