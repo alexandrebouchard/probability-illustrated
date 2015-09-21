@@ -81,7 +81,7 @@ F_{X_2}(x) &\defeq& \P(X_2 \le x) \\
 &=& F(\sqrt{x}).
 \end{eqnarray*}
 
-  \item First, we show that $Y + Y'$ is a simple function (this will allow us to use the easy definition of expectation given in Section~\ref{sec:area-simple-function}). Write $Y = \sum_{i=1}^N a_i \1_{A_i}$, and $Y' = \sum_{j=1}^M b_j \1{B_j}$ and assume without loss of generality that $A_i$ forms a partition, and that $B_j$ forms another partition.\footnote{Otherwise, add one more block $A_{N+1} = \cup_{i=1}^N A_i$ with $a_{N+1} = 0$. Same for $B_j$.} Consider the sets $\{C_{i,j} = A_i \cap B_j : 1\le i \le N, 1\le j \le M\}$. Note that the $C_{i,j}$ are clearly disjoint, and that on $C_{i,j}$, $(Y + Y')$ is equal to $a_i + b_j$. Therefore:
+  \item First, we show that $Y + Y'$ is a simple function (this will allow us to use the easy definition of expectation given in Section~2.4). Write $Y = \sum_{i=1}^N a_i \1_{A_i}$, and $Y' = \sum_{j=1}^M b_j \1{B_j}$ and assume without loss of generality that $A_i$ forms a partition, and that $B_j$ forms another partition.\footnote{Otherwise, add one more block $A_{N+1} = \cup_{i=1}^N A_i$ with $a_{N+1} = 0$. Same for $B_j$.} Consider the sets $\{C_{i,j} = A_i \cap B_j : 1\le i \le N, 1\le j \le M\}$. Note that the $C_{i,j}$ are clearly disjoint, and that on $C_{i,j}$, $(Y + Y')$ is equal to $a_i + b_j$. Therefore:
 \begin{eqnarray*}
 \E[Y + Y'] &=& \sum_{i,j} (a_i + b_j) \1_{C_{i,j}} \\
 &=& \sum_{i,j} a_i \1_{C_{i,j}} + \sum_{i,j} b_j \1_{C_{i,j}} \\
