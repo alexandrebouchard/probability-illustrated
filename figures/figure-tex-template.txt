@@ -1,0 +1,7 @@
+\begin{figure}[htp]
+\begin{center}
+  \includegraphics[width=\textwidth]{NAME.pdf}
+  \caption{figureCaption}
+  \label{fig:NAME}
+\end{center}
+\end{figure}
