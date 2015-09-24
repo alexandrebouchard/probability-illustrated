@@ -12,3 +12,9 @@ tmp/document.ilg
 tmp/document.log
 tmp/document.out
 tmp/document.toc
+solutions.aux
+solutions.fdb_latexmk
+solutions.fls
+solutions.log
+solutions.out
+solutions.pdf

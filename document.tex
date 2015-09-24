@@ -157,7 +157,7 @@ This second example is actually enough to build a rich theory! How? Using random
   \item Let $(\Omega, \events, \P)$ denote a probability space,
   \item then a (real) random variable $X$ is:
   \begin{enumerate}
-    \item a map, $X : \Omega \to \R$, 
+    \item a map, $X : \Omega \to \R$,\footnote{Technically, we add two points to the real line, $+\infty$ and $-\infty$, to ensure for example that limits of say increasing random variables are guaranteed to be random variables even if the sequence diverges for some outcomes $\omega$.} 
     \item \label{rv:condition} such that $X^{-1}(A) \in \events$ for all $A \in \borels$.
   \end{enumerate}
 \end{enumerate}
@@ -381,7 +381,7 @@ This construction has some nice properties:
 We first use properties \ref{point:inv-cdf-incl-one} and \ref{point:inv-cdf-incl-two} to prove the following set equality:
 \[ (X \le x) = \{\omega \in \Omega : \omega \le F(x) \}.\]
 We show that the LHS includes the RHS and vice versa:
-\begin{itemize} 
+\begin{itemize}
   \item $\{\omega \in \Omega : \omega \le F(x) \} \subseteq (X \le x)$:
 \begin{eqnarray*}
 \omega \le F(x) &\Longrightarrow& X(\omega)  \le X\circ F(x)\;\text{ (from \ref{point:inv-cdf-monotone})} \\
@@ -390,16 +390,16 @@ We show that the LHS includes the RHS and vice versa:
   \item $(X \le x) \subseteq \{\omega \in \Omega : \omega \le F(x) \}$:
 \begin{eqnarray*}
 X(\omega) \le x &\Longrightarrow& F\circ X(\omega)  \le F(x)\;\text{ (monotonicity of CDFs)} \\
-&\Longrightarrow& \omega \le F(x)\;\text{(from \ref{point:inv-cdf-incl-two}).} 
+&\Longrightarrow& \omega \le F(x)\;\text{(from \ref{point:inv-cdf-incl-two}).}
 \end{eqnarray*}
 \end{itemize}
 Finally, it follows that:
 \begin{eqnarray*}
-\text{CDF of }X &\defeq& \P(X \le x) \\ 
-&=& \P\{\omega \in \Omega : \omega \le F(x) \} \\ 
-&=& F(x) \;\text{ (by the definition of uniform probability).}  
+\text{CDF of }X &\defeq& \P(X \le x) \\
+&=& \P\{\omega \in \Omega : \omega \le F(x) \} \\
+&=& F(x) \;\text{ (by the definition of uniform probability).}
 \end{eqnarray*}
-Here in this special case: $X(\omega) = - \lambda^{-1} \log(1 - \omega)$. 
+Here in this special case: $X(\omega) = - \lambda^{-1} \log(1 - \omega)$.
 \item We have:
 \begin{eqnarray*}
 F_{X_2}(x) &\defeq& \P(X_2 \le x) \\
@@ -559,10 +559,14 @@ For a general random variable $X$:
 \end{enumerate}
 
 \point{Terminology:} 
-\begin{itemize}
-  \item If at least one of $I^{+}$ and $I^-$ is finite, we say the Lebesgue integral of $X$ exists,
-  \item when both $I^{+}$ and $I^-$ are finite, we say $X$ is \emph{integrable}.
+\begin{itemize} 
+  \item If at least one of $I^{+}$ and $I^-$ is finite, we say the Lebesgue integral of $X$ is defined,
+  \item when both $I^{+}$ and $I^-$ are finite, we say $X$ is \emph{integrable}, denoted $X \in \L_1$. 
 \end{itemize}
+
+\point{Exercise:} find a random variable $X \neq \L_1$ such that $\E X$ exists. Find a random variable $Y$ where $\E Y$ is not defined. 
+
+\point{End of lecture 4 (Sep 21)}
 
 
 \subsection{Integrals with respect to a measure}
@@ -593,12 +597,12 @@ The monotone convergence theorem (Section~\ref{sec:approxAndMCT}) says that we c
   \item $\E|Y| < \infty$.
 \end{enumerate}
 
-\point{Theorem:} If $X_1, X_2, \dots$ have an integrable envelope, then $\lim \E X_i = \E \lim X_i$.
+\point{Theorem:} (Dominated Convergence Theorem, DCT) if $X_1, X_2, \dots$ have an integrable envelope, and $\lim X_i$ exists, then $\lim \E X_i = \E \lim X_i$.
 
 
 \subsection{Measure zero sets and almost sure statements}
 
-As a direct consequence of the axioms of probability, an empty event has probability zero: $\P(\empty) = 0$. The converse is not true though. For example under the uniform probability an event that contains only a single point still has probability zero $\P(\{0.2\}) = 0$. In fact, under the uniform probability, events containing countably many points have probability zero.\footnote{Even more surprising, there are set containing uncountably many points that still have probability zero. Read about the Cantor set if you are curious.} 
+As a direct consequence of the axioms of probability, an empty event has probability zero: $\P(\emptyset) = 0$. The converse is not true though. For example under the uniform probability an event that contains only a single point still has probability zero $\P(\{0.2\}) = 0$. In fact, under the uniform probability, events containing countably many points have probability zero.\footnote{Even more surprising, there are set containing uncountably many points that still have probability zero. Read about the Cantor set if you are curious.} 
 
 For this reason, it is often possible to relax a statement like ``$|X_i| \le Y$'' in the previous statement to a statement like ``$|X_i| \le Y$ except for a set of probability zero.'' This second statement is formalized as $\P(|X_i| \le Y \text{ for all }i) = 1$, and denoted ``$|X_i| \le Y$ a.s.''
 
@@ -619,7 +623,9 @@ For this reason, it is often possible to relax a statement like ``$|X_i| \le Y$'
 \point{Lemma:} for all convex function $\varphi$, there is a sequence of linear functions $L_n(x) = a_n x + b_n$ such that 
 \[ \varphi(x) = \sup_n L_n(x). \]
 
-\point{Back to Jensen's:} using our lemma, we have $\varphi(X) \ge L_n(X)$ by construction. Taking expectations on both sides (i.e. using monotonicity of expectations):
+\point{Exercise:} provide an example showing that the above lemma does not hold in the case for non-convex functions.
+
+\point{Back to Jensen's:} using our lemma, we have $\varphi(X) \ge L_n(X)$ by construction. ``Taking expectations on both sides'' (i.e. using monotonicity of expectations):
 \begin{eqnarray}
 \E\varphi(X) &\ge& \E[L_n(X)] \\
 &=& L_n(\E X) \;\text{ since }L_n\text{ is linear.}
@@ -633,6 +639,44 @@ Finally, taking sup over $n$ on both sides:
 \point{Example:} since $\varphi(x) = x^2$ is convex, Jensen's gives us the following inequality: $(\E X)^2 \le \E[X^2]$.
 
 \point{Application:} the variance is defined as $\var[X] \defeq \E[(X - \mu)^2]$, where $\mu = \E X$. By computing the square and linearity, this last equation is equal to $\E[X^2] - (\E X)^2$.  Therefore, Jensen's inequality gives us another proof that the variance is non-negative.
+
+
+\subsection{Markov's inequality and its friends}
+
+\point{Motivation:} let $X$ be the water level near a dam of height of 7.5m. What is the probability of a flood? All you know is that the mean water level is 5m.
+
+\point{Proposition (Markov's inequality):} if $X \ge 0$, then for all $\alpha \ge 0$, 
+\[ \P( X \ge \alpha) \le \frac{\E X}{\alpha}. \]
+
+\point{Exercise:} solve the dam problem using Markov's inequality.
+
+\point{Proof:} Convince yourself by drawing the graph of $X$ that the following identities hold: 
+\begin{eqnarray*} 
+X &\ge& \1[X \ge \alpha] X\;\text{ (follows from }X \ge 0\text{)} \\
+&\ge& \alpha \1[X \ge \alpha].
+\end{eqnarray*}
+Taking expectations on both sides:
+\begin{eqnarray*}
+\E X &\ge& \alpha \E[\1[X \ge \alpha]] \\
+&=& \alpha \P(X \ge \alpha).
+\end{eqnarray*}
+
+\point{Note:} non-negativity is necessary. Consider for example a random variable with the discrete uniform distribution on $\{-1, +1\}$.
+
+\point{Note:} the bound will sometimes be greater than one. On the other hand, there are random variables $X$ and $\alpha$ such that the bound it tight, i.e. where $\P( X \ge \alpha) = \frac{\E X}{\alpha}$. For example $X$ such that $\P(X = 2) = 1/2$, $\P(X = 0) = 1/2$, $\alpha = 2$.
+
+\point{Corollary 1:} for all random variable $X$, $p \ge 0$,
+\[ \P(|X| \ge \alpha) \le \frac{\E |X|^p}{\alpha^p}. \]
+
+\point{Proof:} by monotonicity of the power function, $(|X| \ge \alpha) = (|X|^p \ge \alpha^p)$, therefore $\P(|X| \ge \alpha) = \P(|X|^p \ge \alpha^p)$. Since $|X|^p \ge 0$, we can apply Markov's inequality on this last probability.
+
+% note: does not work well with the dam example because of the left tail
+
+\point{Corollary 2 (Chebyshev's inequality):} for any random variable $Y$ with $\mu \defeq \E Y$, $|\mu| < \infty$ (non-negativity not needed anymore!),
+\[ \P(|Y - \mu| \ge \alpha) \le \frac{\var Y}{\alpha^2}. \]
+
+\point{Proof:} define $X \defeq |Y - \mu|$, and apply the preceding lemma with $p = 2$.
+
 
 
 \subsection{Exercises}
@@ -657,10 +701,122 @@ Finally, taking sup over $n$ on both sides:
 \end{enumerate}
 
 
+\section{Independence}
+
+\subsection{More than one random variables (random vectors)}
+
+\point{Motivation:} A man and a woman try to meet at a certain place between 1:00pm and 2:00pm.  Suppose each person pick an arrival time between 1:00pm and 2:00pm uniformly at random (denote $X$ and $Y$ respectively), and waits for the other at most 10 minutes. What is the probability that they meet?
+
+\point{Practical question:} How to compute a probability of the form $\P((X, Y) \in S)$?
+
+\point{Theoretical question:} Given two random variables on the same space, $X: \Omega \to \R$ and $Y : \Omega \to \R$, what is $(X, Y)$ exactly?
+
+\point{Definition:} A random vector is a random variable that takes values in $\states = \R^2$: \[ (X, Y) : \Omega \to \R^2. \]
+
+\point{Recall:} The definition of random variable requires a \sigmaalg\ on $\states$. What should we pick? We know that we will at the very least need to compute the probability of $X$ falling in a \emph{rectangle}:
+
+\point{Definition:} a rectangle is a set of the form:
+\begin{eqnarray} 
+R &=& A \times B \;\text{ for some }A \in \borels, B \in \borels \\
+&=& \{(x, y) : x \in A, y \in B\}.
+\end{eqnarray}
+
+\point{Unfortunately:} $\generators = \{R : R\text{ is a rectangle}\}$ is not a \sigmaalg\ (why?). Also, it does not contain the set that we would need to answer the above ``practical question.''
+
+\point{Solution:} generate a \sigmaalg\ from $\generators$. The result of this is called the product \sigmaalg:
+\[ \events^{\otimes 2} \defeq \events \otimes \events \defeq \sigma(\generators). \]
+
+\point{Exercise:} show that the set $S$ in the ``practical question'' is in $\events \otimes \events$.
+
+
+\subsection{Distribution, CDF and density of a random vector}
+
+These definitions follow directly from the univariate case:
+
+\point{Definition:} the joint distribution of a random vector $(X, Y)$, denoted $\P_{X,Y} : \events \otimes \events \to [0, 1]$, is defined by:
+\[ \P_{X,Y}(S) \defeq \P((X, Y) \in S). \]
+
+\point{Definition:} the joint CDF of a random vector $(X, Y)$, denoted $F_{X,Y} : \R^2 \to [0, 1]$, is defined by:
+\[ F_{X, Y}(x, y) \defeq \P_{X,Y}((-\infty, x] \times (-\infty, y]). \]
+
+\point{Note:} This last definition seems slightly arbitrary. Why pick this particular class of sets $S$ (``quarter-planes'')? As we will see in the next section, this is because this class \emph{characterizes} the joint distribution. In other words, given a joint CDF, you can in principle obtain the probability of $X$ falling in any set $S$. 
+
+\point{Definition:} a function $f:\R^2 \to [0, \infty)$ is called a joint density of the random vector $(X,Y)$ if:
+\[ F_{(X,Y)}(x,y) = \int_{-\infty}^x \int_{-\infty}^y f(x,y) \ud x \ud y. \]
+
+\point{Note:} these definitions can be generalized to more than two dimensions.
+
+
+\subsection{Determining classes}
+
+In this section, we explain the tool used to prove the characterization statement of the previous section.
+
+\point{Tool:} $\pi$-$\lambda$ theorem. 
+\begin{enumerate}
+\item Let $\pi$ denote a collection of sets satisfying the following condition (called a $\pi$-system condition):
+\begin{enumerate}
+  \item $A, B \in \pi \Longrightarrow A\cap B\in \pi$.
+\end{enumerate}
+\item Let $\lambda$ denote a collection of sets satisfying the following conditions (called a $\lambda$-system condition):
+\begin{enumerate}
+  \item $\Omega \in \lambda$,
+  \item $A, B \in \lambda, A \subseteq B \Longrightarrow B \backslash A \in \lambda$,
+  \item $A_i \uparrow A, A_i \in \lambda \Longrightarrow A \in \lambda.$
+\end{enumerate}
+\item Then, the following holds: $\pi \subset \lambda \Longrightarrow \sigma(\pi) \subset \lambda$.
+\end{enumerate}
+
+\point{Proposition:} Supposet $\P_1$ and $\P_2$ are probability measures on $\events = \sigma(\generators)$, where $\generators$ is closed under finite intersection. Then the following are equivalent:
+\begin{enumerate}
+  \item $\P_1(A) = \P_2(A)$ for all $A \in \events$,
+  \item $\P_1(A) = \P_2(A)$ for all $A \in \generators$.
+\end{enumerate}
+
+\point{Exercise:} prove this using the $\pi$-$\lambda$ theorem. Hint: let $\lambda = \{A \in \events : \P_1(A) = \P_2(A)\}$.
+
+\point{Corollary:} $F_{X,Y}$ determines $\P_{X,Y}$.
+
+\point{Proof:} $(-\infty, x] \cap (-\infty, y] = (-\infty, \min\{x, y\}]$.
+
+\point{Corollary:} if $(X,Y)$ has joint density $f$, then
+\[ \P((X, Y) \in S) = \int_S f(x,y) \ud x \ud y. \]
+
+%%new-fig:name
+
+
+\subsection{Independence of random vectors}
+
+\point{Definition:} the random variables $X_1, X_2, \dots, X_n : \Omega \to \R$ are independent if, for all $A_i \in \borels$, \[ \P(X_1 \in A_1, X_2 \in A_2, \dots, X_n \in A_n) = \prod_{i=1}^n \P(X_i \in A_i). \]
+
+\point{Exercise:} using $\pi-\lambda$ show that the above statement can be checked by showing that the CDF factorizes as 
+\[ F_{X_1, X_2, \dots, X_n} = \prod_{i=1}^n F_{X_i}. \]
+
+\point{Note:} similarly to the above exercise, if the random variables have a joint density $f_{X_1, X_2, \dots, X_n}$, independence can be checked by factorizing the density into \emph{marginal densities} $f_{X_i}$ of each individual random variable:
+\[ f_{X_1, X_2, \dots, X_n} = \prod_{i=1}^n f_{X_i}. \]
+
+\point{Definition:} we say the random variables $X_1, X_2, \dots, X_n$ are pairwise independent if each pair is independent.
+
+\point{Exercise:} find 3 random variables such that these random variables are pairwise independent but not independent. Hint: this can be done using indicator random variables.
+
+
+\section{Computing expectations}
+
+% start with simple discrete example and g() = x^2, then prove
+
+% then, introduce density
+
+
+% need more on expectation --- PLAN: come back via assignment and another section after indep; e.g. will need Fubini for tail sums
+% - change of vars
+% - actual computations
+% - indicator tricks
+% - tail sums
+
 
 % - philosophy: \Omega complicated, not accessible
 % - todo: closure of r.v. under limits
 % - add note that symbols are clickeable
+% - todo: double-check statements of monotone/dominated does not require existence of lim 
 
 
 \end{document}
