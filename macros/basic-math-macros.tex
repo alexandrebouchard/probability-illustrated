@@ -10,7 +10,17 @@
 \newcommand\E{{\mathbb E}}        % expectation 
 \def\1{{\mathbf 1}}        % indicator (need def b/c of non-alpha macro)
 \newcommand\var{{\text {\bf Var}}}    % variance
-\renewcommand\L{\mathbf L} 
+\renewcommand\L{\mathbf L}
+
+% binomial distribution
+\DeclareMathOperator{\Bin}{Bin}
+\DeclareMathOperator{\Poi}{Poi}
+\DeclareMathOperator{\Bern}{Bern}
+\DeclareMathOperator{\PP}{PP}
+\DeclareMathOperator{\Unif}{Unif}
+
+\newcommand{\ev}{\text{ ev.}}
+\newcommand{\io}{\text{ i.o.}}
 
 % big O
 \renewcommand\O{\mathcal{O}}
@@ -27,6 +37,7 @@
 
 % support
 \DeclareMathOperator{\support}{support}
+\DeclareMathOperator{\argmin}{argmin}
 
 % maps to with name
 \newcommand\labelledmapsto[1]{\stackrel{#1}{\longmapsto}}
