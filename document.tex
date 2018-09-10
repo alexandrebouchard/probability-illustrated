@@ -22,21 +22,39 @@
 
 \maketitle
 \tableofcontents
+
+\newpage
+
+\section{Motivations}
+
+\point{Why learn probability theory?} 
+\begin{enumerate}
+	\item Probability theory is a fundamental tool in statistics, computer science, physics, econometrics, and many more traditionally quantitative fields. It is also quickly gaining in importance in fields making the quantitative transition, for example biology, linguistics, sociology, and many more. 
+	\item The theory is beautiful in its own right. Probability Theory can also be approached as a branch of pure mathematics. 
+\end{enumerate}
  
+Both of the above points are excellent motivations. However by the nature of this course (we are in a stats department!), I will focus on the first point above and heavily use practical motivations throughout the notes. 
+
+Why is probability a fundamental tool in so many fields? Because Probability Theory is useful for creating \emph{models}. 
+
+\point{Models} are sketches of reality that capture the essential of a problem while being amenable to mathematical analysis. Probability-based models are great at incorporating phenomena like uncertainty and randomness. Moreover, compared to other types of models you might be familiar with (e.g. linear algebra or calculus based), they arguable tend to be more resilient to \emph{mis-specification}, i.e. they can recover from certain mismatches between the model and reality (data) in the sense of still giving good predictions.
+
+There are many other motivations. I will just mention two more quickly:
+
+\point{From model to prediction:} in Bayesian statistics, probability theory is essential not only to formulate models, but also to make predictions. Bayesian statisticians construct a probability model in which both the known quantities (data) and the unknown quantities are modelled using random variables. In Bayesian inference, prediction then involves  conditioning on the data.  We will use Bayesian statistics as a recurrent example when talking about conditioning. 
+
+\point{The computational power of randomness.}  Probability Theory arises in a surprising way in the subfields of computer science concerned with the design and analysis of algorithms. Researchers have found since the 1940s many problems where the best way to solve deterministic problems is to introduce artificial randomness in the execution of the algorithm (called \emph{algorithmic randomness}. Consider for example the problem of quickly approximating the volume of an arbitrary convex body. In a 1991 landmark paper \cite{dyer_random_1991}, Dyer, Frieze and Kanna devised a provably efficient approximation algorithm which uses algorithmic randomness to perform random walks. Moreover, it is known that no efficient deterministic algorithms can provide accurate approximations \cite{bfirfiny_computing_nodate}. 
+
 
 \section{Foundations}
 
+\subsection{Running example}
 
-\subsection{Pre-requisites}
-
-Some notions to review (come to office hours if you need help on these):
-\begin{enumerate}
-  \item Set theoretic notation such as power sets, countable vs. uncountable set, functions.
-  \item Basic properties of limits of real numbers.
-\end{enumerate}
 
 
 \subsection{The axioms of probability}
+
+
 
 A probability space contains three things:
 \begin{enumerate}
@@ -107,8 +125,6 @@ If you answered $12\%$, you are using a property that is \emph{not} built into (
   \item[A non-example:] the collection $\events_2 \defeq \events_1 \cup \{\{a\}\}$ is not a \sigmaalg. Why? We have $\{a\} \in \events_2$ yet $\{a\}^\complement \notin \events_2$.
 \end{description}
 
-\point{End of lecture 1 (Sep 9)}
-
 
 \subsection{Generated $\sigma$-algebra}\label{sec:generated}
 
@@ -157,7 +173,9 @@ This second example is actually enough to build a rich theory! How? Using random
   \item Another use of random variables is to express a quantity that is unknown, but that we would like to have the probability of. A concept that I call a ``query.''
 \end{itemize}
 
-\point{Formal definition:}
+\point{Pre-requisite for the formal definition:} if $f : S \to T$ is some function, we can lift function evaluation, which takes as input points and returns points $f(x) \in T$ for $x \in S$, into functions evaluation taking as input a set and returning a set, i.e. for $A \subset S$, $f(A) = \{f(x) : x \in A\}$. Note that we abuse the notation and use the same symbol for lifted function evaluation, but no confusion can arise because of the type of the input. We do the same for lifted function inverse: for $B \subset T$, $f^{-1}(B) = \{x \in S : f(x) \in B\}$. The lifted inverse is nice because it always exists (the set it returns can be empty or have cardinality larger than one, but it's still a set.
+
+\point{We can now formally define random variables:}
 \begin{enumerate}
   \item Let $(\Omega, \events, \P)$ denote a probability space,
   \item then a (real) random variable $X$ is:
@@ -185,7 +203,7 @@ This second example is actually enough to build a rich theory! How? Using random
   \item (Real) random variables and random vectors are special though, as they will later allow us to define the notion of expectation (not possible with colours, as we cannot for example ``add colours''). More on this later!
 \end{itemize}
 
-\point{Warning:} make sure you follow the type conventions! For example, $\P($red$)$ or $\P(X)$ are not defined!\footnote{Some authors do give it a meaning, but it is not what you think! We will see this meaning, namely the expectation of $X$, later.}
+\point{Warning:} make sure you follow the type conventions! For example, $\P($red$)$ or $\P(X)$ are not defined!\footnote{Some authors do give a meaning to the latter, but it is not what you think! We will see this meaning, namely the expectation of $X$, later.}
 
 
 \subsection{Compositions of random variables}\label{sec:composition-of-rv}
@@ -194,7 +212,9 @@ This second example is actually enough to build a rich theory! How? Using random
 
 \point{Convention:} use capital letters only for the random variables mapping elements from the main global sample space $\Omega \to \states$. Use standard function notation ($g, h$, etc) for subsequent transformations $g : \states \to \states'$  of the output of $X$. E.g. $g \circ X = g(X)$. 
 
-\point{Exercise:} show that the composition $g(X)$ of two random variables is a random variable.
+\point{Exercise:} show that the composition $g(X)$ of a random variable $X$ with a measurable function $g$ is a random variable.
+
+\point{Convention:} from now on, we will implicitly assume all functions involved are measurable. 
 
 
 \subsection{The graph of a random variable}
@@ -202,7 +222,7 @@ This second example is actually enough to build a rich theory! How? Using random
 In the special case where $\Omega = \R$, we can plot the \emph{graph} real random variables $X : \Omega \to \R$. While in practice $\Omega$ is usually much more complicated, looking at simple examples where $\Omega = \R$ is a powerful technique to get some intuition on several results we will cover in the next few weeks. Note that measurability is much weaker than continuity, so the the graph of random variables can be quite pathological in general. 
 
 
-\subsection{The probabilist's event notation}
+\subsection{The probabilist's event notation}\label{sec:probabilist}
 
 It is tedious to write expressions like $X^{-1}(\{r \in \R : 6 \le r\})$. Probabilists noticed that the notation $(6 \le X)$ was not defined, and decided to give it a new, precise meaning: $X^{-1}(\{r \in \R : 6 \le r\})$. Some other examples:
 \begin{itemize}
@@ -213,18 +233,55 @@ It is tedious to write expressions like $X^{-1}(\{r \in \R : 6 \le r\})$. Probab
 \point{More generally:} \[(\text{logical statement }s\text{ containing a random variable }X) \defeq \{\omega \in \Omega : s(X(\omega))\text{ is true}\}. \]
 
 
-\subsection{Indicator random variables}
+\subsection{Constant random variables}
 
-For an event $A$, define the \emph{indicator function} as follows: \[ \1_A(\omega) \defeq \1[\omega \in A] \defeq \bracearraycond{1 &\text{if }\omega\in A\\0&\text{otherwise.}} \]
+The simplest example of a random variable is a constant function, e.g. $X(\omega) = 42$ for all $\omega$ or $Y(\omega) = 3.14$ for all $\omega$, denoted $X = 42$ and $Y = 3.14$ respectively. These are boring but important building blocks. We will abuse notation and denote the random variables such as $X$ and $Y$ here by just $42$ and $3.14$ respectively. For example $Z + 3$ if a shorthand for the composition $g(Z, W)$, where $g(z, w) = z + w$ and $W(\omega) = 3$.
+
+\subsection{Indicator random variables}\label{sec:indicator}
+
+Often we need random variable taking binary values (either zero or one). These are called indicator random variables. 
+
+For any set $A$, define the \emph{indicator function} or just indicator for short as follows: \[ \1_A(\omega) \defeq \1[\omega \in A] \defeq \bracearraycond{1 &\text{if }\omega\in A\\0&\text{otherwise.}} \]
+
+The indicator random variable is just an indicator on an event.
+
+If $A$ can be defined using the probabilist's notation introduced in Section~\ref{sec:probabilist}, for example if $A = (X = x)$, we will use the notation $\1(X = x)$ for $\1_A$.
 
 
-\subsection{Distribution of a random variable}
+\subsection{Rewriting events involving equalities}\label{sec:rewriting-equalities}
 
-\point{Idea:} you give me a probability space $(\Omega, \events, \P)$ and a random variable $X : \Omega \to \states$, and I create a new probability $\P_2$! This new probability is defined on the values $\states$ that the random variable takes.
+When dealing with equations involving non-random variables, a common heuristic is to ``add on both sides,'' e.g. $x + 5 = 2$ becoming $x = -3$. Let us call these two logical statements $s_1$ and $s_2$. Since $s_1(X(\omega))$ is true if and only if  $s_2(X(\omega))$ is true, it follows that the two events, $(X + 5 = 2)$ and $(X = -3)$, are equal. In particular, $\P(X + 5 = 2) = \P(X = -3)$.
 
-\point{Definition:} for any $A \in \events_\states$, set $\P(A) \defeq \P(X \in A)$.
+More generally, if $f$ is one-to-one, then $(X = Y) = (f(X) = f(Y))$. For example $(-X = -5) = (X = 5)$. 
 
-\point{Notation:} $\P_X$.
+In fact, we only need $f$ to be one-to-one on the set of possible values attained by $X$ and $Y$ (i.e. the union of their ranges). For example $(X = 2) = (X^2 = 4)$ if $X$ is non-negative (denoted $X \ge 0$), e.g. a dice random variable. 
+
+Many steps in probability arguments follow that kind of logic-based reasoning.
+
+
+\subsection{Rewriting events involving inequalities}\label{sec:rewriting-inequalities}
+
+Be a bit more careful when dealing with inequalities, we need a more specialized form a one-to-one mapping: if $f$ is \emph{strictly increasing}, then $(X \le Y) = (f(X) \le f(Y))$. For example $(X \le 0) = (\exp(X) \le 1)$.
+
+This is indeed necessary as $(-X \le -5) = (X \ge 5) \neq (X \le 5)$.
+
+
+\subsection{Bounding events}
+
+When we cannot rewrite the event using the methods described in Sections~\ref{sec:rewriting-equalities} and \ref{sec:rewriting-inequalities}, we can settle on bounding the event instead. Suppose event $A_1$ is defined using statement $s_1(Y)$ (e.g. $A_1 = (Y = 2)$) and similarly, event $A_2$, using $s_2(Y)$ (e.g. $A_2 = (Y^2 = 4)$. Suppose $s_1 \Longrightarrow s_2$. Then we have $A_1 \subseteq A_2$. In our example, $y = 2 \Longrightarrow y^2 = 4$, but the converse is not true if the random variable $Y$ can take negative values, as $y = -2$ also yields $y^2 = 4$. So all we get for general random variables is that $(Y = 2) \subset (Y^2 = 4)$.
+
+We will soon see in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$ implies $\P(A_1) \le \P(A_2)$.
+
+
+\subsection{Distribution of a random variable}\label{sec:distribution}
+
+\point{Idea:} you give me a probability space $(\Omega, \events, \P)$ and a random variable $X : \Omega \to \states$, and I create a new probability $\P'$. This new probability is defined on the values $\states$ that the random variable takes.
+
+\point{Definition:} for any $B \in \events_\states$, set $\P'(B) \defeq \P(X \in B)$.
+
+\point{Notation:} we denote this new probability $\P'$ by $\P_X$, and call it the \emph{distribution of $X$}.
+
+\point{Exercise:} suppose $X$ is an indicator variable on an event $A$, with $p = \P(A)$. Find the distribution of $X$. The answer is called ``Bernoulli with parameter $p$'', denoted $\P_X = \text{Bern}_p$.
 
 \point{Possible confusion:} ``probability distribution'' is a synonym of ``probability measure.'' Here we defined the ``distribution \emph{of} $X$,'' which is a specific way of constructing a probability measure.
 
@@ -238,8 +295,6 @@ For an event $A$, define the \emph{indicator function} as follows: \[ \1_A(\omeg
 \point{Definition:} the \CDF\ of a random variable is given for all $x \in \R$ by: \[ F_X(x) \defeq \P(X \le x). \]
 
 \point{Exercise:} this is the same as $\P_X((-\infty, x])$.
-
-\point{End of lecture 2 (Sep 14)}
 
 
 \subsection{Using random variables to construct new probability measures}\label{sec:using-rv-to-construct-prs}
@@ -272,7 +327,7 @@ A random variable is said to have \emph{density} $f$ if: \[ F_X(x) = \int_{-\inf
 \point{Exercise:} find an example where there is a $x$ such that a density has $f(x) > 1$.
 
 
-\subsection{Limit properties of probability measures}
+\subsection{Limit properties of probability measures}\label{sec:limit-pr-measures}
 
 \point{Lemma: monotonicity.} If $A \subset B$ are events, then $\P(A) \le \P(B)$.
 
@@ -360,60 +415,60 @@ A measure $\mu : \events \to [0, \infty)$ is defined in the same way as a probab
 \end{enumerate}
 
 
-\subsection{Solutions}
-
-\begin{enumerate}
-  \item The three pictures should be as follows:
-  \begin{enumerate}
-    \item Graph of $X$: The $x$-axis should be a bounded segment labelled $\Omega$. The $y$-axis should be the full real line. There are several choices for the function. For example the line $y = x$ or $y = 1 - x$ on the interval $[0, 1)$ are acceptable. Other choices are possible.
-    \item CDF: The $x$-axis should be the full real line. The $y$ axis should be the interval $[0, 1]$. The function should be zero in $(-\infty, 0]$, then affine in $[0, 1]$, then one in $[1, +\infty)$.
-    \item Density: the $x$ axis should be the full real line. The $y$ axis should be the positive real line. The function should be the indicator on the set $[0, 1)$.
-  \end{enumerate}
-  \item We need to check the three conditions given in the definition of \sigmaalg:
-  \begin{enumerate}
-    \item Since $\events$ is a \sigmaalg, $\Omega \in \events$ and since $\events'$ is a \sigmaalg, $\Omega \in \events'$, therefore $\Omega \in \events \cap \events'$.
-    \item We need to show that if $A_1, A_2, \dots$ are all in $\events \cap \events'$, then $\cap A_i \in \events \cap \events'$. By the definition of intersection, we have that $A_1, A_2, \dots$ are all in $\events$. Since $\events$ is a \sigmaalg, it follows that $\cap A_i \in \events$. By the same reasoning, $\cap A_i \in \events'$. Therefore, $\cap A_i \in \events \cap \events'$.
-    \item We need to show that if $A \in \events \cap \events'$, then $A^\complement \in \events \cap \events'$. By the definition of intersection, we have that $A \in \events$. Since $\events$ is a \sigmaalg, it follows that $A^\complement \in \events$. By the same reasoning, $A^\complement \in \events'$. Therefore, $A^\complement \in \events \cap \events'$.
-  \end{enumerate}
-  \item We have that $X: \Omega \to \states$ and $g : \states \to \states'$ are random variables. Let us denote by $\events_\Omega, \events_{\states}$ and $\events_{\states'}$ the \sigmaalg\ on $\Omega$, $\states$ and $\states'$ respectively. Let $A \in \events_{\states'}$. We have to show that $(g \circ X)^{-1}(A) \in \events_\Omega$. First, note that $(g \circ X)^{-1}(A) = X^{-1}(g^{-1}(A))$. Since $g$ is a random variable, $g^{-1}(A) \in \events_\states$. Next, since $X$ is a random variables, $g^{-1}(A) \in \events_\states$ implies that $X^{-1}(g^{-1}(A)) \in \events_\Omega$.
-   \item As in Section~\ref{sec:limit-properties-cdfs}, we pick $X(\omega) \defeq \sup\{x : F(x) < \omega\}$ (note that in this special case were $\Omega = [0, 1)$,  writing ``$F(x) < \omega$'' is well defined---for general $\Omega$ is would not).
-This construction has some nice properties:
-\begin{enumerate}
-  \item \label{point:inv-cdf-monotone} $X$ is monotone increasing (this follows directly from the definition),
-  \item \label{point:inv-cdf-incl-one} $X\circ F(x) \le x$ (draw a picture of a \CDF\ having flat regions to convince yourself),
-  \item \label{point:inv-cdf-incl-two}$F\circ X(\omega) \ge \omega$ (draw a picture of a \CDF\ having discontinuities to convince yourself).
-\end{enumerate}
-We first use properties \ref{point:inv-cdf-incl-one} and \ref{point:inv-cdf-incl-two} to prove the following set equality:
-\[ (X \le x) = \{\omega \in \Omega : \omega \le F(x) \}.\]
-We show that the LHS includes the RHS and vice versa:
-\begin{itemize}
-  \item $\{\omega \in \Omega : \omega \le F(x) \} \subseteq (X \le x)$:
-\begin{eqnarray*}
-\omega \le F(x) &\Longrightarrow& X(\omega)  \le X\circ F(x)\;\text{ (from \ref{point:inv-cdf-monotone})} \\
-&\Longrightarrow& X(\omega) \le x\;\text{(from \ref{point:inv-cdf-incl-one}).}
-\end{eqnarray*}
-  \item $(X \le x) \subseteq \{\omega \in \Omega : \omega \le F(x) \}$:
-\begin{eqnarray*}
-X(\omega) \le x &\Longrightarrow& F\circ X(\omega)  \le F(x)\;\text{ (monotonicity of CDFs)} \\
-&\Longrightarrow& \omega \le F(x)\;\text{(from \ref{point:inv-cdf-incl-two}).}
-\end{eqnarray*}
-\end{itemize}
-Finally, it follows that:
-\begin{eqnarray*}
-\text{CDF of }X &\defeq& \P(X \le x) \\
-&=& \P\{\omega \in \Omega : \omega \le F(x) \} \\
-&=& F(x) \;\text{ (by the definition of uniform probability).}
-\end{eqnarray*}
-Here in this special case: $X(\omega) = - \lambda^{-1} \log(1 - \omega)$.
-\item We have:
-\begin{eqnarray*}
-F_{X_2}(x) &\defeq& \P(X_2 \le x) \\
-&=& \P(X_1^2 \le x) \\
-&=& \P(-\sqrt{x} \le X_1 \le \sqrt{x}) \\
-&=& \P(X_1 \le \sqrt{x}) \;\text{(Non-negativity assumption)} \\
-&=& F(\sqrt{x}).
-\end{eqnarray*}
-\end{enumerate}
+%\subsection{Solutions}
+%
+%\begin{enumerate}
+%  \item The three pictures should be as follows:
+%  \begin{enumerate}
+%    \item Graph of $X$: The $x$-axis should be a bounded segment labelled $\Omega$. The $y$-axis should be the full real line. There are several choices for the function. For example the line $y = x$ or $y = 1 - x$ on the interval $[0, 1)$ are acceptable. Other choices are possible.
+%    \item CDF: The $x$-axis should be the full real line. The $y$ axis should be the interval $[0, 1]$. The function should be zero in $(-\infty, 0]$, then affine in $[0, 1]$, then one in $[1, +\infty)$.
+%    \item Density: the $x$ axis should be the full real line. The $y$ axis should be the positive real line. The function should be the indicator on the set $[0, 1)$.
+%  \end{enumerate}
+%  \item We need to check the three conditions given in the definition of \sigmaalg:
+%  \begin{enumerate}
+%    \item Since $\events$ is a \sigmaalg, $\Omega \in \events$ and since $\events'$ is a \sigmaalg, $\Omega \in \events'$, therefore $\Omega \in \events \cap \events'$.
+%    \item We need to show that if $A_1, A_2, \dots$ are all in $\events \cap \events'$, then $\cap A_i \in \events \cap \events'$. By the definition of intersection, we have that $A_1, A_2, \dots$ are all in $\events$. Since $\events$ is a \sigmaalg, it follows that $\cap A_i \in \events$. By the same reasoning, $\cap A_i \in \events'$. Therefore, $\cap A_i \in \events \cap \events'$.
+%    \item We need to show that if $A \in \events \cap \events'$, then $A^\complement \in \events \cap \events'$. By the definition of intersection, we have that $A \in \events$. Since $\events$ is a \sigmaalg, it follows that $A^\complement \in \events$. By the same reasoning, $A^\complement \in \events'$. Therefore, $A^\complement \in \events \cap \events'$.
+%  \end{enumerate}
+%  \item We have that $X: \Omega \to \states$ and $g : \states \to \states'$ are random variables. Let us denote by $\events_\Omega, \events_{\states}$ and $\events_{\states'}$ the \sigmaalg\ on $\Omega$, $\states$ and $\states'$ respectively. Let $A \in \events_{\states'}$. We have to show that $(g \circ X)^{-1}(A) \in \events_\Omega$. First, note that $(g \circ X)^{-1}(A) = X^{-1}(g^{-1}(A))$. Since $g$ is a random variable, $g^{-1}(A) \in \events_\states$. Next, since $X$ is a random variables, $g^{-1}(A) \in \events_\states$ implies that $X^{-1}(g^{-1}(A)) \in \events_\Omega$.
+%   \item As in Section~\ref{sec:limit-properties-cdfs}, we pick $X(\omega) \defeq \sup\{x : F(x) < \omega\}$ (note that in this special case were $\Omega = [0, 1)$,  writing ``$F(x) < \omega$'' is well defined---for general $\Omega$ is would not).
+%This construction has some nice properties:
+%\begin{enumerate}
+%  \item \label{point:inv-cdf-monotone} $X$ is monotone increasing (this follows directly from the definition),
+%  \item \label{point:inv-cdf-incl-one} $X\circ F(x) \le x$ (draw a picture of a \CDF\ having flat regions to convince yourself),
+%  \item \label{point:inv-cdf-incl-two}$F\circ X(\omega) \ge \omega$ (draw a picture of a \CDF\ having discontinuities to convince yourself).
+%\end{enumerate}
+%We first use properties \ref{point:inv-cdf-incl-one} and \ref{point:inv-cdf-incl-two} to prove the following set equality:
+%\[ (X \le x) = \{\omega \in \Omega : \omega \le F(x) \}.\]
+%We show that the LHS includes the RHS and vice versa:
+%\begin{itemize}
+%  \item $\{\omega \in \Omega : \omega \le F(x) \} \subseteq (X \le x)$:
+%\begin{eqnarray*}
+%\omega \le F(x) &\Longrightarrow& X(\omega)  \le X\circ F(x)\;\text{ (from \ref{point:inv-cdf-monotone})} \\
+%&\Longrightarrow& X(\omega) \le x\;\text{(from \ref{point:inv-cdf-incl-one}).}
+%\end{eqnarray*}
+%  \item $(X \le x) \subseteq \{\omega \in \Omega : \omega \le F(x) \}$:
+%\begin{eqnarray*}
+%X(\omega) \le x &\Longrightarrow& F\circ X(\omega)  \le F(x)\;\text{ (monotonicity of CDFs)} \\
+%&\Longrightarrow& \omega \le F(x)\;\text{(from \ref{point:inv-cdf-incl-two}).}
+%\end{eqnarray*}
+%\end{itemize}
+%Finally, it follows that:
+%\begin{eqnarray*}
+%\text{CDF of }X &\defeq& \P(X \le x) \\
+%&=& \P\{\omega \in \Omega : \omega \le F(x) \} \\
+%&=& F(x) \;\text{ (by the definition of uniform probability).}
+%\end{eqnarray*}
+%Here in this special case: $X(\omega) = - \lambda^{-1} \log(1 - \omega)$.
+%\item We have:
+%\begin{eqnarray*}
+%F_{X_2}(x) &\defeq& \P(X_2 \le x) \\
+%&=& \P(X_1^2 \le x) \\
+%&=& \P(-\sqrt{x} \le X_1 \le \sqrt{x}) \\
+%&=& \P(X_1 \le \sqrt{x}) \;\text{(Non-negativity assumption)} \\
+%&=& F(\sqrt{x}).
+%\end{eqnarray*}
+%\end{enumerate}
 
 
 \section{Integration and expectation}
@@ -425,7 +480,7 @@ F_{X_2}(x) &\defeq& \P(X_2 \le x) \\
 where $f$ is the density of $X$. There are two limitations with this definition:
 \begin{enumerate}
   \item it is not very intuitive (why multiply the density with an $x$?),
-  \item we need a separate definition for discrete random variable (and we also need to think about mixtures of continuous and discrete?).
+  \item we need a separate definition for discrete random variable (and what about cases where we have both continuous and discrete parts?).
 \end{enumerate}
 
 \point{Better definition:} the expectation is the area under the graph of $X$!
@@ -455,14 +510,14 @@ In contrast, the Lebesgue integral needs \emph{two} inputs:
   \item $(\P, \mu)$.
 \end{itemize}
 
-In probability theory and Bayesian statistics, there is also often a ``global'' probability $\P$. When this is the case:
+In probability theory and Bayesian statistics, there is often a ``global'' probability $\P$. When this is the case:
 
-\point{Notation from probability theory/Bayesian statistics:} 
+\point{Notation in probability theory/Bayesian statistics:} 
 \[ \E[X] \defeq \int X \ud \P. \]
 
 In frequentist Bayesian statistics, there is often a collection of probabilities indexed by a parameter $\theta$, i.e. $\{\P_\theta : \theta \in \Theta\}$. When this is the case:
 
-\point{Notation from on frequentist statistics:}
+\point{Notation in frequentist statistics:}
 \[ \E_\theta[X] \defeq \int X \ud \P_\theta. \]
 
 
@@ -479,7 +534,13 @@ Now if $A$ is an interval, the graph is just a rectangle! The height is $a$. Wha
 
 \point{Note:} $A$ could actually be complicated (e.g., the Cantor set), but this definition still holds as long as $A \in \events$.
 
-\point{Note:} there will be cases (especially when we talk about limits) where the base has measure zero, but the height is infinite. We would like our definition to return zero in these cases (since the function blows up on a negligeable set). For this reason, we define $0 \times \infty = 0$. 
+\point{Note:} there will be cases (especially when we talk about limits) where the base has measure zero, but the height is infinite. We would like our definition to return zero in these cases (since the function blows up on a negligeable set). For this reason, we define $0 \times \infty = 0$.
+
+\point{Exercise:} compute the expectation of a constant.
+
+\point{Important special case:} following from the definition directly, the expectation of an indicator on an event $A$ is just the probability of $A$, i.e. \[\E[\1_A] = \P(A).\] In light of the answer of the exercise in Section~\ref{sec:distribution}, we only need the distribution of the indicator random variable to compute its expectation. As we will see soon, this is always true, i.e. we only need the distribution of a random variable in order to compute its expectation. In other words, all random variables sharing the same distribution have the same expectation (and many distinct random variables do share the same distribution, see Section~\ref{sec:using-rv-to-construct-prs}). 
+
+\point{Exercise:} based on the above special case, can you guess the general formula for computing the expectation of a random variable given only the distribution of the random variable, not the random variable itself?
 
 
 \subsection{Area under the graph of ``simple functions''}\label{sec:area-simple-function}
@@ -507,8 +568,6 @@ Now, how to define the area under the graph of an arbitrary non-negative random 
 \[ \E[X] = \int X \ud \P \defeq \sup\left\{ \int Y \ud \P : Y\text{ is simple and } 0 \le Y \le X\right\}. \] 
 
 \point{Exercises:} show $\E[X] \ge 0$ and monotonicity: $X \le Y \Longrightarrow \E[X] \le \E[Y]$. 
-
-\point{End of lecture 3 (Sep 16)}
 
 
 \subsection{Algorithmic construction}
@@ -570,8 +629,6 @@ For a general random variable $X$:
 \end{itemize}
 
 \point{Exercise:} find a random variable $X \neq \L_1$ such that $\E X$ exists. Find a random variable $Y$ where $\E Y$ is not defined. 
-
-\point{End of lecture 4 (Sep 21)}
 
 
 \subsection{Integrals with respect to a measure}
@@ -673,7 +730,7 @@ Taking expectations on both sides:
 \point{Corollary 1:} for all random variable $X$, $p \ge 0$,
 \[ \P(|X| \ge \alpha) \le \frac{\E |X|^p}{\alpha^p}. \]
 
-\point{Proof:} by monotonicity of the power function, $(|X| \ge \alpha) = (|X|^p \ge \alpha^p)$, therefore $\P(|X| \ge \alpha) = \P(|X|^p \ge \alpha^p)$. Since $|X|^p \ge 0$, we can apply Markov's inequality on this last probability.
+\point{Proof:} since the power function is strictly increasing, and using the argument detailed in Section~\ref{sec:rewriting-equalities}, $(|X| \ge \alpha) = (|X|^p \ge \alpha^p)$, therefore $\P(|X| \ge \alpha) = \P(|X|^p \ge \alpha^p)$. Since $|X|^p \ge 0$, we can apply Markov's inequality on this last probability.
 
 % note: does not work well with the dam example because of the left tail
 
@@ -682,8 +739,12 @@ Taking expectations on both sides:
 
 \point{Proof:} define $X \defeq |Y - \mu|$, and apply the preceding lemma with $p = 2$.
 
-\point{End of lecture 5 (Sep 23)}
+\point{Corollary 3 (Chernoff bound):} if $X$ is any random variable, then
+\[ \P(X \ge \alpha) \le \inf_t \frac{\E[e^{tX}]}{e^{t\alpha}}. \]
 
+\point{Proof:} For any fixed $t$, the function $f(x) = e^{tx}$ is strictly increasing, so we can use the same reasoning as Chebyshev's. Since the inequality if true for all $t$, the left-hand side is bounded by the infimum.
+
+\point{Note:} the quantity $\E[e^{tX}]$, viewed as a function of $t$, is called the moment generating function. We will revisit Chernoff's bound soon once we have introduced independence. 
 
 
 \subsection{Exercises}
@@ -693,19 +754,19 @@ Taking expectations on both sides:
 \end{enumerate}
 
 
-\subsection{Solutions}
-
-\begin{enumerate}
-  \item First, we show that $Y + Y'$ is a simple function (this will allow us to use the easy definition of expectation given in Section~\ref{sec:area-simple-function}). Write $Y = \sum_{i=1}^N a_i \1_{A_i}$, and $Y' = \sum_{j=1}^M b_j \1{B_j}$ and assume without loss of generality that $A_i$ forms a partition, and that $B_j$ forms another partition.\footnote{Otherwise, add one more block $A_{N+1} = \cup_{i=1}^N A_i$ with $a_{N+1} = 0$. Same for $B_j$.} Consider the sets $\{C_{i,j} = A_i \cap B_j : 1\le i \le N, 1\le j \le M\}$. Note that the $C_{i,j}$ are clearly disjoint, and that on $C_{i,j}$, $(Y + Y')$ is equal to $a_i + b_j$. Therefore:
-\begin{eqnarray*}
-\E[Y + Y'] &=& \sum_{i,j} (a_i + b_j) \P(C_{i,j}) \\
-&=& \sum_{i,j} a_i \P(C_{i,j}) + \sum_{i,j} b_j \P(C_{i,j}) \\
-&=& \sum_{i} a_i \sum_j \P(C_{i,j}) + \sum_{j} b_j \sum_i \P(C_{i,j}) \\
-&=& \sum_{i} a_i  \P(\cup_j C_{i,j}) + \sum_{j} b_j  \P(\cup_i C_{i,j}) \;\text{(since the }C_{i,j}\text{ are disjoint)} \\
-&=& \sum_{i} a_i  \P(A_i) + \sum_{j} b_j  \P(B_j) \;\text{(since }\{A_{i}\}\text{ is a partitions, similarly for }\{B_{j}\} \text{ )} \\
-&=& \E[Y] + \E[Y'].
-\end{eqnarray*}
-\end{enumerate}
+%\subsection{Solutions}
+%
+%\begin{enumerate}
+%  \item First, we show that $Y + Y'$ is a simple function (this will allow us to use the easy definition of expectation given in Section~\ref{sec:area-simple-function}). Write $Y = \sum_{i=1}^N a_i \1_{A_i}$, and $Y' = \sum_{j=1}^M b_j \1{B_j}$ and assume without loss of generality that $A_i$ forms a partition, and that $B_j$ forms another partition.\footnote{Otherwise, add one more block $A_{N+1} = \cup_{i=1}^N A_i$ with $a_{N+1} = 0$. Same for $B_j$.} Consider the sets $\{C_{i,j} = A_i \cap B_j : 1\le i \le N, 1\le j \le M\}$. Note that the $C_{i,j}$ are clearly disjoint, and that on $C_{i,j}$, $(Y + Y')$ is equal to $a_i + b_j$. Therefore:
+%\begin{eqnarray*}
+%\E[Y + Y'] &=& \sum_{i,j} (a_i + b_j) \P(C_{i,j}) \\
+%&=& \sum_{i,j} a_i \P(C_{i,j}) + \sum_{i,j} b_j \P(C_{i,j}) \\
+%&=& \sum_{i} a_i \sum_j \P(C_{i,j}) + \sum_{j} b_j \sum_i \P(C_{i,j}) \\
+%&=& \sum_{i} a_i  \P(\cup_j C_{i,j}) + \sum_{j} b_j  \P(\cup_i C_{i,j}) \;\text{(since the }C_{i,j}\text{ are disjoint)} \\
+%&=& \sum_{i} a_i  \P(A_i) + \sum_{j} b_j  \P(B_j) \;\text{(since }\{A_{i}\}\text{ is a partitions, similarly for }\{B_{j}\} \text{ )} \\
+%&=& \E[Y] + \E[Y'].
+%\end{eqnarray*}
+%\end{enumerate}
 
 
 \section{Independence}
@@ -804,6 +865,26 @@ In this section, we explain the tool used to prove the characterization statemen
 \point{Definition:} we say the random variables $X_1, X_2, \dots, X_n$ are pairwise independent if each pair is independent.
 
 \point{Exercise:} find 3 random variables such that these random variables are pairwise independent but not independent. Hint: this can be done using indicator random variables.
+
+
+\subsection{Chernoff's bound, continued}
+
+We encountered the moment generating function $f(t) = \E[e^{tX}]$ when talking about Chernoff's bound. When $X$ is a sum of independent random variables, $X = X_1 + X_2 + \dots + X_n$, we get this nice formula:
+\[ f(t) = \prod_{i=1}^n f_i(t), \]
+where $f_i(t) = \E[e^{tX_i}]$. Informally, adding random variables multiplies their moment generating functions.
+
+Since the moment generating function for individual variables are often easy to compute, this gives a powerful way to evaluate the right hand side of Chernoff's bound 
+
+\point{Example: Chernoff-Hoeffding theorem} if the $X_i$ are independent and each have a Bernoulli($p$) distribution (terminology: ``are iid Bernoulli''), and $\epsilon > 0$:
+
+\begin{align*}
+	\P \left (\frac{1}{n} \sum X_i \geq p + \varepsilon \right ) &\leq \left (\left (\frac{p}{p + \varepsilon}\right )^{p+\varepsilon} {\left (\frac{1 - p}{1-p- \varepsilon}\right )}^{1 - p- \varepsilon}\right )^n  \\
+	\P \left (\frac{1}{n} \sum X_i \leq p - \varepsilon \right ) &\leq \left (\left (\frac{p}{p - \varepsilon}\right )^{p-\varepsilon} {\left (\frac{1 - p}{1-p+ \varepsilon}\right )}^{1 - p+ \varepsilon}\right )^n 
+\end{align*}
+
+\point{Proof:} compute the moment generating function of a Bernoulli. Then use calculus to minimize over $t$. Then plug-in the minimum. Use the variable $Y_i = 1 - X_i$ to establish the other side of the bound.
+
+\point{Other versions:} see the wikipedia page for many more bounds derived from this.  
 
 
 \section{Computing expectations in practice}
@@ -1033,11 +1114,11 @@ Let $X_i : \Omega \to \R$ be iid, with $\E[X_i] = \mu, |\mu| < \infty$, and defi
 
 \point{It is too much to ask} for such convergence to hold in general. Consider for instance the train example, where $\omega$ corresponds to an infinite trajectory. Then for the trajectory $\omega_0$ where the train always goes right (s.t. $X_i(\omega_0) = +1$ for all $i$). Then \[ \lim \frac{1}{n} S_n(\omega_0) = 1 \neq \mu = 0.\]
 
-\point{Intead:} we will relax the notion of convergence. There are several ways to do this, which are useful in different contexts. Let us start with one that gives us a simple proof of the LLN.
+\point{Instead:} we will relax the notion of convergence. There are several ways to do this, which are useful in different contexts. Let us start with one that gives us a simple proof of the LLN.
 
 \point{Proposition:} let $X_i : \Omega \to \R$ be iid, with $\E[X_i] = \mu, |\mu| < \infty$, and defined $S_n = X_1 + \dots + X_n$. Then for all $\epsilon > 0$, \[ \lim_{n\to\infty} \P\left( \left| \frac{1}{n} S_n - \mu\right| \ge \epsilon \right) = 0. \]
 
-\point{Visualization:} suppose $\mu = 0$, and note that $( \left| \frac{1}{n} S_n -0\right| \ge \epsilon \right) = ( |S_n| > \epsilon n)$. On a graph where the x-axis is $n$ and the y-axis is $S_n$ (the same picture we used for train trajectories), consider the cone specified by $\epsilon n$ and $-\epsilon n$. The event is then that the trajectory is inside the cone at step $n$.
+\point{Visualization:} suppose $\mu = 0$, and note that $\left( \left| \frac{1}{n} S_n -0\right| \ge \epsilon \right) = ( |S_n| > \epsilon n)$. On a graph where the x-axis is $n$ and the y-axis is $S_n$ (the same picture we used for train trajectories), consider the cone specified by $\epsilon n$ and $-\epsilon n$. The event is then that the trajectory is inside the cone at step $n$.
 
 \point{Proof:} we will start with a proof that uses an extra assumption, $\var X < \infty$. I will then give a sketch of how to get rid of this condition.
 \begin{enumerate}
@@ -1514,7 +1595,7 @@ Suppose in the remaining of the section that $Y \in \L_2$.
   \item $V = \L_2$, $\|X\| = \sqrt{\E X^2 }$, triangle inequality is called Minkowski's inequality (see textbook, p.129).
 \end{enumerate}
 
-\point{2. Subspace:} a ``closed'' subset of a vector space, $W \subset V$, i.e. such that $v_1, v_2 \in W \Rightarrow a_v_1 + v_2 \in W$. 
+\point{2. Subspace:} a ``closed'' subset of a vector space, $W \subset V$, i.e. such that $v_1, v_2 \in W \Rightarrow v_1 + v_2 \in W$. 
 
 \point{Examples:}
 \begin{enumerate}
@@ -1977,6 +2058,9 @@ Several of the samplers we have defined so far (in particular, the Gibbs sampler
 % - todo: closure of r.v. under limits
 % - add note that symbols are clickeable
 % - todo: double-check statements of monotone/dominated does not require existence of lim 
+
+\bibliographystyle{plain}
+\bibliography{ref}
 
 
 \end{document}

@@ -20,3 +20,10 @@ solutions.out
 solutions.pdf
 .fignames.temp
 document.tex.bu
+document.aux
+document.log
+document.out
+document.toc
+document.bbl
+document.blg
+document.synctex.gz
