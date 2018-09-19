@@ -9,18 +9,22 @@
 \title{Notes for 547C (draft)}
 \author{Alexandre Bouchard-C\^ot\'e}
 
-\input{macros/typesetting-macros}
+\input{macros/typesetting-macros} 
 \input{macros/basic-math-macros}
 \input{macros/notation}
 
-\newcommand{\point}[1]{\vspace{1ex}\noindent{\bf #1}}
+
 
 % use to create table of symbols
 \makenomenclature
 
+
 \begin{document}
 
 \maketitle
+
+\emph{Note: I will continue editing these files, so it might be wasteful to print much beyond the contents of the current lecture. Also I might make changes on what is covered beyond the first few chapters.}
+
 \tableofcontents
 
 \newpage
@@ -37,26 +41,151 @@ Both of the above points are excellent motivations. However by the nature of thi
 
 Why is probability a fundamental tool in so many fields? Because Probability Theory is useful for creating \emph{models}. 
 
-\point{Models} are sketches of reality that capture the essential of a problem while being amenable to mathematical analysis. Probability-based models are great at incorporating phenomena like uncertainty and randomness. Moreover, compared to other types of models you might be familiar with (e.g. linear algebra or calculus based), they arguable tend to be more resilient to \emph{mis-specification}, i.e. they can recover from certain mismatches between the model and reality (data) in the sense of still giving good predictions.
+\point{Models} are sketches of reality that capture the essential of a problem while being amenable to mathematical analysis. Probability-based models are great at incorporating phenomena like uncertainty and non-linearity. Moreover, compared to other types of models you might be familiar with (e.g. linear algebra or calculus based), they arguable tend to be more resilient to \emph{mis-specification}, i.e. they can recover from certain mismatches between the model and reality (data) in the sense of still giving good predictions.
 
 There are many other motivations. I will just mention two more quickly:
 
 \point{From model to prediction:} in Bayesian statistics, probability theory is essential not only to formulate models, but also to make predictions. Bayesian statisticians construct a probability model in which both the known quantities (data) and the unknown quantities are modelled using random variables. In Bayesian inference, prediction then involves  conditioning on the data.  We will use Bayesian statistics as a recurrent example when talking about conditioning. 
 
-\point{The computational power of randomness.}  Probability Theory arises in a surprising way in the subfields of computer science concerned with the design and analysis of algorithms. Researchers have found since the 1940s many problems where the best way to solve deterministic problems is to introduce artificial randomness in the execution of the algorithm (called \emph{algorithmic randomness}. Consider for example the problem of quickly approximating the volume of an arbitrary convex body. In a 1991 landmark paper \cite{dyer_random_1991}, Dyer, Frieze and Kanna devised a provably efficient approximation algorithm which uses algorithmic randomness to perform random walks. Moreover, it is known that no efficient deterministic algorithms can provide accurate approximations \cite{bfirfiny_computing_nodate}. 
+\point{The computational power of randomness.}  Probability Theory arises in a surprising way in the subfields of computer science concerned with the design and analysis of algorithms. Researchers have found since the 1940s many problems where the best way to solve deterministic problems is to introduce artificial randomness in the execution of the algorithm (an idea called \emph{algorithmic randomness}). Consider for example the problem of quickly approximating the volume of an arbitrary convex body. In a 1991 landmark paper \cite{dyer_random_1991}, Dyer, Frieze and Kanna devised the first provably efficient approximation algorithm, which crucially depends on algorithmic randomness to perform random walks. Moreover, it is known that no efficient deterministic algorithms can provide accurate approximations \cite{bfirfiny_computing_nodate}. There are many instances where there are no known deterministic algorithms and where algorithmic randomness is necessary to scale to large problems.  
 
 
 \section{Foundations}
 
-\subsection{Running example}
+\point{On being formal:}  An important thing to realize is that despite the fact that Probability Theory is used to model uncertainty, it is as formal as any other fields of mathematics (despite what you may have been led to believe if you took a course using the standard undergraduate way of teaching). Formalization of the field was achieved by Kolmogorov in the 1930s, when he realized that the same tools used to formalize the notions of area and volume (measures) could be applied to probabilities. 
+
+\point{On intuition:} While being formal is useful, intuition is important too. Probability is very connected to the real world so using your intuition is also very useful in making guesses that you can then prove using theory.
+
+\point{Why measure theory?} Measure theory is the standard framework used to formalize probability theory. There are several reasons to learn the basics of measure theory (i.e., as Pollard puts it, to be \emph{user} of measure theory). We will see some of these technical motivations as we go along: 
+\begin{enumerate}
+	\item Unified treatment of things are taught separately in naive undergraduate probability course: discrete/continuous, univariate/multivariate. 
+	\item Certain results about expectations are easier to state and hold more generally under the measure-theoretic definition of expectations.
+	\item Establishing independence can in certain case be much easier under the measure theoretic definition of independence.
+\end{enumerate}
+However in my view the main motivation is that a big chunk of the literature is written in the language of measure theory. This course will prepare you so that you can be fearless. 
+
+The danger is to be too formal and that the notation gets in the way of the intuition. I will avoid this pitfall. I will also skip the tedious details that are not useful in practice, e.g. certain proofs of existence, especially if they do not reveal a technique more broadly applicable 
 
 
+\subsection{The basic vocabulary of probability}
 
-\subsection{The axioms of probability}
+The axioms of probability, formulated by Kolmogorov in the 1930s, provide a vocabulary and basic set of rules used in everything that follows. We look at how they become alive by showing how they are used to build two simple models (the second, not as simple as it initially looks!).
+
+\point{Recurrent example:} imagine an infinite railroad, modelled by the integers $\Z = \{\dots, -3, -2, -1, 0, 1, 2, 3, \dots\}$. A train starts at position zero. At every time step,the train operator flips a coin. If the coin shows heads, the train moves left by one unit. Otherwise, the train moves to the right by one unit. 
+
+We will look at two versions of this example, version A, where there is fuel limit which restricts the train to 3 moves, and version B, where there is no fuel limit. 
+
+Let us start with version A. 
+
+\point{Outcomes/scenarios:} several scenarios can arise from the dice-driven train ``story'' or ``experiment''. For example the train could go left, right, left. Or it could go left, right, right. We will call these two scenarios, two \emph{outcomes}. The usual letter for one outcome is $\omega$ or $s$. 
+
+To help visualization, we will draw one outcome in the time series example as a graph where the x-axis is time $t$ and the y-axis is the position at time $t$. Here is one example for version A (finite fuel):
+\begin{center}
+\includegraphics[width=0.5\linewidth]{figures/train1}
+\end{center}
+and for version B (infinite fuel):
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/train2}
+\end{center}
+
+\point{Definition:} The set of all possible outcomes is called the \emph{sample space}, which I will denote by $\Omega$ or $S$. 
+
+\point{Example:} what is the size or cardinality of $\Omega$ (i.e. the number of elements in it) for our recurrent example version A? I will denote the size by $|\Omega|$. Answer: $2^3$ because there are three bits each free to take two possible values, $2 \cdot 2 \cdot 2$. We conclude that the probability of any given outcome in version A is $1/8$. Note that 
+\[ \sum_{\omega \in \Omega} \text{probability of outcome $\omega$} = 1. \]
+Here is a picture for the train version A example:
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/outcomes}
+\end{center}
+
+\point{Science-fiction interpretation:} if you read or watch science fiction (e.g. check out ``The man in the High Castle'' by Philip K. Dick), you may think about an outcome as encoding all the information for one universe, and the the set of all outcomes (the sample space) as the \emph{multiverse}. 
+
+\point{Note:} an outcome may contain many bits of information. We only need one of those bits to get two different outcomes. I.e. outcomes can be very similar, but not identical. 
+
+\point{Definition:} a set of outcomes is called an \emph{event}.
+
+\point{Example:} events are often created using a property defining what outcomes are in the event. For example, consider the set of outcomes where the train goes left in the second time step, $A_1$. We use the terminology ``the event that the train goes left in the second time step.''  What is its size? Notice that events that are described by a small number of properties tend to be large, while event that are described by a larger number of properties tend to be smaller. 
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/event}
+\end{center}
+
+\point{Partitions:} often we consider not one event but several events at once. For example we want to categorize outcomes into sub-cases. This can be done using partitions. A \emph{partition} of a set $E$ (for example $E = \Omega$), is a collection\footnote{Just a synonym for set.} of events $B_1, B_2, \dots$ such that (1) $B_i \cap B_j = \emptyset$ for all $i \neq j$ and (2) $\cup B_i = E$. Each $B_i$ is called a block.
+
+\point{Decision trees} are useful to organize a hierarchy of events. Each node in the tree is an event. At the root, we put $\Omega$. When $|\Omega| < \infty$, at the leave we have \emph{singletons}, i.e. sets with only one element. In between, each node of the tree is split into subcases. More formally, say we are at a node corresponding to event $E$. Pick a \emph{partition} $B_1, B_2, \dots$ is of $E$. Then the children of $E$ in the decision tree are defined as the blocks of the partition splitting $E$.
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/decision-tree}
+\end{center}
+
+\point{Additivity:} it is not too hard to see in example A that the probability of \emph{disjoint} events (i.e. non-intersecting events) can be added up. E.g.:
+\begin{align*} 
+&\text{probability go left in first turn} + \text{probability go right in first two turns} \\ 
+&= \text{probability go left in first turn or right in first two turns}. 
+\end{align*} 
+Both sides are equal to $1/2 + 1/4$.
+
+\point{Note:} it is not too hard to see in example A that the probability of \emph{overlapping} events (i.e. intersecting events) cannot always be added up. E.g.:
+\begin{align*} 
+	&\text{probability go left in first turn} + \text{probability go left in first two turns} \\
+	&\neq \text{probability go left in first turn or left in first two turns}.
+\end{align*}
+The left hand side is equal to $1/2 + 1/4$ while the right hand side is equal to $1/2$. 
+
+\point{A routine task} in probability problems consists in expressing events of unknown probability in terms of events of known probability. 
+
+\point{Exercise/example:} express, in version A of the train example, the event that the train eventually returns home (position zero), in terms of the events: 
+\[ A_t = \text{event that the train goes left in the $t$-th time step},\]
+which have known probability. Do it using only the set theoretic operations $\cup$, $\cap$, and set complement $A_t^\complement$.
 
 
+\subsection{Motivating the axioms of probability}
 
-A probability space contains three things:
+\point{Difficulty pre-Kolmogorov/pre-1930s:} people were already very good at doing computations for things like version A of the train. But surprisingly, they were running into serious foundational problems when trying to formalize the theory for version B of the problem!
+
+\point{Difficulty:} in version B, we cannot always define probability of events by adding up probability of individual outcomes. We cannot have these three things:
+\begin{align*}
+	\text{probability of one path} &= \lim_{t \to \infty} (1/2)^t = 0 \\
+	\text{probability of $\Omega$} &= 1 \\
+	\sum_{\omega \in \Omega} \text{probability of outcome $\omega$} &= \text{probability of $\Omega$}.
+\end{align*}
+The problem is that each individually appears to make sense (the third one, in the light of the disjoint additivity observation), but they are inconsistent! We will see that the third one is the one causing problems.
+
+\point{Root cause of the problem:} in version $B$, the set $\Omega$ is \emph{uncountably infinite}. Recall that a set is countable if we can come up with a list of all the elements in it. More formally, a set is countable if we can come up with a surjective function $f$ taking as input an integer and returning an element in $B$ (think of the input of $f$ as the position in the list, and the output as the item listed in that position). The terminology surjective means $\{f(i) : i \in 0, 1, 2, \dots\} = \Omega$, i.e. the list is exhaustive. To see why the set $\Omega$ of all infinite train paths is uncountable, argue as follows: suppose on the contrary that there was a list (i.e. suppose you claim to come up with a surjective function $f$ listing all the paths). I will show you there must be at least one path not in your list, an ``outlier.'' Recall that a path is just a list of coin toss, say encoded as 0 and 1. Here is a picture followed by a description:
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/cantor-diag}
+\end{center}
+\begin{enumerate}
+	\item I start by building the {\bf first} coin toss in my outlier. I look at the first toss of the first element in your list, $f(1)_1$. If I see a 0, I set my first toss to 1. If I see a 1, I set my first toss to 0. 
+	\item Then I build the {\bf second} toss in my outlier. I look at the {\bf second} toss of the {\bf second} element in your list, $f(2)_2$. If I see a 0, I set my second toss to 1. If I see a 1, I set my second toss to 0.
+	\item {\bf Third} toss: I look at the {\bf third} toss of the {\bf third} element in your list, $f(3)_3$. If I see a 0, I set my third toss to 1. If I see a 1, I set my third toss to 0.
+	\item etc.
+\end{enumerate}
+By construction, the outlier cannot be in your list! We conclude the set $\Omega$ of all infinite coin tosses is not countable (i.e., \emph{uncountable}). 
+
+\point{Remedy:} here is the first part of Kolmogorov's insight (in turn based on insights from the then-nascent theory of measure)
+\begin{enumerate}
+	\item Give up defining the probability by assigning it to single outcomes.
+	\item Instead, assign probability to events. I.e. define $\P(A)$ for  event $A$, not $\P(\omega)$ for outcome $\omega$. 
+	\item The function $\P$ is now defined on a much bigger space! Many functions defined on that large space make no sense (e.g. we could have $\P(\Omega) \neq 1$ which does not make sense). Let us use the intuition gained with example version A to extract what are the things we want to assume on $\P$. The list of what to include in order to get an interesting theory is surprisingly short:
+	\begin{enumerate}
+		\item Additivity of disjoint events.
+		\item $\P(\Omega) = 1$.
+	\end{enumerate}
+\end{enumerate}
+
+\point{Second difficulty:} we need to be careful about how we define the disjoint additivity axiom! If we allowed additivity over uncountable collections of events, we would be back the ``paradox'' at the beginning of the section, i.e. that $\P(\{\omega\}) = 0$ but \[ \P(\cup_{\omega \in \Omega} \{\omega\}) = P(\Omega) = 1. \]
+
+\point{Remedy (continued):} assume disjoint additivity only for countable collections of events. More formally, assume that if $A_1 \in \events, A_2 \in \events, A_3 \in \events, \dots$ is a countable collection of disjoint events ($i\neq j \Longrightarrow A_i \cap A_j = \emptyset$), then 
+\[ \P(\cup A_i) = \sum_{i=1}^{\infty} \P(A_i). \]
+
+\point{Third difficulty:} a strange theorem of measure theory states that there exists no probability distribution defined on all events, $\P:2^\Omega \to [0, 1]$ such that $\P(\{\omega\}) = 0$ for all $\omega \in \Omega$.
+
+\point{Intuition:} when $\Omega$ is countably infinite, $2^\Omega$ is very strange! E.g. some events cannot be described by any language (any languages that we know of proceeds by putting letters from a finite alphabet one after another; well, that can only produce a countable set of descriptions. So that mean certain paths in $\Omega$ cannot be described in  version B of the train example)! 
+
+\point{Remedy (continued):} do not attempt to define $\P$ on all subsets of $\Omega$. Define it on a subset of events called a $\sigma$-algebra. Make the $\sigma$-algebra big enough to do all the computations we are interested in doing: taking countable unions, intersections, and complements. As we will see soon this solves our problem, in the sense that there is a $\events \subsetneq 2^\Omega$, $\P : \events \to [0, 1]$ such that $\P(\{\omega\}) = 0$ but for example $\P(A_t) = 1/2$.
+
+ 
+\subsection{The axioms of probability} 
+
+To summarize the discussion of the last section, a probability space contains three things:
 \begin{enumerate}
   \item a set $\Omega$, called the sample space,
   \item a closed collection of events, $\events \subset 2^\Omega$, called a \sigmaalg,
@@ -70,30 +199,32 @@ where:
     \item $A_1 \in \events, A_2 \in \events, A_3 \in \events, \dots, \Longrightarrow \cap_{i=1}^\infty A_i \in \events$,
     \item $A \in \events \Longrightarrow A^\complement \in \events$.
   \end{enumerate} 
-  \item and the probability measure satistifies:
+  \item and the probability measure satisfies:
   \begin{enumerate}
     \item $\P(\Omega) = 1$,
-    \item if $A_1 \in \events, A_2 \in \events, A_3 \in \events, \dots$ are disjoint ($i\neq j \Longrightarrow A_i \cap A_j = \emptyset$), then 
-\[ \P(\cup A_i) = \sum_{i=1}^{\infty} \P(A_i). \]
+    \item if $A_1 \in \events, A_2 \in \events, A_3 \in \events, \dots$ is a countable collection of disjoint events ($i\neq j \Longrightarrow A_i \cap A_j = \emptyset$), then 
+    \[ \P(\cup A_i) = \sum_{i=1}^{\infty} \P(A_i). \]
   \end{enumerate}
 \end{enumerate}
 
-In the first lecture, we discussed why the axioms were constructed in this fashion, using the simple example of ``train'' starting at 0 and moving at each hour by +1 with probability 1/3 and -1 with probability 2/3. These notes will be added shortly.
+\point{Measure:} a measure space is a very close cousin to a probability space. The axioms are identical, except for two changes:
+\begin{enumerate}
+	\item We remove the bound $[0, 1]$ and replace by $[0, \infty)$, and use the terminology measure (often denoted $\mu$) instead of probability, $\mu : \events \to [0, \infty)$.
+	\item We modify $\P(\Omega) = 1$ into $\mu(\emptyset) = 0$. 
+\end{enumerate}
 
 
-\subsection{Example and motivation}
-
-Please let me know if you have missing details in your notes for this section, I will fill this section ASAP.
-
-
-\subsection{Some basic properties}
+\subsection{Some basic properties}\label{sec:basic-properties}
 
 Some examples of basic properties we can derive from these axioms:
 \begin{enumerate}
-  \item $\P(A^\complement) = 1 - \P(A)$,
-  \item if $A$ and $B$ are events that are not necessarily disjoint, $\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)$.
+  \item $\P(A^\complement) = 1 - \P(A)$, \label{property:complement}
+  \item if $A$ and $B$ are events that are not necessarily disjoint, $\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)$. \label{property:additivity-overlap}
 \end{enumerate}
 
+\point{Idea:} partition sets into disjoint bits, so that the disjoint additivity can be used. For part~\ref{property:complement}, use that $A$ and $A^\complement$ form a partition of $\Omega$. For part~\ref{property:additivity-overlap}, define the set subtraction as $E\backslash F = \{e \in E : e \notin F\}$, and use the partition $A\backslash B, B \backslash A, A \cap B$.
+
+\point{Exercise:} write down the argument.
 
 \subsection{Probability spaces as models}
 
@@ -110,14 +241,31 @@ Some examples of basic properties we can derive from these axioms:
 The best answer is $\Omega_1$, but why? Choosing between these two (essentially, selecting one of these two models) is not part of probability theory per se. Use have to use your intuition about the real world here. For example, note that if you painted one coin red and one blue, the setup of this experiment would not have changed. Hence, the model that is most useful is the one that uses lists even though we could not observe this distinction. Probability theory comes in once we have built a model, at which point inference can be carried using mathematical principles. Probability theory can help selecting model though, for example by making certain predictions for a given model, which can then be tested (for example, the long term behavior of frequencies, which is mathematically understood for a wide range of probability models).
 
 
-\subsubsection{Reliability}
+\subsubsection{Reliability}\label{sec:reliability}
 
-Reliable systems replicate a critical component (e.g. a power supply in a computer server) so that the whole system works as long as at least one of the two copies works. Consider an assembly line for computer servers. Suppose the first power supply assembly line is observed to put in a power supply that works $60\%$ of the time. The second  power supply assembly line  is observed to put in a power supply that works $70\%$ of the time. At delivery, both power supplies work $40\%$ of the time. What is the probability that both power supplies are broken at delivery?
+Reliable systems replicate a critical component (e.g. a power supply in a computer server) so that the whole system works as long as at least one of the two copies works. Consider an assembly line for computer servers. Suppose the first power supply assembly line is observed to put in a power supply that works $60\%$ of the time. The second  power supply assembly line  is observed to put in a power supply that works $70\%$ of the time. At delivery, both power supplies work $40\%$ of the time. 
+
+\point{Exercise:} What is the probability that both power supplies are broken at delivery? Hint: the answer is not $12\%$. 
 
 If you answered $12\%$, you are using a property that is \emph{not} built into (or derivable from) the axioms of probability: namely that if $\P(A \cap B) = \P(A) \P(B)$. It is an extra assumption called \emph{independence} of the events $A$ and $B$. It is kept separate because there are situation where it is useful to describe the world, and others where it is not (can you imagine a scenario where the two assembly lines are not independent?). This contrast with the disjoint union axiom of probability, which models a universal aspect of reality. 
 
 
+\subsection{Statistical models}
+
+Statistical models are built using probability models. Consider the following example:
+
+\point{Estimation:} consider the train example, but where instead of a standard coin being used to make the decision at each step (50\%-50\% to go left or right), a \emph{biased} coin is used, i.e. where the train goes left with probability $\theta\in [0, 1]$ and right with probability $1 - \theta$. The problem is that we do not know $\theta$! Instead, we try to reconstruct $\theta$ from data (observed paths). This problem, point estimation, is one an important type of problems considered in statistics. 
+
+\point{Frequentist models:} use not one but many probability distributions all defined on a shared space $(\Omega, \events)$:
+\[ \text{frequentist model} = \{ \P_\theta : \events \to [0, 1], \theta \in \Theta\}. \]
+If the index set $\Theta$ is some subset of $\R^d$, the model is called parametric, otherwise, it is call non-parametric.
+
+\point{Bayesian models:} use only one probability distribution. Augment the space $\Omega$ to include the unknown quantity $\theta \in [0, 1]$, i.e. $\bar \Omega = [0, 1] \times \Omega$. We will go over more detail when we talk about conditioning.
+
+
 \subsection{Simple examples of $\sigma$-algebra}
+
+We have seen one ``foundational'' motivation for $\sigma$-algebras. We will also see a more useful motivation soon which is that $\sigma$-algebras can encode rules of a game, but we will need to define random variables first. For now, let us look at some examples to make this concept a bit more concrete.
 
 \begin{description}
   \item[Power set:] the power set $2^\Omega$ is always a $\sigma$-algebras on $\Omega$. For example \[\events_0 \defeq \{\{a, b, c\}, \{a, b\}, \{a, c\}, \{b, c\}, \{a\}, \{b\}, \{c\}, \emptyset\}\] is a $\sigma$-algebras on $\Omega \defeq \{a, b, c\}$.
@@ -126,7 +274,7 @@ If you answered $12\%$, you are using a property that is \emph{not} built into (
 \end{description}
 
 
-\subsection{Generated $\sigma$-algebra}\label{sec:generated}
+\subsection{More interesting examples of $\sigma$-algebra via generation}\label{sec:generated}
 
 Let $\generators$ denote a collection of events. The machinery of this section is useful when the collection $\generators$ is ``broken,'' i.e. when it is not  a \sigmaalg\ (example: $\generators \defeq \events_2$ above). 
 
@@ -143,7 +291,12 @@ We would like to ``repair'' $\generators$ by adding more events until we get a c
 \point{Some examples:}
 \begin{enumerate}
   \item $\sigma(\events_2) = 2^{\{a,b,c\}}$.
-  \item An important example where the generated \sigmaalg\ is smaller than $2^\Omega$: \emph{the Borel \sigmaalg}.
+  \item An important example where the generated \sigmaalg\ is smaller than $2^\Omega$: \emph{the Borel \sigmaalg}. To follow this example, it will help to first make the observation that infinite paths can be made in correspondence with the interval $[0, 1)$. This is done via the \emph{binary representation} of real numbers, which works schematically as follows: 
+  \begin{center}
+  	\includegraphics[width=0.3\linewidth]{figures/binary}
+  \end{center} 
+  This correspondence shows that many events of interest can be expressed as intervals in $[0, 1)$. For example what is the interval corresponding to ``the train goes left in the first step''? The interval $[0, 1/2)$.
+  So to be able to have these intervals in our $\sigma$-algebra, we proceed as follows:
   \begin{enumerate}
     \item Take $\Omega \defeq [0, 1)$, and $\generators_\text{B} \defeq \{F : F\text{ is a finite collection of intervals}\}$.
     \item Convince yourself that $\generators$ is not a \sigmaalg.
@@ -157,23 +310,155 @@ We would like to ``repair'' $\generators$ by adding more events until we get a c
 \subsection{Simple examples of probability measures}
 
 \begin{description}
-  \item[Discrete probability measure:] assume you are given a countable sample space $\Omega$ and a function $p: \Omega \to [0, 1]$ called a \PMF. Define, for any event $A \in \events$: \[ \P(A) \defeq \sum_{\omega \in A} p(a). \] Check that this definition satisfies the axioms of probability. Note: do not confuse $p$ and $\P$, as they take different types of inputs!
+  \item[Discrete probability measure:] assume you are given a countable sample space $\Omega$ and a function $p: \Omega \to [0, 1]$ called a \PMF. Define, for any event $A \in \events$: \[ \P(A) \defeq \sum_{\omega \in A} p(\omega). \] Check that this definition satisfies the axioms of probability. Note: do not confuse $p$ and $\P$, as they take different types of inputs!
+  \item[Conditional probabilities:] fix an event $E$ which you can interpret as some data, with $\P(E) > 0$. Define a new probability distribution as \[ \P'(A) = \frac{P(A \cap E)}{\P(E)}. \] Check $\P'$ is indeed a probability. If $\P$ is some agent's belief before observing $E$, $\P'$ can be interpreted as the optimal way for the agent to update its belief after observing $E$. This updated belief is notated $\P'(\cdot) = \P(\cdot | E)$ and is called the conditional probability given $E$. From now on, if we write $\P(A | E)$ we will assume $\P(E) > 0$ implicitly.
   \item[The uniform probability measure:] some (surprisingly heavy) measure theory shows that there exists a probability measure on $\borels$ such that $\P([a, b)) = b - a$ for all $0 \le a \le b < 1$.
 \end{description}
 
-This second example is actually enough to build a rich theory! How? Using random variables and their distributions, our next topic.
+This second example is actually enough to build a rich theory! How? Using random variables and their distributions, which we will cover shortly.
+
+
+\subsection{Computations for discrete models}\label{sec:computation-discrete}
+
+We already have enough tools to formulate and solve many interesting problems involving \emph{discrete} models (i.e. with $|\Omega| < \infty$). 
+
+\point{Exercises:} You can solve the following problems by explicitly enumerating all the possible scenarios. However, I ask here that you go beyond and that you formalize your reasoning, by (1) setting up a probability model using set theory only, no English allowed,\footnote{Obviously, in general I do recommend a mix of English and math for clarity, but probability beginners tend to rely too much on the former.} and (2), use the axioms of probability to solve the problem. All you need is the following two tools.
+
+\point{Tool 1: chain rule.} For any event $A$, $B$, 
+\[\P(A \cap B) = \P(A) \P(B | A) \;\; (= \P(B) \P(A | B)).\] 
+
+\point{Tool 2: law of total probability (version 1). } Suppose $B_1, B_2, \dots$ is a partition of $E$, then
+\[ \P(E) = \sum_i \P(E \cap B_i) \;\; \left(= \sum_i \P(B_i) \P(E | B_i)\right). \]
+
+\point{Proposed strategy:} build the model and list the known (conditional) probabilities. Write the (conditional) probability you wish to compute. Then reintroduce the ``missing'' variable in this last probability using the law of total probability and the chain rule.  
+
+\begin{enumerate}
+	\item Prove that the two ``tools'' follow from the axioms of probability.
+	\item An HIV test has the following two modes of failure:
+	\begin{itemize}
+		\item When a patient has the disease, the test will still be negative 2\% of the time (false negative)
+		\item When a patient does not have the disease, the test will turn positive 1\% of the time (false positive)
+	\end{itemize}
+	Given that the test is positive, what is the updated (posterior) probability that the patient is indeed affected by HIV?
+	% ~33 
+	Suppose now 25\% of the population has HIV.
+	Given that the test is positive, what is the updated (posterior) probability that the patient is indeed affected by HIV? What happens if the prevalence of the disease is very small instead?
+	% ~97%
+	\item There are 3 kindergarten classrooms and 9 kindergarten students in a school. The children are lined up and assigned to classrooms in turn. The principal claims the assignment is uniform over all possible assignments. The classrooms 
+	have the following capacities: 
+	\begin{itemize}
+		\item Classroom (a): 4 students 
+		\item Classroom (b): 3 students
+		\item Classroom (c): 2 students
+	\end{itemize} 
+	You are fifth in the list of children. What is the probability that you get assigned to class (a)? 
+\end{enumerate}
+
+
+\subsection{Exercise set 1}
+
+\begin{enumerate}
+	\item Solve the exercise in Section~\ref{sec:basic-properties}
+	\item Solve the exercise in Section~\ref{sec:reliability}
+	\item Solve the exercise in Section~\ref{sec:computation-discrete}
+\end{enumerate}
+
+
+\subsection{Solutions for exercise set 1}
+
+\subsubsection{Basic properties}
+
+First, not that additivity for a countable collection implies additivity for a pair, by taking $A_3 = A_4 = A_5 = \emptyset$. Since $A$ and $A^\complement$ are disjoint, $P(A) + P(A^\complement) = 1$, and hence the first simple property. 
+
+For the second property we make use of the following:
+\begin{enumerate}
+	\item $\{A\backslash B, A \cap B\}$ is a partition of $A$; hence $\P(A\backslash B) + \P(A \cap B) = \P(A)$;
+	\item $\{B\backslash A, A \cap B\}$ is a partition of $B$; hence $\P(B\backslash A) + \P(A \cap B) = \P(B)$;
+	\item $\{A\backslash B, B \backslash A, A \cap B\}$ is a partition of $A \cup B$;  hence $\P(A\backslash B) + \P(B\backslash A)+ \P(A \cap B) = \P(A \cup B)$.
+\end{enumerate}
+Now substitute $\P(A\backslash B)$ in the equation in 3 above using equation in 1 above as well as $\P(B\backslash A)$ using equation in 2.
+
+
+\subsubsection{Reliability problem}
+
+Define $\Omega = \{(0,0), (0,1), (1,0), (1,1)\}$ where element $\omega = (i, j)$ encodes if the first power supply works ($i = 1$, otherwise $i=0$) and if the second power supply works ($j = 1$, otherwise $j=0$). Define $W_k$ as the event that power supply $k\in \{1, 2\}$ works, i.e. $W_1 = \{(1,0), (1,1)\}$ and $W_2 = \{(0,1), (1,1)\}$. We know:
+\begin{enumerate}
+	\item $\P(W_1 \cap W_2) = 4/10$, (by the way sometimes denoted just $\P(W_1 W_2)$), 
+	\item $\P(W_1) = 6/10$,
+	\item $\P(W_2) = 7/10$.
+\end{enumerate}
+The goal is to compute $\P(W_1^\complement W_2^\complement)$. 
+
+First, get rid of the complement. How to do so? Use a result from set theory:
+
+\point{De Morgan's ``Laws'':} distributing complements swap unions to intersections and vice versa, i.e. $(A \cup B)^\complement = A^\complement \cap B^\complement$;  $(A \cap B)^\complement = A^\complement \cup B^\complement$. E.g., using an example from wikipedia, the search query ``NOT (cars OR trucks)'' is the same as ``(NOT cars) AND (NOT trucks)''.
+
+Then we have using De Morgan and the first property from previous question:
+\[ \P(W_1^\complement \cap W_2^\complement) = \P((W_1 \cup W_2)^\complement) = 1 - \P(W_1 \cup W_2). \]
+
+Finally, using the second property:
+\[ \P(W_1 \cup W_2) = \P(W_1) + \P(W_2) - \P(W_1 \cap W_2) = 6/10 + 7/10 - 4/10 = 9/10. \]
+
+Hence the answer is $1 - 9/10 = 1/10.$
+
+
+\subsubsection{Discrete computation}
+
+\point{Tools:} Chain rule follows directly from the definitions:
+\[ \P(A) \P(B | A) = \P(A) \frac{\P(A \cap B)}{\P(A)} = \P(A \cap B). \]
+
+To establish the law of total probability (version 1), first show that $\{E \cap B_1, E \cap B_2, \dots, \dots\}$ is a partition of $E$. The result then follows from countable additivity.
+
+\point{Bayes rule:} For the HIV test, define the following events: $H$, the event that HIV is present, and $E$ the observation (a test turned positive). We know $\P(H) = 25\% = 0.25$, $\P(E | H^\complement) = 1\%$ and $\P(E^\complement | H) = 2\%$. To help visualize this, you may want to draw a decision tree where the first branching is done according to $H$ and $H^\complement$, and the second branching, by further refining via intersections with  $E$ and $E^\complement$. We seek to compute $\P(H|E)$.
+
+Notice that $H$ and $H^\complement$ form a partition of $\Omega$. Using this fact and the law of total probability, we obtain what is called Bayes rule:
+\begin{align*}
+	\P(H|E) &= \frac{\P(H \cap E)}{\P(E)} \\
+	&= \frac{\P(H) \P(E | H)}{\P(H) \P(E | H) + \P(H^\complement) \P(E | H^\complement)} \\
+	&= \frac{0.25 \cdot (1-0.02)}{0.25 \cdot (1-0.02) + 0.75 \cdot 0.01} \approx 97\%
+\end{align*}
+
+Now what happens if the prevalence $\rho$ of the disease is very small? Generalizing the equation above, we get:
+\[ \P_\rho(H|E) = \frac{1}{1 + \frac{1-\rho}{\rho}\frac{0.01}{1 - 0.02}}, \]
+hence as $\rho \downarrow 0$, we get $\P_\rho(H|E) \to 0$, which is kind of surprising.
+
+\point{Combinatorics problem:} 
+\[ \Omega = \{(C_1, C_2, C_3):\{C_1, C_2, C_3\} \text{ partitions }\{1, 2, \dots, 9\}, |C_1| = 4, |C_2| = 3, |C_3| = 2\}. \]
+The definition of uniform assignment is then, for any $S \subset \Omega$:
+\[ \P(S) = \frac{|S|}{|\Omega|}. \]
+Here we are interested in an even $T$ which can be described as:
+\[ T = \{(C_1, C_2, C_3):\{C_1, C_2, C_3\} \text{ partitions }\{1, 2, \dots, 8\}, |C_1| = 3, |C_2| = 3, |C_3| = 2\}.  \]
+A first solution is to compute $|\Omega|$ and $|T|$. 
+To do so use a decision tree with in the first level, events capturing the assignment of the first classroom:
+\[ E^1_C = \{\omega \in \Omega : \omega_1 = C\}, \]
+then, at the next two levels, events capturing the assignment of the second and third classroom:
+\[ E^i_C = \{\omega \in \Omega : \omega_i = C\}. \]
+Using the fact that the number of subsets of size $k$ from an inventory of size $n$ is $\binom{n}{k}$, you will find that $\Omega$ can be decomposed as a regular tree with branching factors $\binom{9}{4}$, $\binom{5}{3}$, $1$, and thus:
+\[ |\Omega| = \frac{9!}{4! 3! 2!}. \]
+Similarly for $T$, 
+\[ |T| = \frac{8!}{3! 3! 2!}, \]
+thus $\P(T) = 4/9$.
+
+A second solution:
+\[ \Omega = \{(a_1, a_2, \dots, a_9) : \cup \{a_i\} = \{1, 2, \dots, 9\}\}, \]
+where $a_i$ is the assignment of student $i$, identifying $\{1, 2, 3, 4\}$ as the seats for the first classroom, $\{5, 6, 7\}$, for the second. Then use the events $E_i = \{\omega : \omega_5 = i\}$. We have $|E_i| = |E_j|$ and the event of interest is $E_1 \cup E_2 \cup E_3 \cup E_4$. Thus:
+\[ \P(E_1 \cup E_2 \cup E_3 \cup E_4) = \frac{4 |E_1|}{9 |E_1|} = 4/9. \]
 
 
 \subsection{Random variables}
 
 \point{Informal definition:}
 \begin{itemize}
-  \item A random variable if often used to encode a measurement, for example, in the previous 1D train example, whether the train goes left or right at time step 3.
-  \item Random variables are used to model partial observability of the world. In contrast to each outcome $\omega \in \Omega$, which contains all the information possible within the model, a random variable can be defined to forget important information. For example, you may only known the position of the train at time steps 1 and 6, and what is in between is unknown.
+  \item A random variable if often used to encode a measurement, for example, in the previous train example, whether the train goes left or right at time step 3.
+  \item Random variables are used to model partial observability of the world. In contrast to each outcome $\omega \in \Omega$, which contains all the information possible within the model, a random variable can be defined to ``forget'' information. For example, you may only known the position of the train at time steps 1 and 6, and what happens in between is unknown.
   \item Another use of random variables is to express a quantity that is unknown, but that we would like to have the probability of. A concept that I call a ``query.''
 \end{itemize}
 
-\point{Pre-requisite for the formal definition:} if $f : S \to T$ is some function, we can lift function evaluation, which takes as input points and returns points $f(x) \in T$ for $x \in S$, into functions evaluation taking as input a set and returning a set, i.e. for $A \subset S$, $f(A) = \{f(x) : x \in A\}$. Note that we abuse the notation and use the same symbol for lifted function evaluation, but no confusion can arise because of the type of the input. We do the same for lifted function inverse: for $B \subset T$, $f^{-1}(B) = \{x \in S : f(x) \in B\}$. The lifted inverse is nice because it always exists (the set it returns can be empty or have cardinality larger than one, but it's still a set.
+\point{Pre-requisite for the formal definition:} if $f : S \to T$ is some function, we can lift function evaluation, which takes as input points and returns points $f(x) \in T$ for $x \in S$, into function evaluation taking as input a set and returning a set, i.e. for $A \subset S$, $f(A) = \{f(x) : x \in A\}$. 
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/maps}
+\end{center}
+Note that we abuse the notation and use the same symbol for lifted function evaluation, but no confusion can arise because of the type of the input. We do the same for lifted function inverse: for $B \subset T$, $f^{-1}(B) = \{x \in S : f(x) \in B\}$. The lifted inverse is nice because it always exists (the set it returns can be empty or have cardinality larger than one, but it is still a set.
 
 \point{We can now formally define random variables:}
 \begin{enumerate}
@@ -184,12 +469,18 @@ This second example is actually enough to build a rich theory! How? Using random
     \item \label{rv:condition} such that $X^{-1}(A) \in \events$ for all $A \in \borels$.
   \end{enumerate}
 \end{enumerate}
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/rvs}
+\end{center}
 
 \point{Why} do we need condition \ref{rv:condition}? Often, we will ask questions like ``what states of the worlds can yield an observation in $A$?'' In set theory, the set of such states (outcomes) is $X^{-1}(A)$. Now, we want to be able to compute the probability of this set of outcomes, so we require that $X^{-1}(A)$ be an event (i.e. in the \sigmaalg).
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/inverse}
+\end{center}
 
 \point{Note:} random variables are especially interesting when we define more than one on the same sample space. 
 
-\point{Synonym:} ``$X$ is a measurable function.''
+\point{Synonym:} ``$X$ is a measurable function.'' 
 
 \point{Notes:}
 \begin{itemize}
@@ -203,6 +494,8 @@ This second example is actually enough to build a rich theory! How? Using random
   \item (Real) random variables and random vectors are special though, as they will later allow us to define the notion of expectation (not possible with colours, as we cannot for example ``add colours''). More on this later!
 \end{itemize}
 
+\point{Terminology:} values in the set $\states$ are called \emph{realizations}, and are often denoted with the small-cap version of the random variable, e.g. a realization of $X$ is denoted $x = X(\omega)$. This distinction is useful for example to distinguish $f(x)$, which is just function evaluation, from $f(X)$, which is the construction of a new random variable obtained by composing $f$ and $X$.
+
 \point{Warning:} make sure you follow the type conventions! For example, $\P($red$)$ or $\P(X)$ are not defined!\footnote{Some authors do give a meaning to the latter, but it is not what you think! We will see this meaning, namely the expectation of $X$, later.}
 
 
@@ -210,7 +503,7 @@ This second example is actually enough to build a rich theory! How? Using random
 
 \point{Recall:} $g \circ h$ means a new function that first use $g$, then $h$: $g \circ h(x) = g(h(x))$. 
 
-\point{Convention:} use capital letters only for the random variables mapping elements from the main global sample space $\Omega \to \states$. Use standard function notation ($g, h$, etc) for subsequent transformations $g : \states \to \states'$  of the output of $X$. E.g. $g \circ X = g(X)$. 
+\point{Convention:} use capital letters only for the random variables mapping elements from the sample space $\Omega \to \states$. Use standard function notation ($g, h$, etc) for subsequent transformations $g : \states \to \states'$  of the output of $X$. E.g. $g \circ X = g(X)$. 
 
 \point{Exercise:} show that the composition $g(X)$ of a random variable $X$ with a measurable function $g$ is a random variable.
 
@@ -220,6 +513,9 @@ This second example is actually enough to build a rich theory! How? Using random
 \subsection{The graph of a random variable}
 
 In the special case where $\Omega = \R$, we can plot the \emph{graph} real random variables $X : \Omega \to \R$. While in practice $\Omega$ is usually much more complicated, looking at simple examples where $\Omega = \R$ is a powerful technique to get some intuition on several results we will cover in the next few weeks. Note that measurability is much weaker than continuity, so the the graph of random variables can be quite pathological in general. 
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/graph}
+\end{center}
 
 
 \subsection{The probabilist's event notation}\label{sec:probabilist}
@@ -229,6 +525,9 @@ It is tedious to write expressions like $X^{-1}(\{r \in \R : 6 \le r\})$. Probab
   \item $(X \in A) \defeq X^{-1}(A)$,
   \item $(X = x) \defeq X^{-1}(\{x\})$.
 \end{itemize}
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/inverse}
+\end{center}
 
 \point{More generally:} \[(\text{logical statement }s\text{ containing a random variable }X) \defeq \{\omega \in \Omega : s(X(\omega))\text{ is true}\}. \]
 
@@ -248,29 +547,45 @@ The indicator random variable is just an indicator on an event.
 If $A$ can be defined using the probabilist's notation introduced in Section~\ref{sec:probabilist}, for example if $A = (X = x)$, we will use the notation $\1(X = x)$ for $\1_A$.
 
 
-\subsection{Rewriting events involving equalities}\label{sec:rewriting-equalities}
+\subsection{Modelling randomized algorithms as random variables}
 
-When dealing with equations involving non-random variables, a common heuristic is to ``add on both sides,'' e.g. $x + 5 = 2$ becoming $x = -3$. Let us call these two logical statements $s_1$ and $s_2$. Since $s_1(X(\omega))$ is true if and only if  $s_2(X(\omega))$ is true, it follows that the two events, $(X + 5 = 2)$ and $(X = -3)$, are equal. In particular, $\P(X + 5 = 2) = \P(X = -3)$.
+\point{Recall:} we mentioned randomized algorithms as one of the motivations for learning Probability Theory. Randomized algorithms can be defined as algorithms having  access to the realization of one random variable. Since in practice we need several random variables, randomized algorithms use \emph{pseudo-random generators} to turn one random number into a potentially very large list of random variables. In this section we see how to model randomized algorithms and pseudo-random generators using random variables. 
 
-More generally, if $f$ is one-to-one, then $(X = Y) = (f(X) = f(Y))$. For example $(-X = -5) = (X = 5)$. 
+\point{Example of a simple randomized algorithm:} which simulates 100 coin flips and counts the number of times the coin comes heads. More precisely, the algorithm takes as input a \emph{random seed} $r$ (an integer, but modelled in a computer as being in a finite range of values, from 1 and say $2^{32}$), and proceeds as follows:
 
-In fact, we only need $f$ to be one-to-one on the set of possible values attained by $X$ and $Y$ (i.e. the union of their ranges). For example $(X = 2) = (X^2 = 4)$ if $X$ is non-negative (denoted $X \ge 0$), e.g. a dice random variable. 
+\begin{enumerate}
+	\item $s \gets 0$
+	\item For $i = 1, 2, \dots, 100$:
+	\begin{enumerate}
+		\item Extract a pseudo-random coin flip from the least significant binary digit of $r$: \[x_i = r \mod 2.\]
+		In other words, $x_i$ is equal to one if and only if $r$ is an odd number, otherwise it is equal to zero.
+		\item increment the sum counter, $s \gets s + x_i$
+		\item Get a new pseudo-random integer by ``flipping'' an artificial wheel of fortune (wheel because we do modular arithmetic modulo $m$, the number of slots in the wheel), first nudging it
+		by a multiplicative amount $a$, then by a constant amount $c$:
+		\[ r \gets (a r + c) \mod m.\]
+	\end{enumerate}
+	\item Return the sum $s$
+\end{enumerate}
 
-Many steps in probability arguments follow that kind of logic-based reasoning.
+\point{Note:} Here, $m$, $a$ and $c$ are fixed constants. For example, the famous Numerical Recipes book \cite{press_numerical_2007} recommends $m = 2^{32}$, $a = 1664525$ and $c = 1013904223$.
 
+\point{Illustration of how the flipping works:} from wikipedia, created by user Cmglee, distributed under CC BY-SA 3.0
 
-\subsection{Rewriting events involving inequalities}\label{sec:rewriting-inequalities}
+\begin{center}
+\includegraphics[width=0.9\linewidth]{figures/pseudo-random}
+\end{center}
 
-Be a bit more careful when dealing with inequalities, we need a more specialized form a one-to-one mapping: if $f$ is \emph{strictly increasing}, then $(X \le Y) = (f(X) \le f(Y))$. For example $(X \le 0) = (\exp(X) \le 1)$.
+\point{Model for the algorithm?} Take $\Omega$ to be the set of integers $1, \dots, 2^{32}$. A seed corresponds to an outcome $\omega \in \Omega$. Given a seed, everything is deterministic in the algorithm. In particular, we can think about the value $x_1$ as the output of a deterministic function taking a seed as input. Let us call this function, $X_1 : \Omega \to \{0, 1\}$, and as our choice of letter suggest, it is indeed a random variable. Similarly, we can define random variables $X_2, X_3, \dots, X_{100}$, each one being a deterministic function (of increasing complexity) of the input random seed $\omega$. E.g.:
+\[ X_2(\omega) = ((a\omega + c) \mod m) \mod 2. \]
 
-This is indeed necessary as $(-X \le -5) = (X \ge 5) \neq (X \le 5)$.
+\point{Practical importance.} This model illustrates a key design pattern useful when building any randomized algorithm: 
+\begin{itemize}
+	\item Make the random seed an explicit input of the program.
+	\item Given this input, all computations should be deterministic.
+\end{itemize}
+This is useful because you can re-run exactly the same program, i.e. \emph{reproduce your results}. This comes handy if there is a bug you need to fix and you want to replay the crash to analyze in detail what happened. It is also handy if someone wants to replicate somebody else's published work.  
 
-
-\subsection{Bounding events}
-
-When we cannot rewrite the event using the methods described in Sections~\ref{sec:rewriting-equalities} and \ref{sec:rewriting-inequalities}, we can settle on bounding the event instead. Suppose event $A_1$ is defined using statement $s_1(Y)$ (e.g. $A_1 = (Y = 2)$) and similarly, event $A_2$, using $s_2(Y)$ (e.g. $A_2 = (Y^2 = 4)$. Suppose $s_1 \Longrightarrow s_2$. Then we have $A_1 \subseteq A_2$. In our example, $y = 2 \Longrightarrow y^2 = 4$, but the converse is not true if the random variable $Y$ can take negative values, as $y = -2$ also yields $y^2 = 4$. So all we get for general random variables is that $(Y = 2) \subset (Y^2 = 4)$.
-
-We will soon see in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$ implies $\P(A_1) \le \P(A_2)$.
+\point{Better pseudo-random generators:} the recipe used here ($r \gets (ar + c) \mod m$) is called a \emph{linear congruential generator}. This class of generators have been largely superseded by other methods, a good choice for example is the Mersenne Twister pseudo-random generator \cite{matsumoto_mersenne_1998}.
 
 
 \subsection{Distribution of a random variable}\label{sec:distribution}
@@ -278,10 +593,13 @@ We will soon see in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$
 \point{Idea:} you give me a probability space $(\Omega, \events, \P)$ and a random variable $X : \Omega \to \states$, and I create a new probability $\P'$. This new probability is defined on the values $\states$ that the random variable takes.
 
 \point{Definition:} for any $B \in \events_\states$, set $\P'(B) \defeq \P(X \in B)$.
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/inverse}
+\end{center}
 
 \point{Notation:} we denote this new probability $\P'$ by $\P_X$, and call it the \emph{distribution of $X$}.
 
-\point{Exercise:} suppose $X$ is an indicator variable on an event $A$, with $p = \P(A)$. Find the distribution of $X$. The answer is called ``Bernoulli with parameter $p$'', denoted $\P_X = \text{Bern}_p$.
+\point{Exercise:} suppose $X$ is an indicator variable on an event $A$, with $p = \P(A)$. Find the distribution of $X$. The answer is called ``Bernoulli with parameter $p$'', denoted $\P_X = \Bern(p)$. The shorthand $X \sim \Bern(p)$ is also widely used in statistics. 
 
 \point{Possible confusion:} ``probability distribution'' is a synonym of ``probability measure.'' Here we defined the ``distribution \emph{of} $X$,'' which is a specific way of constructing a probability measure.
 
@@ -293,17 +611,23 @@ We will soon see in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$
 \point{Note:} the following definition only works for $\states = \R$.
 
 \point{Definition:} the \CDF\ of a random variable is given for all $x \in \R$ by: \[ F_X(x) \defeq \P(X \le x). \]
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/cdf}
+\end{center}
 
 \point{Exercise:} this is the same as $\P_X((-\infty, x])$.
 
 
-\subsection{Using random variables to construct new probability measures}\label{sec:using-rv-to-construct-prs}
+\subsection{Equality in distribution}\label{sec:equal-in-distribution}
 
-\point{Example 1:} Suppose the only probability distribution available in some programming language is the uniform distribution on $[0, 1)$. How can we transform it into a coin toss?
+\point{Example:} Suppose the only probability distribution available in some programming language is the uniform distribution on $[0, 1)$. How can we transform it into a coin toss?
 
 \point{An answer:} $X_1 = \1_{[0, 1/2)}$.
 
 \point{Question:} is this answer unique? No! For example, $X_2 = \1_{[0, 1/4)} + \1_{[1/2, 3/4)}$ will also do!
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/eq-dist}
+\end{center}
 
 \point{Note:} 
 \begin{enumerate}
@@ -312,10 +636,6 @@ We will soon see in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$
 \end{enumerate}
 
 \point{Definition:} We call \ref{item:dist} \emph{equality in distribution}, denoted $X_1 \deq X_2$. 
-
-\point{Example 2/exercise:} simulate an exponential random variable (defined below) from a uniform distribution on $[0, 1)$. 
-
-\point{Definition:} we say $X$ is a standard exponential random variable, a statement denoted $X \sim \text{Exp}(\lambda)$, if \[F_X(x) = \1[x \ge 0] (1 - e^{-x \lambda}). \]
 
 
 \subsection{Densities (first definition)}\label{sec:density-first-def}
@@ -332,6 +652,9 @@ A random variable is said to have \emph{density} $f$ if: \[ F_X(x) = \int_{-\inf
 \point{Lemma: monotonicity.} If $A \subset B$ are events, then $\P(A) \le \P(B)$.
 
 \point{Proof idea:} Use the ``donut decomposition,'' $B = A \sqcup (B \backslash A)$, where we use the symbol $\sqcup$ to denote a union while asserting that the two sets we are taking the union over are disjoint.
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/donut-1}
+\end{center}
 
 \point{Notation:} to express the following limit properties, we make use of the following overloaded notations,
 \begin{itemize}
@@ -380,6 +703,9 @@ Since the \CDF\ is derived from a probability measure, it shares similar continu
 \point{Proof idea for the decreasing case:} we have $(X \le x_i) \supset (X \le x_{i+1})$, so by monotonicity of $\P$, we get
 \[ \P(X \le x_i) \downarrow \P(\cap A_i), \]
 where $\cap A_i = (X \le x)$, therefore $\P(\cap A_i) = F(x)$.
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/limit-cdf}
+\end{center}
 
 \point{Reason:} for the asymmetry between semi-continuity property \ref{item:cont1} and \ref{item:cont2}. First, do the proof for the increasing case as an exercise. You will see that in the increasing case, the limit of the probabilities is given by $\P(X < x)$, which is not guaranteed in general to be equal to $F(x)$ (because of a potential point mass as $x$).
 
@@ -395,6 +721,19 @@ where $\cap A_i = (X \le x)$, therefore $\P(\cap A_i) = F(x)$.
 \[ X(\omega) \defeq \sup\{x : F(x) < \omega\}. \]
 
 \point{Note:} this is a first instance of an important idea in this course, namely to identify the distributions of random variables with simpler types of functions.
+
+
+
+\subsection{Building random variables with a prescribed CDF}\label{sec:inverse-cdf}
+
+\point{Example/exercise:} simulate an exponential random variable (defined below) from a uniform distribution on $[0, 1)$, where an exponential random variable is defined as follows:
+
+\point{Definition:} we say $X$ is a standard exponential random variable, a statement denoted $X \sim \text{Exp}(\lambda)$, if \[F_X(x) = \1[x \ge 0] (1 - e^{-x \lambda}). \]
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{figures/cdf-exp}
+\end{center}
+
+\point{Hint:} use the construction from the ``proof idea'' of Section~\ref{sec:limit-properties-cdfs}, which is called the ``inverse CDF.''
 
 
 \subsection{Measure}
@@ -413,12 +752,15 @@ A measure $\mu : \events \to [0, \infty)$ is defined in the same way as a probab
   \item Solve the exercise in Section~\ref{sec:using-rv-to-construct-prs}.
   \item If $X_1 \sim F$ (a notation that means that $\P(X_1 \le x) = F(x)$), and $X_1 \ge 0$, find the \CDF\ of $X_2 \defeq X_1^2$.
 \end{enumerate}
-
+ 
 
 %\subsection{Solutions}
 %
 %\begin{enumerate}
 %  \item The three pictures should be as follows:
+%\begin{center}
+%	\includegraphics[width=0.9\linewidth]{figures/3-viz}
+%\end{center}
 %  \begin{enumerate}
 %    \item Graph of $X$: The $x$-axis should be a bounded segment labelled $\Omega$. The $y$-axis should be the full real line. There are several choices for the function. For example the line $y = x$ or $y = 1 - x$ on the interval $[0, 1)$ are acceptable. Other choices are possible.
 %    \item CDF: The $x$-axis should be the full real line. The $y$ axis should be the interval $[0, 1]$. The function should be zero in $(-\infty, 0]$, then affine in $[0, 1]$, then one in $[1, +\infty)$.
@@ -487,7 +829,7 @@ where $f$ is the density of $X$. There are two limitations with this definition:
 
 \point{Note:} we will need to generalize the notion of ``area,'' to cover cases where $\Omega \neq \R$.
 
-\point{Terminology:} the definition of integral we will cover today is called the Lebesgue integral (not to be confused with the Lebesgue measure).
+\point{Terminology:} the definition of integral we will cover today is called the Lebesgue integral (not to be confused with the Lebesgue measure). It is the default definition in measure theory, and in general in probability theory.
 
 \point{Note:} we will get the undergraduate definition of expectation of a continuous random variable as a special case arising when $X$ has a density. However, the Lebesgue expectation does not need to assume existence of a density.
 
@@ -531,6 +873,9 @@ Now if $A$ is an interval, the graph is just a rectangle! The height is $a$. Wha
 
 \point{Definition:} the Lebesgue integral for indicator function is given by 
 \[ \E[Z] = \int Z \ud \P \defeq a \P(A). \]
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/rectangle}
+\end{center}
 
 \point{Note:} $A$ could actually be complicated (e.g., the Cantor set), but this definition still holds as long as $A \in \events$.
 
@@ -538,7 +883,7 @@ Now if $A$ is an interval, the graph is just a rectangle! The height is $a$. Wha
 
 \point{Exercise:} compute the expectation of a constant.
 
-\point{Important special case:} following from the definition directly, the expectation of an indicator on an event $A$ is just the probability of $A$, i.e. \[\E[\1_A] = \P(A).\] In light of the answer of the exercise in Section~\ref{sec:distribution}, we only need the distribution of the indicator random variable to compute its expectation. As we will see soon, this is always true, i.e. we only need the distribution of a random variable in order to compute its expectation. In other words, all random variables sharing the same distribution have the same expectation (and many distinct random variables do share the same distribution, see Section~\ref{sec:using-rv-to-construct-prs}). 
+\point{Important special case:} following from the definition directly, the expectation of an indicator on an event $A$ is just the probability of $A$, i.e. \[\E[\1_A] = \P(A).\] In light of the answer of the exercise in Section~\ref{sec:distribution}, we only need the distribution of the indicator random variable to compute its expectation. As we will see soon, this is always true, i.e. we only need the distribution of a random variable in order to compute its expectation. In other words, all random variables sharing the same distribution have the same expectation (and many distinct random variables do share the same distribution, see Section~\ref{sec:equal-in-distribution}). 
 
 \point{Exercise:} based on the above special case, can you guess the general formula for computing the expectation of a random variable given only the distribution of the random variable, not the random variable itself?
 
@@ -586,8 +931,14 @@ To avoid having to deal with an uncountable collection we follow a two steps str
 \point{Proof idea} of the proposition on approximation by simple functions: 
 \begin{enumerate}
   \item Recall that in the case of a Riemann integral, we do something similar, i.e. breaking the x-axis of the graph of $X$ into a grid and making this grid finer and finer.
+  \begin{center}
+  	\includegraphics[width=0.5\linewidth]{figures/riemann}
+  \end{center}
   \item In general, this cannot work here, because the x-axis, $\Omega$, is not necessarily $\R$. 
   \item Idea: break the $y$-axis instead! Then use the inverse of the random variable $X^{-1}$, to get the $A_i$'s required in the definition of simple functions.
+  \begin{center}
+  	\includegraphics[width=0.7\linewidth]{figures/lebesgue}
+  \end{center}
 \end{enumerate}
 
 
@@ -610,10 +961,15 @@ The previous section sets the stage for a powerful proving strategy:
 
 \point{Easy extension:} $\E$ is a linear operator: $\E[aX + b] = a\E[X] + b$.
 
+\point{Note:} this proving strategy is incredibly useful in practice, in part thanks to how simple the statement of the monotone convergence theorem is. Similar statements with Riemann integrals are not as simple. Just this proving method arguably justifies the effort of learning to be a user of measure theory. 
+
 
 \subsection{Integrals of random variables taking negative values}
 
-For a general random variable $X$: 
+For a general random variable $X$:
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{figures/decomposition}
+\end{center} 
 \begin{enumerate}
   \item Write $X = X^{+} + X^{-}$, where $X^{+}$ and $X^{-}$ are the negative and positive parts respectively. For example, $X^{-} = \1[X < 0] X$. 
   \item Note: $-X^{-}$ is non-negative.
@@ -650,6 +1006,9 @@ So far, we have assumed that the Lebesgue integral was computed with respect to 
 The monotone convergence theorem (Section~\ref{sec:approxAndMCT}) says that we can exchange integrals and limits \emph{when the sequence of function is increasing} ($X_1 \le X_2 \le \dots$). Is this necessary?
 
 \point{Example showing that it is:} consider $X_n = n \1_{(0, 1/n]}$. 
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{figures/limit-exchange-warn}
+\end{center}
 
 \point{Exercise:} compute $\lim X_n$ and $\E X_n$. Conclude that limits and integrals cannot be exchanged in this case.
 
@@ -673,6 +1032,9 @@ For this reason, it is often possible to relax a statement like ``$|X_i| \le Y$'
 
 \point{Review:} convexity. A function $g : \R \to \R$ is convex if for all $x_1, x_2 \in \R$ and $\lambda \in [0, 1]$, 
 \[ \lambda g(x_1) + (1 - \lambda) g(x_2) \ge g(\lambda x_1 + (1 - \lambda) x_2). \]
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/convex}
+\end{center}
 
 \point{Exercise:} convince yourself that $\varphi(\E X) \neq \E[\varphi(X)]$ in general (with some exceptions to this, e.g. when $\varphi$ is linear). This is unfortunate because $\varphi(\E X)$ is often easier to compute than $\E(\varphi(X))$.
 
@@ -684,6 +1046,9 @@ For this reason, it is often possible to relax a statement like ``$|X_i| \le Y$'
 
 \point{Lemma:} for all convex function $\varphi$, there is a sequence of linear functions $L_n(x) = a_n x + b_n$ such that 
 \[ \varphi(x) = \sup_n L_n(x). \]
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/convex-support}
+\end{center}
 
 \point{Exercise:} provide an example showing that the above lemma does not hold in the case for non-convex functions.
 
@@ -712,25 +1077,28 @@ Finally, taking sup over $n$ on both sides:
 
 \point{Exercise:} solve the dam problem using Markov's inequality.
 
-\point{Proof:} Convince yourself by drawing the graph of $X$ that the following identities hold: 
+\point{Proof:} Convince yourself by looking at the graph of $X$ that the following identities hold: 
 \begin{eqnarray*} 
 X &\ge& \1[X \ge \alpha] X\;\text{ (follows from }X \ge 0\text{)} \\
 &\ge& \alpha \1[X \ge \alpha].
 \end{eqnarray*}
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/markov}
+\end{center}
 Taking expectations on both sides:
 \begin{eqnarray*}
 \E X &\ge& \alpha \E[\1[X \ge \alpha]] \\
 &=& \alpha \P(X \ge \alpha).
 \end{eqnarray*}
 
-\point{Note:} non-negativity is necessary. Consider for example a random variable with the discrete uniform distribution on $\{-1, +1\}$.
+\point{Note:} non-negativity is necessary. Consider for example a random variable with the discrete uniform distribution on $\{-1, +1\}$. 
 
 \point{Note:} the bound will sometimes be greater than one. On the other hand, there are random variables $X$ and $\alpha$ such that the bound it tight, i.e. where $\P( X \ge \alpha) = \frac{\E X}{\alpha}$. For example $X$ such that $\P(X = 2) = 1/2$, $\P(X = 0) = 1/2$, $\alpha = 2$.
 
 \point{Corollary 1:} for all random variable $X$, $p \ge 0$,
 \[ \P(|X| \ge \alpha) \le \frac{\E |X|^p}{\alpha^p}. \]
 
-\point{Proof:} since the power function is strictly increasing, and using the argument detailed in Section~\ref{sec:rewriting-equalities}, $(|X| \ge \alpha) = (|X|^p \ge \alpha^p)$, therefore $\P(|X| \ge \alpha) = \P(|X|^p \ge \alpha^p)$. Since $|X|^p \ge 0$, we can apply Markov's inequality on this last probability.
+\point{Proof:} since the power function is strictly increasing, $(|X| \ge \alpha) = (|X|^p \ge \alpha^p)$. Why? Manipulations of this kind are explained in gory details in the next few section, see specifically \ref{sec:rewriting-equalities} for this step. Therefore $\P(|X| \ge \alpha) = \P(|X|^p \ge \alpha^p)$. Since $|X|^p \ge 0$, we can apply Markov's inequality on this last probability.
 
 % note: does not work well with the dam example because of the left tail
 
@@ -742,9 +1110,38 @@ Taking expectations on both sides:
 \point{Corollary 3 (Chernoff bound):} if $X$ is any random variable, then
 \[ \P(X \ge \alpha) \le \inf_t \frac{\E[e^{tX}]}{e^{t\alpha}}. \]
 
-\point{Proof:} For any fixed $t$, the function $f(x) = e^{tx}$ is strictly increasing, so we can use the same reasoning as Chebyshev's. Since the inequality if true for all $t$, the left-hand side is bounded by the infimum.
+\point{Proof:} For any fixed $t$, the function $f(x) = e^{tx}$ is strictly increasing, so we can use the same reasoning as Chebyshev's. Since the inequality if true for all $t$, the left-hand side is bounded by the infimum over $t$.
 
-\point{Note:} the quantity $\E[e^{tX}]$, viewed as a function of $t$, is called the moment generating function. We will revisit Chernoff's bound soon once we have introduced independence. 
+\point{Note:} the quantity $\E[e^{tX}]$, viewed as a function of $t$, is called the \emph{moment generating function}. We will meet this object again. 
+
+We will also revisit Chernoff's bound soon once we have introduced independence of random variables. 
+
+
+\subsection{Rewriting events involving equalities}\label{sec:rewriting-equalities}
+
+This section and the next two provide additional details as well as generalize one of the key step used in the proof of Markov's, Chebyshev's, and Chernoff's inequalities.
+
+Some background: when dealing with equations involving non-random variables, a common heuristic is to ``add on both sides,'' e.g. $x + 5 = 2$ becoming $x = -3$. Let us call these two logical statements $s_1$ and $s_2$. Since $s_1(X(\omega))$ is true if and only if  $s_2(X(\omega))$ is true, it follows that the two events, $(X + 5 = 2)$ and $(X = -3)$, are equal. In particular, $\P(X + 5 = 2) = \P(X = -3)$.
+
+More generally, if $f$ is one-to-one, then $(X = Y) = (f(X) = f(Y))$. For example $(-X = -5) = (X = 5)$. 
+
+In fact, we only need $f$ to be one-to-one on the set of possible values attained by $X$ and $Y$ (i.e. the union of their ranges). For example, if $X$ is non-negative (denoted $X \ge 0$), then $(X = 2) = (X^2 = 4)$. Indeed, even though $f(x) = x^2$ is not one-to-one, it is when restricted to the positive real line.
+
+Many steps in probability arguments follow that kind of logic-based reasoning.
+
+
+\subsection{Rewriting events involving inequalities}\label{sec:rewriting-inequalities}
+
+Be a bit more careful when dealing with inequalities, we need a more specialized form a one-to-one mapping: if $f$ is \emph{strictly increasing}, then $(X \le Y) = (f(X) \le f(Y))$. For example $(X \le 0) = (\exp(X) \le 1)$.
+
+This is indeed necessary as $(-X \le -5) = (X \ge 5) \neq (X \le 5)$.
+
+
+\subsection{Bounding events}
+
+When we cannot rewrite the event using the methods described in Sections~\ref{sec:rewriting-equalities} and \ref{sec:rewriting-inequalities}, we can settle on bounding the event instead. Suppose event $A_1$ is defined using statement $s_1(Y)$ (e.g. $A_1 = (Y = 2)$) and similarly, event $A_2$, using $s_2(Y)$ (e.g. $A_2 = (Y^2 = 4)$. Suppose $s_1 \Longrightarrow s_2$. Then we have $A_1 \subseteq A_2$. In our example, $y = 2 \Longrightarrow y^2 = 4$, but the converse is not true if the random variable $Y$ can take negative values, as $y = -2$ also yields $y^2 = 4$. So all we get for general random variables is that $(Y = 2) \subset (Y^2 = 4)$.
+
+We will soon see in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$ implies $\P(A_1) \le \P(A_2)$.
 
 
 \subsection{Exercises}
@@ -788,8 +1185,14 @@ Taking expectations on both sides:
 R &=& A \times B \;\text{ for some }A \in \borels, B \in \borels \\
 &=& \{(x, y) : x \in A, y \in B\}.
 \end{eqnarray}
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{figures/product}
+\end{center}
 
-\point{Unfortunately:} $\generators = \{R : R\text{ is a rectangle}\}$ is not a \sigmaalg\ (why?). Also, it does not contain the set that we would need to answer the above ``practical question.''
+\point{Unfortunately:} $\generators = \{R : R\text{ is a rectangle}\}$ is not a \sigmaalg\ (why?). Also, it does not contain the set that we would need to answer the ``practical question'' that kicked off this section.
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{figures/strip}
+\end{center}
 
 \point{Solution:} generate a \sigmaalg\ from $\generators$. The result of this is called the product \sigmaalg:
 \[ \events^{\otimes 2} \defeq \events \otimes \events \defeq \sigma(\generators). \]
@@ -845,12 +1248,17 @@ In this section, we explain the tool used to prove the characterization statemen
 \point{Corollary:} $F_{X,Y}$ determines $\P_{X,Y}$.
 
 \point{Proof:} $(-\infty, x] \cap (-\infty, y] = (-\infty, \min\{x, y\}]$.
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/intersection}
+\end{center}
 
 \point{Corollary:} if $(X,Y)$ has joint density $f$, then
 \[ \P((X, Y) \in S) = \int_S f(x,y) \ud x \ud y. \]
 
 
 \subsection{Independence of random variables}
+
+% TODO: come back to Pollards' example of independence to motivate why learning measure theory
 
 \point{Definition:} the random variables $X_1, X_2, \dots, X_n : \Omega \to \R$ are independent if, for all $A_i \in \borels$, \[ \P(X_1 \in A_1, X_2 \in A_2, \dots, X_n \in A_n) = \prod_{i=1}^n \P(X_i \in A_i). \]
 
@@ -915,7 +1323,7 @@ The limitation of this approach is that even when $f$ is a simple close-form exp
 
 \subsection{Computing expectations using the distribution of the random variable}\label{sec:change-of-var}
 
-\point{Motivating example:} consider a space $\Omega$ containing a circle, triangle, square, and pentagon, and a probability $\P$ that give then equal probabilities. Let $X$ denote a random variable that takes a shape as input and output the number of faces. Suppose we want to compute $\E[g(X)]$, where $g(x) = \1[x \text{ is an even integer}]$. We will see two methods for doing this:
+\point{Motivating example:} consider a space $\Omega$ containing the following four objects: a circle, a triangle, a square, and a pentagon, and a probability $\P$ that give then equal probabilities (1/4). Let $X$ denote a random variable that takes a shape as input and output the number of faces. Suppose we want to compute $\E[g(X)]$, where $g(x) = \1[x \text{ is an even integer}]$. We will see two methods for doing this:
 
 \point{From the definition:} let $Y = g(X)$. We see that $Y$ can take two possible values, zero and one, therefore it is simple. Applying the definition of expectation of simple function:
 \begin{eqnarray*} 
@@ -974,6 +1382,21 @@ and on the other hand:
 \end{eqnarray*}.
 
 
+\subsection{How probability space and random variables are constructed in practice}\label{sec:using-rv-to-construct-prs}
+
+So far we have often insisted in explicitly constructed $\Omega$, $\events$, $\P$, and designed random variables $X$ by providing, for each $\omega$, the value $X(\omega)$. This level of detail is useful for certain proofs (e.g. Markov's inequality), but for many day-to-day calculations, it is not necessary to go into that much detail. 
+
+\point{Idea:} instead of defining $\Omega$, $\events$, $\P$ and $X$, just specify the distribution of $X$. I.e. say something like ``let $\Omega$, $\events$, $\P$ and $X$ be such that $X \sim \Bern(p)$, i.e. such that $X$ has a Bernoulli $p$ distribution.'' 
+
+\point{How do we know that there are such $\Omega$, $\events$, $\P$ and $X$?} Thanks to the inverse CDF construction, introduced in Section~\ref{sec:inverse-cdf}. 
+
+\point{This does not uniquely define $\Omega$, $\events$, $\P$ and $X$:} recall from Section~\ref{sec:equal-in-distribution} that there are several ways to build $\Omega$, $\events$, $\P$ and $X$ that yield the same distribution on $X$.
+
+\point{However:} in light of the preceding Section (\ref{sec:change-of-var}), we only need the distribution in order to compute arbitrary expectations. So even though $\Omega$, $\events$, $\P$ and $X$ are not technically fully specified, they are constrained enough for our purpose.
+
+For this reason, often we do not even mention $\Omega$, $\events$, $\P$, and just assume there is a ``global'' probability space on which the random variables are defined based on their distributions. 
+
+
 \subsection{Computing expectations using densities}
 
 \point{Generalization of density:} we say $X$ has a density $f$ with respect to $\mu$ (typically, $\mu$ is the uniform measure on $\R$, but other choices are possible), if:
@@ -992,7 +1415,7 @@ Therefore by letting $a \to -\infty$ we recover the formula from Section~\ref{se
 \point{Why this is useful:} because we can now compute expectations using calculus, even when $\Omega \neq \R$, and by knowing only $\P_X$.
 
 
-\subsection{Computing the expectation of a function of independent random variables}
+\subsection{Computing the expectation of a function of independent random variables}\label{sec:expectation-indep}
 
 \point{Motivation:} back to the motivating problem of Section~\ref{sec:random-vectors}. How to formalize the compution of the expectation, $\E[\1[|X-Y| \le 1/6]]$. Let us define $g(x,y) \defeq \1[|x-y| \le 1/6]$. By our change of variable formula (Section~\ref{sec:change-of-var}), \[ \E[ g(X,Y) ] = \int g \P_{X,Y}. \]
 
@@ -1018,6 +1441,18 @@ in other words, we can approach the problem as iterated univariate integrals, an
   \item Find $\E[XY], \E[X], \E[Y]$. Hint: use symmetry.
   \item Find $g_i$'s such that $\E[g_1(X) g_2(Y)] = 0$ but $\E[g_1(X)] \E[g_2(Y)] > 0$. Hint: use indicators.
 \end{enumerate}
+
+
+\subsection{Declaring independent random variables}
+
+Let us continue the discussion of Section~\ref{sec:using-rv-to-construct-prs}, on implicit specification of probability spaces. Suppose now we want to declare more than one random variables. Often we do so by declaring that (1) they are independent, and (2) the distribution of each random variable. For example: ``let $X_1, X_2, \dots$ be independent $\Bern(0.5)$ random variables.'' A shorthand: ``$X_1, X_2, \dots$ are i.i.d. $\Bern(0.5)$'' (identically and independently distributed). Or just:
+\[ X_i \iidsim \Bern(p). \]
+
+\point{There is always some $\Omega$, $\P$, $\events$, $X_1$, $X_2$, \dots satisfying the constraints (1) and (2):} you can take this as a fact (search Kolmogorov's Extension Theorem if you are curious). 
+
+\point{This does not uniquely specify $\Omega$, $\P$, $\events$, $X_1$, $X_2$, \dots:} for the same reason as in Section~\ref{sec:using-rv-to-construct-prs}.
+
+\point{But:} in the light of Section~\ref{sec:expectation-indep}, all we need to know to compute expectation is (1) to know that the random variables are independent and (2) the distribution of each random variable $X_i$ (called the ``marginal distributions'').
 
 
 \section{Asymptotics}
@@ -2058,6 +2493,8 @@ Several of the samplers we have defined so far (in particular, the Gibbs sampler
 % - todo: closure of r.v. under limits
 % - add note that symbols are clickeable
 % - todo: double-check statements of monotone/dominated does not require existence of lim 
+
+
 
 \bibliographystyle{plain}
 \bibliography{ref}
