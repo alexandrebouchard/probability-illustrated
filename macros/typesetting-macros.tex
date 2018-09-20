@@ -21,12 +21,6 @@
 
 \newcommand{\point}[1]{\vspace{1ex}\noindent{\bf #1}}
 
-% \newcommand{\sectionbreak}{\clearpage}
-% \newcommand{\subsectionbreak}{\clearpage}
-\usepackage[active,tightpage]{preview}
-\renewcommand{\PreviewBorder}{1in}
-
-
 % links inside a doc
 \usepackage{hyperref}
 \hypersetup{colorlinks,citecolor=blue,urlcolor=blue,filecolor=blue,backref=page}
@@ -39,31 +33,3 @@
 \setcounter{xxx}{0}
 \newcommand\XXX[1]{{\bf \em \addtocounter{xxx}{1} (\thexxx) [[#1]]}}
 
-
-
-
-
-
-% \makeatletter%
-% \newcommand\exercise[2]{% 
-%   \expandafter\newcommand\csname #2\endcsname{%
-%     \processabbreviation{#1}{#2}{#3}{}%
-%   }%
-%   \expandafter\newcommand\csname #2s\endcsname{%
-%     \processabbreviation{#1}{#2}{#3}{s}%
-%   }%
-% }%
-% \newcommand\processabbreviation[4]{%
-%   \ifcsname checkifdefined#2\endcsname% Already defined: create a link, and use the abbreviation
-%       {\protect\hyperlink{#2}{\color{black}{#2#4}}}%
-%     \else% First occurrence:
-%       {\protect\Hy@raisedlink{\protect\hypertarget{#2}{}}{#3 (#2#4)}}% Create a target
-%       \expandafter\gdef\csname checkifdefined#2\endcsname{1}% Remember it was encountered
-%       \def\temp{#1}\ifx\temp\empty%
-%         \relax%
-%       \else%
-%         \nomenclature{#2}{#1}%
-%       \fi%
-%     \fi%
-% }%
-% \makeatother%
