@@ -693,6 +693,9 @@ Since the \CDF\ is derived from a probability measure, it shares similar continu
 \point{Monotonicity of \CDFs:} $x \le y \Longrightarrow F(x) \le F(y)$ ($F$ is monotone increasing).
 
 \point{Proof:} $x \le y \Longrightarrow (X \le x) \subset (X \le y)$, so we can use monotonicity of the probability measure $\P$ to conclude the proof.
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/inclusion}
+\end{center}
 
 \point{Semi-continuity property:} 
 \begin{enumerate}
@@ -721,7 +724,6 @@ where $\cap A_i = (X \le x)$, therefore $\P(\cap A_i) = F(x)$.
 \[ X(\omega) \defeq \sup\{x : F(x) < \omega\}. \]
 
 \point{Note:} this is a first instance of an important idea in this course, namely to identify the distributions of random variables with simpler types of functions.
-
 
 
 \subsection{Building random variables with a prescribed CDF}\label{sec:inverse-cdf}
@@ -761,14 +763,14 @@ We use the shorthand $\delta \in \sigma(X)$ for $\sigma(\delta) \subset \sigma(X
 \point{Answer:} 
 \begin{align*}
 \Omega &= \{ (i, j) : i,j \in \{1, 2, \dots, 6\} \\
-\sigma(X) = 2^{\Omega} \\
+\sigma(X) &= 2^{\Omega} \\
 \sigma(Y) &= \sigma(\{\{(1,1)\}, \{(2,1), (1,2)\}, \{(1,3),(2,2),(3,1)\}, \dots, \{(6,6)\}\}) \\
 &= \sigma( \{ \{(i,j) : i + j = k\}   : k = 1, 2, \dots, 12  \} ) \\
-\sigma(\delta_1) &= \sigma( \{ \{(i,j) : i + j > 6\}, \{(i,j) : i + j \ge 6\}  \} ). 
+\sigma(\delta_1) &= \sigma( \{ \{(i,j) : i + j < 6\}, \{(i,j) : i + j \ge 6\}  \} ). 
 \end{align*}
 
 
-\subsection{Exercises}
+\subsection{Exercise set 2}
 
 \begin{enumerate}
   \item Let $X$ be a random variable with a uniform distribution on $[0, 1)$. Draw a possible graph of $X$, a density for $X$, and the \CDF\ of $X$.
@@ -780,63 +782,64 @@ We use the shorthand $\delta \in \sigma(X)$ for $\sigma(\delta) \subset \sigma(X
 \end{enumerate}
  
 
-%\subsection{Solutions}
-%
-%\begin{enumerate}
-%  \item The three pictures should be as follows:
-%\begin{center}
-%	\includegraphics[width=0.9\linewidth]{figures/3-viz}
-%\end{center}
-%  \begin{enumerate}
-%    \item Graph of $X$: The $x$-axis should be a bounded segment labelled $\Omega$. The $y$-axis should be the full real line. There are several choices for the function. For example the line $y = x$ or $y = 1 - x$ on the interval $[0, 1)$ are acceptable. Other choices are possible.
-%    \item CDF: The $x$-axis should be the full real line. The $y$ axis should be the interval $[0, 1]$. The function should be zero in $(-\infty, 0]$, then affine in $[0, 1]$, then one in $[1, +\infty)$.
-%    \item Density: the $x$ axis should be the full real line. The $y$ axis should be the positive real line. The function should be the indicator on the set $[0, 1)$.
-%  \end{enumerate}
-%  \item We need to check the three conditions given in the definition of \sigmaalg:
-%  \begin{enumerate}
-%    \item Since $\events$ is a \sigmaalg, $\Omega \in \events$ and since $\events'$ is a \sigmaalg, $\Omega \in \events'$, therefore $\Omega \in \events \cap \events'$.
-%    \item We need to show that if $A_1, A_2, \dots$ are all in $\events \cap \events'$, then $\cap A_i \in \events \cap \events'$. By the definition of intersection, we have that $A_1, A_2, \dots$ are all in $\events$. Since $\events$ is a \sigmaalg, it follows that $\cap A_i \in \events$. By the same reasoning, $\cap A_i \in \events'$. Therefore, $\cap A_i \in \events \cap \events'$.
-%    \item We need to show that if $A \in \events \cap \events'$, then $A^\complement \in \events \cap \events'$. By the definition of intersection, we have that $A \in \events$. Since $\events$ is a \sigmaalg, it follows that $A^\complement \in \events$. By the same reasoning, $A^\complement \in \events'$. Therefore, $A^\complement \in \events \cap \events'$.
-%  \end{enumerate}
-%  \item We have that $X: \Omega \to \states$ and $g : \states \to \states'$ are random variables. Let us denote by $\events_\Omega, \events_{\states}$ and $\events_{\states'}$ the \sigmaalg\ on $\Omega$, $\states$ and $\states'$ respectively. Let $A \in \events_{\states'}$. We have to show that $(g \circ X)^{-1}(A) \in \events_\Omega$. First, note that $(g \circ X)^{-1}(A) = X^{-1}(g^{-1}(A))$. Since $g$ is a random variable, $g^{-1}(A) \in \events_\states$. Next, since $X$ is a random variables, $g^{-1}(A) \in \events_\states$ implies that $X^{-1}(g^{-1}(A)) \in \events_\Omega$.
-%   \item As in Section~\ref{sec:limit-properties-cdfs}, we pick $X(\omega) \defeq \sup\{x : F(x) < \omega\}$ (note that in this special case were $\Omega = [0, 1)$,  writing ``$F(x) < \omega$'' is well defined---for general $\Omega$ is would not).
-%This construction has some nice properties:
-%\begin{enumerate}
-%  \item \label{point:inv-cdf-monotone} $X$ is monotone increasing (this follows directly from the definition),
-%  \item \label{point:inv-cdf-incl-one} $X\circ F(x) \le x$ (draw a picture of a \CDF\ having flat regions to convince yourself),
-%  \item \label{point:inv-cdf-incl-two}$F\circ X(\omega) \ge \omega$ (draw a picture of a \CDF\ having discontinuities to convince yourself).
-%\end{enumerate}
-%We first use properties \ref{point:inv-cdf-incl-one} and \ref{point:inv-cdf-incl-two} to prove the following set equality:
-%\[ (X \le x) = \{\omega \in \Omega : \omega \le F(x) \}.\]
-%We show that the LHS includes the RHS and vice versa:
-%\begin{itemize}
-%  \item $\{\omega \in \Omega : \omega \le F(x) \} \subseteq (X \le x)$:
-%\begin{eqnarray*}
-%\omega \le F(x) &\Longrightarrow& X(\omega)  \le X\circ F(x)\;\text{ (from \ref{point:inv-cdf-monotone})} \\
-%&\Longrightarrow& X(\omega) \le x\;\text{(from \ref{point:inv-cdf-incl-one}).}
-%\end{eqnarray*}
-%  \item $(X \le x) \subseteq \{\omega \in \Omega : \omega \le F(x) \}$:
-%\begin{eqnarray*}
-%X(\omega) \le x &\Longrightarrow& F\circ X(\omega)  \le F(x)\;\text{ (monotonicity of CDFs)} \\
-%&\Longrightarrow& \omega \le F(x)\;\text{(from \ref{point:inv-cdf-incl-two}).}
-%\end{eqnarray*}
-%\end{itemize}
-%Finally, it follows that:
-%\begin{eqnarray*}
-%\text{CDF of }X &\defeq& \P(X \le x) \\
-%&=& \P\{\omega \in \Omega : \omega \le F(x) \} \\
-%&=& F(x) \;\text{ (by the definition of uniform probability).}
-%\end{eqnarray*}
-%Here in this special case: $X(\omega) = - \lambda^{-1} \log(1 - \omega)$.
-%\item We have:
-%\begin{eqnarray*}
-%F_{X_2}(x) &\defeq& \P(X_2 \le x) \\
-%&=& \P(X_1^2 \le x) \\
-%&=& \P(-\sqrt{x} \le X_1 \le \sqrt{x}) \\
-%&=& \P(X_1 \le \sqrt{x}) \;\text{(Non-negativity assumption)} \\
-%&=& F(\sqrt{x}).
-%\end{eqnarray*}
-%\end{enumerate}
+\subsection{Solutions for exercise set 2}
+
+\begin{enumerate}
+  \item The three pictures should be as follows:
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{figures/3-viz}
+\end{center}
+  \begin{enumerate}
+    \item Graph of $X$: The $x$-axis should be a bounded segment labelled $\Omega$. The $y$-axis should be the full real line. There are several choices for the function. For example the line $y = x$ or $y = 1 - x$ on the interval $[0, 1)$ are acceptable. Other choices are possible.
+    \item CDF: The $x$-axis should be the full real line. The $y$ axis should be the interval $[0, 1]$. The function should be zero in $(-\infty, 0]$, then affine in $[0, 1]$, then one in $[1, +\infty)$.
+    \item Density: the $x$ axis should be the full real line. The $y$ axis should be the positive real line. The function should be the indicator on the set $[0, 1)$.
+  \end{enumerate}
+  \item We need to check the three conditions given in the definition of \sigmaalg:
+  \begin{enumerate}
+    \item Since $\events$ is a \sigmaalg, $\Omega \in \events$ and since $\events'$ is a \sigmaalg, $\Omega \in \events'$, therefore $\Omega \in \events \cap \events'$.
+    \item We need to show that if $A_1, A_2, \dots$ are all in $\events \cap \events'$, then $\cap A_i \in \events \cap \events'$. By the definition of intersection, we have that $A_1, A_2, \dots$ are all in $\events$. Since $\events$ is a \sigmaalg, it follows that $\cap A_i \in \events$. By the same reasoning, $\cap A_i \in \events'$. Therefore, $\cap A_i \in \events \cap \events'$.
+    \item We need to show that if $A \in \events \cap \events'$, then $A^\complement \in \events \cap \events'$. By the definition of intersection, we have that $A \in \events$. Since $\events$ is a \sigmaalg, it follows that $A^\complement \in \events$. By the same reasoning, $A^\complement \in \events'$. Therefore, $A^\complement \in \events \cap \events'$.
+  \end{enumerate}
+  \item We have that $X: \Omega \to \states$ and $g : \states \to \states'$ are random variables. Let us denote by $\events_\Omega, \events_{\states}$ and $\events_{\states'}$ the \sigmaalg\ on $\Omega$, $\states$ and $\states'$ respectively. Let $A \in \events_{\states'}$. We have to show that $(g \circ X)^{-1}(A) \in \events_\Omega$. First, note that $(g \circ X)^{-1}(A) = X^{-1}(g^{-1}(A))$. Since $g$ is a random variable, $g^{-1}(A) \in \events_\states$. Next, since $X$ is a random variables, $g^{-1}(A) \in \events_\states$ implies that $X^{-1}(g^{-1}(A)) \in \events_\Omega$.
+  \item Examples are common. The uniform distribution on $[0, 1/2)$ has height 2.
+   \item As in Section~\ref{sec:limit-properties-cdfs}, we pick $X(\omega) \defeq \sup\{x : F(x) < \omega\}$ (note that in this special case were $\Omega = [0, 1)$,  writing ``$F(x) < \omega$'' is well defined---for general $\Omega$ is would not).
+	This construction has some nice properties:
+	\begin{enumerate}
+	  \item \label{point:inv-cdf-monotone} $X$ is monotone increasing (this follows directly from the definition),
+	  \item \label{point:inv-cdf-incl-one} $X\circ F(x) \le x$ (draw a picture of a \CDF\ having flat regions to convince yourself),
+	  \item \label{point:inv-cdf-incl-two}$F\circ X(\omega) \ge \omega$ (draw a picture of a \CDF\ having discontinuities to convince yourself).
+	\end{enumerate}
+	We first use properties \ref{point:inv-cdf-incl-one} and \ref{point:inv-cdf-incl-two} to prove the following set equality:
+	\[ (X \le x) = \{\omega \in \Omega : \omega \le F(x) \}.\]
+	We show that the LHS includes the RHS and vice versa:
+	\begin{itemize}
+	  \item $\{\omega \in \Omega : \omega \le F(x) \} \subseteq (X \le x)$:
+	\begin{eqnarray*}
+	\omega \le F(x) &\Longrightarrow& X(\omega)  \le X\circ F(x)\;\text{ (from \ref{point:inv-cdf-monotone})} \\
+	&\Longrightarrow& X(\omega) \le x\;\text{(from \ref{point:inv-cdf-incl-one}).}
+	\end{eqnarray*}
+	  \item $(X \le x) \subseteq \{\omega \in \Omega : \omega \le F(x) \}$:
+	\begin{eqnarray*}
+	X(\omega) \le x &\Longrightarrow& F\circ X(\omega)  \le F(x)\;\text{ (monotonicity of CDFs)} \\
+	&\Longrightarrow& \omega \le F(x)\;\text{(from \ref{point:inv-cdf-incl-two}).}
+	\end{eqnarray*}
+	\end{itemize}
+	Finally, it follows that:
+	\begin{eqnarray*}
+	\text{CDF of }X &\defeq& \P(X \le x) \\
+	&=& \P\{\omega \in \Omega : \omega \le F(x) \} \\
+	&=& F(x) \;\text{ (by the definition of uniform probability).}
+	\end{eqnarray*}
+	Here in this special case: $X(\omega) = - \lambda^{-1} \log(1 - \omega)$.
+	\item We have:
+	\begin{eqnarray*}
+	F_{X_2}(x) &\defeq& \P(X_2 \le x) \\
+	&=& \P(X_1^2 \le x) \\
+	&=& \P(-\sqrt{x} \le X_1 \le \sqrt{x}) \\
+	&=& \P(X_1 \le \sqrt{x}) \;\text{(Non-negativity assumption)} \\
+	&=& F(\sqrt{x}).
+	\end{eqnarray*}
+\end{enumerate}
 
 
 \section{Integration and expectation} 
@@ -1027,7 +1030,7 @@ So far, we have assumed that the Lebesgue integral was computed with respect to 
 \end{enumerate}
 
 
-\subsection{More on exchanging limits and integrals}
+\subsection{More on exchanging limits and integrals}\label{sec:exchange-lim}
 
 The monotone convergence theorem (Section~\ref{sec:approxAndMCT}) says that we can exchange integrals and limits \emph{when the sequence of function is increasing} ($X_1 \le X_2 \le \dots$). Is this necessary?
 
@@ -1652,6 +1655,9 @@ X_2 &=& \1_{[1/2,1/2+1/3]\text{ mod }2\pi}\\
 X_3 &=& \1_{[1/2+1/3,1/2+1/3+1/4]\text{ mod }2\pi}\\
 &\vdots&
 \end{eqnarray*}
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{figures/moving-blip} 
+\end{center}
 
 \point{Proposition:} convergence a.s. implies convergence in probability.
 
@@ -1688,7 +1694,14 @@ It follows that $\lim_{k\to\infty} \P(A_k) = 0$.
 
 \point{Proposition (Portmanteau):} definition 1 and 2 are in fact equivalent.
 
-\point{Intuition} regarding why we do not require convergence of the CDF at atomic points: otherwise, our nice hierarchy in Section~\ref{sec:conv-types-big-picture} would not hold! Consider: $X_n = 1/n$.
+\point{Intuition} regarding why we do not require convergence of the CDF at atomic points: otherwise, our nice hierarchy in Section~\ref{sec:conv-types-big-picture} would not hold! Consider: $X_n = 1/n$. Show it converge in probability to zero:
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/conv-dist-counter} 
+\end{center}
+however the limit of the cdfs at zero is equal to zero but the cdf of the limit at zero is one:
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/conv-dist-counter-2} 
+\end{center}
 
 \point{We can now formalize the CLT:} if $X_1, X_2, \dots$ are idd with $E X_1^2 = 1$ and $\E X_1 = 0$, then:
 \[ \frac{X_1 + \dots + X_n}{\sqrt{n}} \dcv Y, \]
@@ -1718,6 +1731,25 @@ The next questions we will explore are (1) how to prove this CLT result and exte
   \item Subsequence characterization of convergence in probability: $X_n \pcv X$ if and only if for all subsequence $n_k$, there is a further subsequence $n_{k_i}$ such that $X_{n_{k_i}} \ascv X$.
   \item Skorokhod representation: suppose $X_n \dcv X$, then there exists $Y_n$ and $Y$ such that $Y_n, Y: \Omega \to \R$, $Y_n \deq X_n$, $Y \deq X$, and $Y_n \ascv Y$.
 \end{itemize}
+
+
+\subsection{Convergence in $L^p$}
+
+\point{Definition:} $\E |X_n - X|^p \to 0$, denoted $X_n \lpcv X$. Special cases are called ``convergence in mean'' (for $p=1$) or ``convergence in mean square'' (for $p=2$).
+
+\point{Exercise:} show $X_n \lpcv X$ implies $X_n \pcv X$. Hint: use Markov's inequality.
+
+\point{Exercise:} the converse is not true. Hint: use the example from Section~\ref{sec:exchange-lim}. 
+
+\point{Hierarchy:} This extends Section~\ref{sec:conv-types-big-picture} into:
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/types-of-conv} 
+\end{center}
+
+\point{Partial converse:} back to the relation between convergence in probability and convergence in mean. For $p=1$, we have $X_n \pcv X$ implies $X_n \lpcv X$ if and only if they are \emph{uniformly integrable}, defined as: for all $\epsilon > 0$, there is $K > 0$ such that $\sup \E[|X| \1(|X| \ge K)] \le \epsilon$. 
+
+\point{Exercise:} check that indeed the example from Section~\ref{sec:exchange-lim} is not uniformly integrable.
+
 
 \subsection{Generating functions and Central Limit Theorem} 
 
@@ -2099,6 +2131,25 @@ Suppose in the remaining of the section that $Y \in \L_2$.
   \item Jensen's inequality.
   \item Chebyshev.
 \end{enumerate}
+
+
+\subsection{Geometric view: more details on triangle inequality}
+
+\point{Minkowski inequality:} is usually proven using \emph{Cauchy-Schwarz inequality}, which is a must-know itself.
+
+\point{Cauchy-Schwarz:} $|\dotprod{u}{v}| \le \| u \|_2 \| v \|_2$, where $\dotprod{\cdot}{\cdot}$ denotes an inner product, e.g. $\dotprod{X}{Y} = \E[X Y]$. This result should be pretty intuitive: suppose you have two vectors $u$ and $v$ of fixed length and you want to maximize their dot product. How to do this? Make them point in the same direction! In this case we actually get equality. The proof follows from $(a - b)^2 \ge 0$ hence $2ab \le a^2 + b^2$.
+
+\point{Minkowski from Cauchy-Schwarz:} 
+\begin{align*}
+\| X + Y \|_2^2 &= \E | X + Y |^2 \\
+&\le \E [ (|X| + |Y|) |X + Y| ] \\
+&= \E [ |X||X + Y| ] + \E [ |Y||X + Y| ] \\
+&\le \| X \|_2 \|X + Y\|_2 + \| Y \|_2 \|X + Y\|_2 \;\text{ (using Cauchy-Schwarz)}  \\
+&= ( \| X \|_2 + \| Y \|_2 ) \|X + Y\|_2 \\
+&= ( \| X \|_2 + \| Y \|_2 ) \frac{ \|X + Y\|^2_2 }{ \|X + Y\|_2}.
+\end{align*} 
+
+\point{Generalizations:} to go from $L^2$ to $L^p$ is easy. See Holder's inequality. 
 
 
 \subsection{Conditional independence and Bayes Ball algorithm}
