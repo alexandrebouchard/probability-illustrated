@@ -62,9 +62,9 @@ There are many other motivations. I will just mention two more quickly:
 	\item Certain results about expectations are easier to state and hold more generally under the measure-theoretic definition of expectations.
 	\item Establishing independence can in certain case be much easier under the measure theoretic definition of independence.
 \end{enumerate}
-However in my view the main motivation is that a big chunk of the literature is written in the language of measure theory. This course will prepare you so that you can be fearless. 
+However in my view the main motivation is that a big chunk of the literature is written in the language of measure theory. This course will prepare you so that you can be fearless when reading the stat literature. 
 
-The danger is to be too formal and that the notation gets in the way of the intuition. I will avoid this pitfall. I will also skip the tedious details that are not useful in practice, e.g. certain proofs of existence, especially if they do not reveal a technique more broadly applicable 
+The danger is to be too formal and that the notation gets in the way of the intuition. I will avoid this pitfall. I will also skip the tedious details that I find less useful in statistics, e.g. certain proofs of existence, especially if they do not reveal a technique more broadly applicable 
 
 
 \subsection{The basic vocabulary of probability}
@@ -73,13 +73,13 @@ The axioms of probability, formulated by Kolmogorov in the 1930s, provide a voca
 
 \point{Recurrent example:} imagine an infinite railroad, modelled by the integers $\Z = \{\dots, -3, -2, -1, 0, 1, 2, 3, \dots\}$. A train starts at position zero. At every time step,the train operator flips a coin. If the coin shows heads, the train moves left by one unit. Otherwise, the train moves to the right by one unit. 
 
-We will look at two versions of this example, version A, where there is fuel limit which restricts the train to 3 moves, and version B, where there is no fuel limit. 
+We will look at two versions of this example, version A, where there is fuel limit which restricts the train to six moves, and version B, where there is no fuel limit. 
 
 Let us start with version A. 
 
-\point{Outcomes/scenarios:} several scenarios can arise from the dice-driven train ``story'' or ``experiment''. For example the train could go left, right, left. Or it could go left, right, right. We will call these two scenarios, two \emph{outcomes}. The usual letter for one outcome is $\omega$ or $s$. 
+\point{Outcomes/scenarios:} several scenarios can arise from the dice-driven train ``story'' or ``experiment''. For example the train could go left, right, left, right, right, left. Or it could go left, right, right, right, right, left. We will call these two scenarios, two \emph{outcomes}. The usual letter for one outcome is $\omega$ or $s$. 
 
-To help visualization, we will draw one outcome in the time series example as a graph where the x-axis is time $t$ and the y-axis is the position at time $t$. Here is one example for version A (finite fuel):
+To help visualization, we will draw one outcome in the time series example as a graph where the x-axis is time $t$ and the y-axis is the position at time $t$. Here is one example for version A:
 \begin{center}
 \includegraphics[width=0.5\linewidth]{figures/train1}
 \end{center}
@@ -90,7 +90,7 @@ and for version B (infinite fuel):
 
 \point{Definition:} The set of all possible outcomes is called the \emph{sample space}, which I will denote by $\Omega$ or $S$. 
 
-\point{Example:} what is the size or cardinality of $\Omega$ (i.e. the number of elements in it) for our recurrent example version A? I will denote the size by $|\Omega|$. Answer: $2^3$ because there are three bits each free to take two possible values, $2 \cdot 2 \cdot 2$. We conclude that the probability of any given outcome in version A is $1/8$. Note that 
+\point{Example:} what is the size or cardinality of $\Omega$ (i.e. the number of elements in it) for our recurrent example version A? I will denote the size by $|\Omega|$. Answer:$2^6$ because there are six bits each free to take two possible values. We conclude that the probability of any given outcome in version A is $1/64$. Note that 
 \[ \sum_{\omega \in \Omega} \text{probability of outcome $\omega$} = 1. \]
 Here is a picture for the train version A example:
 \begin{center}
@@ -716,7 +716,7 @@ where $\cap A_i = (X \le x)$, therefore $\P(\cap A_i) = F(x)$.
 
 \point{Proposition:} let $F : \R \to [0, 1]$ be some function. The following are equivalent:
 \begin{enumerate}
-  \item \label{item:inv-cdf-eq1} The function $F$ is cadlag and satisfies the boundary conditions $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to +\infty} F(x) = 1$ (denoted $F(-\infty) = 0$ and $F(+\infty) = 1$),
+  \item \label{item:inv-cdf-eq1} The function $F$ is non-decreasing, cadlag and satisfies the boundary conditions $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to +\infty} F(x) = 1$ (denoted $F(-\infty) = 0$ and $F(+\infty) = 1$),
   \item \label{item:inv-cdf-eq2} There is some random variable $X$ with $F_X = F$.
 \end{enumerate}
 
@@ -758,14 +758,14 @@ In an optional question in the assignment, you will show: $\sigma(\delta) \subse
 
 We use the shorthand $\delta \in \sigma(X)$ for $\sigma(\delta) \subset \sigma(X)$.
 
-\point{Exercise:} To get a feeling for what this means, consider $X$ as the value on two dice, and $Y$ as the sum. We want an estimator for $X_1$. Consider $\delta_1 = 6 \1[Y > 6] + 1 \1[Y \le 6]$ and $Y = X_1$. Check $\delta_1 \in \sigma(Y)$ but $\delta_2 \notin \sigma(Y)$.
+\point{Exercise:} To get a feeling for what this means, consider $X = (X_1, X_2)$ as the value on two dice, and $Y$ as the sum. We want an estimator for $X_1$. Consider $\delta_1 = 6 \1[Y > 6] + \1[Y \le 6]$ and $\delta_2 = X_1$. Check $\delta_1 \in \sigma(Y)$ but $\delta_2 \notin \sigma(Y)$.
 
 \point{Answer:} 
 \begin{align*}
 \Omega &= \{ (i, j) : i,j \in \{1, 2, \dots, 6\} \\
 \sigma(X) &= 2^{\Omega} \\
 \sigma(Y) &= \sigma(\{\{(1,1)\}, \{(2,1), (1,2)\}, \{(1,3),(2,2),(3,1)\}, \dots, \{(6,6)\}\}) \\
-&= \sigma( \{ \{(i,j) : i + j = k\}   : k = 1, 2, \dots, 12  \} ) \\
+&= \sigma( \{ \{(i,j) : i + j = k\}   : k = 2, 3, \dots, 12  \} ) \\
 \sigma(\delta_1) &= \sigma( \{ \{(i,j) : i + j < 6\}, \{(i,j) : i + j \ge 6\}  \} ). 
 \end{align*}
 
@@ -773,7 +773,7 @@ We use the shorthand $\delta \in \sigma(X)$ for $\sigma(\delta) \subset \sigma(X
 \subsection{Exercise set 2}
 
 \begin{enumerate}
-  \item Let $X$ be a random variable with a uniform distribution on $[0, 1)$. Draw a possible graph of $X$, a density for $X$, and the \CDF\ of $X$.
+  \item Let $X$ be a random variable with a uniform distribution on $[0, 2)$. Draw a possible graph of $X$, a density for $X$, and the \CDF\ of $X$.
   \item Solve the exercise in Section~\ref{sec:generated}.
   \item Solve the exercise in Section~\ref{sec:composition-of-rv}.
   \item Solve the exercise in Section~\ref{sec:density-first-def}.
@@ -886,9 +886,9 @@ In probability theory and Bayesian statistics, there is often a ``global'' proba
 \point{Notation in probability theory/Bayesian statistics:} 
 \[ \E[X] \defeq \int X \ud \P. \]
 
-In frequentist Bayesian statistics, there is often a collection of probabilities indexed by a parameter $\theta$, i.e. $\{\P_\theta : \theta \in \Theta\}$. When this is the case:
 
-\point{Notation in frequentist statistics:}
+
+\point{Frequentist statistics:} in this branch of statistics, there is often a collection of probabilities indexed by a parameter $\theta$, i.e. $\{\P_\theta : \theta \in \Theta\}$. When this is the case:
 \[ \E_\theta[X] \defeq \int X \ud \P_\theta. \]
 
 
@@ -934,7 +934,7 @@ where the $A_i$ are assumed to be disjoint.
 \point{Exercise:} prove this property holds for the above definition of integral of simple functions.
 
 
-\subsection{Area under graph of non-negative random variables}
+\subsection{Area under graph of non-negative random variables}\label{sec:area-non-neg}
 
 Now, how to define the area under the graph of an arbitrary non-negative random variable? We make use of our previous definition for simple functions:
 
@@ -948,13 +948,13 @@ Now, how to define the area under the graph of an arbitrary non-negative random 
 
 To avoid having to deal with an uncountable collection we follow a two steps strategy:
 \begin{enumerate}
-  \item expresss the random variable to integrate $X$ as the limit of a sequence of increasing and simple random variables. This is done using: \\\point{Proposition:} (approximation by simple functions) For any random variable $X \ge 0$, there exists a sequence of random variables $0 \le Y_1 \le Y_2 \le \dots$ such that:
+  \item express the random variable to integrate $X$ as the limit of a sequence of increasing and simple random variables. This is done using: \\\point{Proposition:} (approximation by simple functions) For any random variable $X \ge 0$, there exists a sequence of random variables $0 \le Y_1 \le Y_2 \le \dots$ such that:
    \begin{enumerate}
      \item each $Y_n$ is simple, and
      \item for all $\omega \in \Omega$, $\lim_{n\to\infty} Y_n(\omega) = X(\omega)$ (this property is known as \point{pointwise convergence}, denoted $Y_n \to X$, or in this case since the r.v. are additionally increasing, $Y_n \uparrow X$).
    \end{enumerate}
   \item We will use the \point{monotone convergence theorem (MCT)} to exchange the limit and integral: if $0 \le Y_1 \le Y_2 \le \dots$ are non-negative random variables (not necessarily simple, although they are in this specific context), then 
-\[ \underbrace{ \int (\lim_{n\to\infty} X_n) \ud \P}_{\text{hard!}} = \lim_{n\to\infty} \underbrace{\int X_n \ud \P.}_{\text{easier!}} \]
+\[ \underbrace{ \int (\lim_{n\to\infty} Y_n) \ud \P}_{\text{hard!}} = \lim_{n\to\infty} \underbrace{\int Y_n \ud \P.}_{\text{easier!}} \]
 \end{enumerate}
 
 \point{Proof idea} of the proposition on approximation by simple functions: 
@@ -1013,7 +1013,7 @@ For a general random variable $X$:
   \item when both $I^{+}$ and $I^-$ are finite, we say $X$ is \emph{integrable}, denoted $X \in \L_1$. 
 \end{itemize}
 
-\point{Exercise:} find a random variable $X \neq \L_1$ such that $\E X$ exists. Find a random variable $Y$ where $\E Y$ is not defined. 
+\point{Exercise:} find a random variable $X \notin \L_1$ such that $\E X$ exists. Find a random variable $Y$ where $\E Y$ is not defined. 
 
 
 \subsection{Integrals with respect to a measure}
@@ -1057,7 +1057,7 @@ As a direct consequence of the axioms of probability, an empty event has probabi
 For this reason, it is often possible to relax a statement like ``$|X_i| \le Y$'' in the previous statement to a statement like ``$|X_i| \le Y$ except for a set of probability zero.'' This second statement is formalized as $\P(|X_i| \le Y \text{ for all }i) = 1$, and denoted ``$|X_i| \le Y$ a.s.''
 
 
-\subsection{Convexity and integration}
+\subsection{Convexity and integration}\label{sec:convexity}
 
 \point{Review:} convexity. A function $g : \R \to \R$ is convex if for all $x_1, x_2 \in \R$ and $\lambda \in [0, 1]$, 
 \[ \lambda g(x_1) + (1 - \lambda) g(x_2) \ge g(\lambda x_1 + (1 - \lambda) x_2). \]
@@ -1097,7 +1097,7 @@ Finally, taking sup over $n$ on both sides:
 \point{Application:} the variance is defined as $\var[X] \defeq \E[(X - \mu)^2]$, where $\mu = \E X$. By computing the square and linearity, this last equation is equal to $\E[X^2] - (\E X)^2$.  Therefore, Jensen's inequality gives us another proof that the variance is non-negative.
 
 
-\subsection{Markov's inequality and its friends}
+\subsection{Markov's inequality and its friends}\label{sec:markov}
 
 \point{Motivation:} let $X$ be the water level near a dam of height of 7.5m. What is the probability of a flood? All you know is that the mean water level is 5m.
 
@@ -1173,26 +1173,7 @@ When we cannot rewrite the event using the methods described in Sections~\ref{se
 We will soon see in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$ implies $\P(A_1) \le \P(A_2)$.
 
 
-\subsection{Exercises}
 
-\begin{enumerate}
-  \item Solve the first exercise (linearity in the case of simple functions) of Section~\ref{sec:area-simple-function}.
-\end{enumerate}
-
-
-%\subsection{Solutions}
-%
-%\begin{enumerate}
-%  \item First, we show that $Y + Y'$ is a simple function (this will allow us to use the easy definition of expectation given in Section~\ref{sec:area-simple-function}). Write $Y = \sum_{i=1}^N a_i \1_{A_i}$, and $Y' = \sum_{j=1}^M b_j \1{B_j}$ and assume without loss of generality that $A_i$ forms a partition, and that $B_j$ forms another partition.\footnote{Otherwise, add one more block $A_{N+1} = \cup_{i=1}^N A_i$ with $a_{N+1} = 0$. Same for $B_j$.} Consider the sets $\{C_{i,j} = A_i \cap B_j : 1\le i \le N, 1\le j \le M\}$. Note that the $C_{i,j}$ are clearly disjoint, and that on $C_{i,j}$, $(Y + Y')$ is equal to $a_i + b_j$. Therefore:
-%\begin{eqnarray*}
-%\E[Y + Y'] &=& \sum_{i,j} (a_i + b_j) \P(C_{i,j}) \\
-%&=& \sum_{i,j} a_i \P(C_{i,j}) + \sum_{i,j} b_j \P(C_{i,j}) \\
-%&=& \sum_{i} a_i \sum_j \P(C_{i,j}) + \sum_{j} b_j \sum_i \P(C_{i,j}) \\
-%&=& \sum_{i} a_i  \P(\cup_j C_{i,j}) + \sum_{j} b_j  \P(\cup_i C_{i,j}) \;\text{(since the }C_{i,j}\text{ are disjoint)} \\
-%&=& \sum_{i} a_i  \P(A_i) + \sum_{j} b_j  \P(B_j) \;\text{(since }\{A_{i}\}\text{ is a partitions, similarly for }\{B_{j}\} \text{ )} \\
-%&=& \E[Y] + \E[Y'].
-%\end{eqnarray*}
-%\end{enumerate}
 
 
 \section{Independence}
@@ -1247,7 +1228,7 @@ These definitions follow directly from the univariate case:
 \point{Note:} these definitions can be generalized to more than two dimensions.
 
 
-\subsection{Determining classes}
+\subsection{Determining classes}\label{sec:determining-classes}
 
 In this section, we explain the tool used to prove the characterization statement of the previous section.
 
@@ -1322,6 +1303,78 @@ Since the moment generating function for individual variables are often easy to 
 \point{Proof:} compute the moment generating function of a Bernoulli. Then use calculus to minimize over $t$. Then plug-in the minimum. Use the variable $Y_i = 1 - X_i$ to establish the other side of the bound.
 
 \point{Other versions:} see the wikipedia page for many more bounds derived from this.  
+
+
+\subsection{Exercise set 3}
+
+\begin{enumerate}
+	\item Exercise in Section~\ref{sec:area-simple-function} about  linearity in the case of simple functions.
+	\item Solve the two exercises in Section~\ref{sec:convexity}.
+	\item Motivating exercise in Section~\ref{sec:markov}.
+	\item Exercise in Section~\ref{sec:determining-classes}.
+\end{enumerate}
+
+
+%\subsection{Solutions}
+
+% For first question:
+
+%
+%\begin{enumerate}
+%  \item First, we show that $Y + Y'$ is a simple function (this will allow us to use the easy definition of expectation given in Section~\ref{sec:area-simple-function}). Write $Y = \sum_{i=1}^N a_i \1_{A_i}$, and $Y' = \sum_{j=1}^M b_j \1{B_j}$ and assume without loss of generality that $A_i$ forms a partition, and that $B_j$ forms another partition.\footnote{Otherwise, add one more block $A_{N+1} = \cup_{i=1}^N A_i$ with $a_{N+1} = 0$. Same for $B_j$.} Consider the sets $\{C_{i,j} = A_i \cap B_j : 1\le i \le N, 1\le j \le M\}$. Note that the $C_{i,j}$ are clearly disjoint, and that on $C_{i,j}$, $(Y + Y')$ is equal to $a_i + b_j$. Therefore:
+%\begin{eqnarray*}
+%\E[Y + Y'] &=& \sum_{i,j} (a_i + b_j) \P(C_{i,j}) \\
+%&=& \sum_{i,j} a_i \P(C_{i,j}) + \sum_{i,j} b_j \P(C_{i,j}) \\
+%&=& \sum_{i} a_i \sum_j \P(C_{i,j}) + \sum_{j} b_j \sum_i \P(C_{i,j}) \\
+%&=& \sum_{i} a_i  \P(\cup_j C_{i,j}) + \sum_{j} b_j  \P(\cup_i C_{i,j}) \;\text{(since the }C_{i,j}\text{ are disjoint)} \\
+%&=& \sum_{i} a_i  \P(A_i) + \sum_{j} b_j  \P(B_j) \;\text{(since }\{A_{i}\}\text{ is a partitions, similarly for }\{B_{j}\} \text{ )} \\
+%&=& \E[Y] + \E[Y'].
+%\end{eqnarray*}
+%\end{enumerate}
+
+% For last question:
+
+%	Since $\mathcal F = \sigma(\mathcal S)$, $\mathcal S \subseteq \mathcal F$ so
+%	we trivially have $1 \Rightarrow 2$.
+%	For the converse, define the following collection of sets
+%	$\lambda = \{A \in {\mathcal F} : \P_1(A) = \P_2(A)\}$.
+%	We first show that this collection is indeed a $\lambda$-system.
+%	\begin{enumerate}
+%		\item $\Omega \in \lambda$ since $\Omega \in \mathcal F$ ($\sigma$-algebra)
+%		and $\P_1(\Omega) = 1 = \P_2(\Omega)$ (probability axiom).
+%		\item Suppose $A, B \in \lambda$ and $A \subseteq B$ then
+%		\begin{equation*}
+%		\left.\begin{aligned}
+%		B \setminus A = B \cap A^c
+%		&\overset{(a)}{\in} \mathcal F
+%		\\
+%		\P_1(B \setminus A)
+%		\overset{(b)}{=} \P_1(B) - \P_1(A)
+%		&\overset{(c)}{=} \P_2(B) - \P_2(A)
+%		\overset{(b)}{=} \P_2(B \setminus A)
+%		\end{aligned}\right\rbrace
+%		\ 
+%		\Rightarrow
+%		B \setminus A \in \lambda
+%		\end{equation*}
+%		Because
+%		\begin{itemize}
+%			\item (a) $\sigma$-algebras are closed under countable intersections and the complement operation
+%			\item (b) property of probability and the fact that $A \subseteq B$
+%			\item (c) by assumption $A,B \in \lambda$
+%		\end{itemize}
+%		\item Consider an infinite sequence of $A_i \in \lambda$ such that
+%		$A_i \uparrow A$. $A \in \mathcal F$ because $\sigma$-algebras are closed under countable union and 
+%		\begin{equation*}
+%		\P_1(A) = \lim \P_1(A_i) = \lim \P_2(A_i) = \P_2(A)
+%		\end{equation*}
+%		by continuity of probability measures and because $A_i \in \lambda$.
+%	\end{enumerate}
+%	Therefore $\lambda$ satisfies the three conditions of $\lambda$-systems (it finally earns its name).
+%	
+%	By assumption $\mathcal S$ is a $\pi$-system because it is closed under intersection, therefore if $\P_1(A) = \P_2(A),\ \forall A \in \mathcal S$
+%	then $\mathcal S \subset \lambda$ and, by the $\pi$-$\lambda$ theorem,
+%	$\mathcal F \subset \lambda$, which completes the proof.
 
 
 \section{Computing expectations in practice}
@@ -1446,20 +1499,33 @@ Therefore by letting $a \to -\infty$ we recover the formula from Section~\ref{se
 
 \subsection{Computing the expectation of a function of independent random variables}\label{sec:expectation-indep}
 
-\point{Motivation:} back to the motivating problem of Section~\ref{sec:random-vectors}. How to formalize the compution of the expectation, $\E[\1[|X-Y| \le 1/6]]$. Let us define $g(x,y) \defeq \1[|x-y| \le 1/6]$. By our change of variable formula (Section~\ref{sec:change-of-var}), \[ \E[ g(X,Y) ] = \int g \P_{X,Y}. \]
+\point{Motivation:} back to the motivating problem of Section~\ref{sec:random-vectors}. How to formalize the compution of the expectation, $\E[\1[|X-Y| \le 1/6]]$. Let us define $g(x,y) \defeq \1[|x-y| \le 1/6]$. By our change of variable formula (Section~\ref{sec:change-of-var}), \[ \E[ g(X,Y) ] = \int g \ud \P_{X,Y}. \]
 
-Now our independence assumption on the arrival times of the woman and man means that $\P_{X_1,X_2}(A_1 \times A_2) = \P_{X_1}(A_1) \P_{X_2}(A_2)$. To solve this last integral, we use this independence statement and the following theorem:
+Now our independence assumption on the arrival times of the woman and man means that $\P_{X_1,X_2}(A_1 \times A_2) = \P_{X_1}(A_1) \P_{X_2}(A_2)$. To solve this last integral, we use this independence statement and the following theorems:
 
-\point{Fubini:} if $g \ge 0$, and $\mu \times \mu$ is such that $\mu \times \mu(A_1 \times A_2) = \mu_1(A_1) \mu_2(A_2)$ (think of $\mu \times \mu$ as $\P_{X,Y}$, $\mu_1$ as $\P_X$ and $\mu_2$ as $\P_Y$), then:
+\point{Tonelli:} if $g \ge 0$, and $\mu \times \mu$ is such that $\mu \times \mu(A_1 \times A_2) = \mu_1(A_1) \mu_2(A_2)$ (think of $\mu_1$ and $\mu_2$ as the marginal distributions of two \emph{independent} random variables, i.e. $\mu \times \mu$ as $\P_{X,Y}$, $\mu_1$ as $\P_X$ and $\mu_2$ as $\P_Y$), then:
 \begin{eqnarray*}
-\int g \ud(\mu_1 \times \mu_2) &=& \int \left( \int g \ud \mu_1 \right) \mu_2 \\
-&=& \int \left( \int g \ud \mu_2 \right) \mu_1,
+\int g \ud(\mu_1 \times \mu_2) &=& \int \left( \int g \ud \mu_1 \right) \ud \mu_2 \\
+&=& \int \left( \int g \ud \mu_2 \right) \ud \mu_1,
 \end{eqnarray*}
 in other words, we can approach the problem as iterated univariate integrals, and do so in any order we wish.
 
-\noindent This is nice because the inner integral is just over the real line, so we can use our density $f$ of $X_1$ and calculus at this point.
+\point{Fubini:} same statement as Tonelli, but instead of requiring $g \ge 0$, we ask that $\int |g| \ud(\mu_1 \times \mu_2) < \infty$. How to prove this finite absolute value condition? By first applying Tonelli on $|g| \ge 0$!
+
+\noindent Being able to write joint integrals as iterated ones is nice because the inner integral is just over the real line, so we can use our density $f$ of $X_1$ and calculus at this point.
 
 \point{Corollary:} $X$ and $Y$ are independent if and only if for all measurable $g_i \ge 0$, \[ \E[g_1(X) g_2(Y) ] = \E[g_1(X)] \E[g_2(Y)]. \]
+
+\point{Solving the meeting problem:} by Fubini, we have
+\[ \int g \P_{X,Y} = \int \left( \int g \ud \P_X \right) \ud \P_Y. \]
+Now the inner integral can be rewritten as an integral over $[0, 1]$ using the density question in the first assignment:
+\[ \int \left( \int g \ud \P_X \right) \ud \P_Y = \int \left( \int f(x) g(x,y) \ud x \right) \ud \P_Y, \]
+where $f(x)$ is the uniform density over $[0, 1]$, $f(x) = \1_{[0, 1]}(x)$. Applying the same argument to the outer integral, we get:
+\[ \int \left( \int f(x) g(x,y) \ud x \right) \ud \P_Y = \int f(y) \int f(x) g(x,y) \ud x \ud y, \]
+which is the area of the dashed region in the following figure: 
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/meeting}
+\end{center}
 
 \point{Important:} the above should not be confused with \emph{uncorrelated random variables}: $X$ and $Y$ are uncorrelated if and only if \[ \E[XY] = \E[X] \E[Y]. \]
 
@@ -1491,9 +1557,27 @@ Let us continue the discussion of Section~\ref{sec:using-rv-to-construct-prs}, o
 \point{But:} in the light of Section~\ref{sec:expectation-indep}, all we need to know to compute expectation is (1) to know that the random variables are independent and (2) the distribution of each random variable $X_i$ (called the ``marginal distributions'').
 
 
+\subsection{Computing expectation using the cumulative distribution function}
+
+\point{Idea:} consider the following identity, which holds true for all $x \ge 0$, 
+\[ x = \int_0^\infty \1[x > t] \ud t. \]
+Now let us integrate both sides and use Fubini:
+\[ \E X = \int_\Omega X \ud \P = \int_\Omega \int_0^\infty \1[X > t] \ud t \ud \P =  \int_0^\infty \int_\Omega \1[X > t] \ud \P  \ud t, \]
+which yields:
+\[ \E X = \int_0^\infty \P[X > t] \ud t = \int_0^\infty (1 - F_X(t))  \ud t. \]
+
+% transformations
+
+% exchange derivative and integrals
+
+% more factoids about integrals
+
+
 \section{Asymptotics}
 
 \subsection{Infinitely often and eventually}\label{sec:io-ev}
+
+\point{Motivation:} Let $X_1, X_2, X_3, \dots$ be iid non-atomic (continuous) random variables representing the best performance achieved in a sport (e.g. 100m freestyle) at consecutive olympic games. Let $R_n$ denote the indicator variable that a record is broken at olympic $n$ (i.e. $R_n = 1$ if $X_n > X_j$ for all $j = 1, 2, \dots, n-1$, and $R_n = 0$ otherwise). Let $A_n = (R_n = 1)$. What is the probability that records are broken infinitely often? One! Let $B_n = (R_n R_{n+1} = 1)$. What is the probability that records are broken in two consecutive years infinitely often? Zero! Why? And how to define ``infinitely often'' formally?
 
 \point{Definition:} Let $A_n$ denote an infinite collection of events, $n\in\{1,2,3,\dots\}$ (not necessarily nested). We create two new events from these:
 \begin{eqnarray*}
@@ -1965,7 +2049,7 @@ The interpretation of $E$ is that you know the true outcome is somewhere in $E$,
 The conditional expectation of $X$ given $Y$ is a new estimator random variable $\delta = f(Y)$, which can be interpreted as the ``best'' estimator of $X$ based on $Y$. Notation: this random variable $\delta$ is denote by $\E[X|Y]$.
 
 \point{Notion of optimality:} consider the optimization program
-\[ \text{minimize} \E(f(Y) - X)^2, \]
+\[ \text{minimize}\ \E(f(Y) - X)^2, \]
 where minimization is performed over functions $f$ (technically, over measurable functions). If a function $f^*$ maximizes this program and give a finite value to the objective function, then $\E[X|Y] \defeq f^*(Y)$.
 
 \point{Exercise:} show that in the two children problem, you obtain:
@@ -2137,7 +2221,7 @@ Suppose in the remaining of the section that $Y \in \L_2$.
 
 \point{Minkowski inequality:} is usually proven using \emph{Cauchy-Schwarz inequality}, which is a must-know itself.
 
-\point{Cauchy-Schwarz:} $|\dotprod{u}{v}| \le \| u \|_2 \| v \|_2$, where $\dotprod{\cdot}{\cdot}$ denotes an inner product, e.g. $\dotprod{X}{Y} = \E[X Y]$. This result should be pretty intuitive: suppose you have two vectors $u$ and $v$ of fixed length and you want to maximize their dot product. How to do this? Make them point in the same direction! In this case we actually get equality. The proof follows from $(a - b)^2 \ge 0$ hence $2ab \le a^2 + b^2$.
+\point{Cauchy-Schwarz:} $|\dotprod{u}{v}| \le \| u \|_2 \| v \|_2$, where $\dotprod{\cdot}{\cdot}$ denotes an inner product, e.g. $\dotprod{X}{Y} = \E[X Y]$. This result should be pretty intuitive: suppose you have two vectors $u$ and $v$ of fixed length and you want to maximize their dot product. How to do this? Make them point in the same direction! In this case we actually get equality. The proof follows from a generalization of the fact that $(a - b)^2 \ge 0$ hence $2ab \le a^2 + b^2$.
 
 \point{Minkowski from Cauchy-Schwarz:} 
 \begin{align*}
@@ -2149,7 +2233,7 @@ Suppose in the remaining of the section that $Y \in \L_2$.
 &= ( \| X \|_2 + \| Y \|_2 ) \frac{ \|X + Y\|^2_2 }{ \|X + Y\|_2}.
 \end{align*} 
 
-\point{Generalizations:} to go from $L^2$ to $L^p$ is easy. See Holder's inequality. 
+\point{Generalizations:} to go from $L^2$ to $L^p$, $p \ge 1$ is easy. Search \emph{H\"{o}lder's inequality} and use that instead of Cauchy-Schwarz in the above argument. 
 
 
 \subsection{Conditional independence and Bayes Ball algorithm}
