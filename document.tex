@@ -344,17 +344,21 @@ We already have enough tools to formulate and solve many interesting problems in
 		\item When a patient does not have the disease, the test will turn positive 1\% of the time (false positive)
 	\end{itemize}
 	Given that the test is positive, what is the updated (posterior) probability that the patient is indeed affected by HIV?
-	% ~33 
+	% ~33
+
 	Suppose now 25\% of the population has HIV.
 	Given that the test is positive, what is the updated (posterior) probability that the patient is indeed affected by HIV? What happens if the prevalence of the disease is very small instead?
 	% ~97%
 	\item There are 3 kindergarten classrooms and 9 kindergarten students in a school. The children are lined up and assigned to classrooms in turn. The principal claims the assignment is uniform over all possible assignments. The classrooms 
-	have the following capacities: 
+	have the following capacities:
+
 	\begin{itemize}
-		\item Classroom (a): 4 students 
+		\item Classroom (a): 4 students
+
 		\item Classroom (b): 3 students
 		\item Classroom (c): 2 students
-	\end{itemize} 
+	\end{itemize}
+
 	You are fifth in the list of children. What is the probability that you get assigned to class (a)? 
 \end{enumerate}
 
@@ -1312,66 +1316,74 @@ Since the moment generating function for individual variables are often easy to 
 \end{enumerate}
 
 
-\subsection{Solutions}
 
-\point{First question:}
-
-
+\subsection{Solutions for exercise set 3}
 \begin{enumerate}
-  \item First, we show that $Y + Y'$ is a simple function (this will allow us to use the easy definition of expectation given in Section~\ref{sec:area-simple-function}). Write $Y = \sum_{i=1}^N a_i \1_{A_i}$, and $Y' = \sum_{j=1}^M b_j \1{B_j}$ and assume without loss of generality that $A_i$ forms a partition, and that $B_j$ forms another partition.\footnote{Otherwise, add one more block $A_{N+1} = \cup_{i=1}^N A_i$ with $a_{N+1} = 0$. Same for $B_j$.} Consider the sets $\{C_{i,j} = A_i \cap B_j : 1\le i \le N, 1\le j \le M\}$. Note that the $C_{i,j}$ are clearly disjoint, and that on $C_{i,j}$, $(Y + Y')$ is equal to $a_i + b_j$. Therefore:
-\begin{eqnarray*}
-\E[Y + Y'] &=& \sum_{i,j} (a_i + b_j) \P(C_{i,j}) \\
-&=& \sum_{i,j} a_i \P(C_{i,j}) + \sum_{i,j} b_j \P(C_{i,j}) \\
-&=& \sum_{i} a_i \sum_j \P(C_{i,j}) + \sum_{j} b_j \sum_i \P(C_{i,j}) \\
-&=& \sum_{i} a_i  \P(\cup_j C_{i,j}) + \sum_{j} b_j  \P(\cup_i C_{i,j}) \;\text{(since the }C_{i,j}\text{ are disjoint)} \\
-&=& \sum_{i} a_i  \P(A_i) + \sum_{j} b_j  \P(B_j) \;\text{(since }\{A_{i}\}\text{ is a partitions, similarly for }\{B_{j}\} \text{ )} \\
-&=& \E[Y] + \E[Y'].
-\end{eqnarray*}
+	\item Let $Y=\sum_{i=1}^Na_i\1_{A_i}$ and $Y'=\sum_{j=1}^Mb_j\1_{B_j}$ for $\{A_i\}_{i=1}^N, \{B_j\}_{j=1}^M$ are measurable disjoint collections. Notice that since $\{A_i\}_{i=1}^N$ and $\{B_j\}_{j=1}^M$ are disjoint, we have
+	\[\1_{A_i}=\sum_{j=1}^M1_{A_i\cap B_j},\quad \1_{B_j}=\sum_{i=1}^N1_{A_i\cap B_j}.\]
+	Therefore, $Y+Y'$ can be written as
+	\begin{align*}
+	Y+Y'
+	&=\sum_{i=1}^Na_i\1_{A_i}+\sum_{j=1}^Mb_j\1_{B_j}\\
+	&=\sum_{i=1}^Na_i\sum_{j=1}^M1_{A_i\cap B_j}+\sum_{j=1}^Mb_j\sum_{i=1}^N1_{A_i\cap B_j}\\
+	&=\sum_{i=1}^N\sum_{j=1}^M(a_i+b_j)1_{A_i\cap B_j}.
+	\end{align*}	
+	Since $A_i\cap B_j$ are disjoint, we have $Y+Y'$ is a simple function and by the definition of the expectation,
+	\begin{align*}
+	\E[Y+Y']
+	&=\sum_{i=1}^N\sum_{j=1}^M(a_i+b_j)\P(A_i\cap B_j)\\
+	&=\sum_{i=1}^Na_i\sum_{j=1}^M\P(A_i\cap B_j)+\sum_{j=1}^Mb_j\sum_{i=1}^N\P(A_i\cap B_j)\\
+	&=\sum_{i=1}^Na_i\P(A_i)+\sum_{j=1}^Mb_j\P(B_j)\\
+	&=\E[Y]+\E[Y'].
+	\end{align*}
+	
+	\item 
+		\begin{enumerate}
+		\item Let $\Omega=[0,1]$ with $\P$ be the Lebesgue measure and $X:\Omega\to\R$ be the identity. If $\varphi:\R\to\R$ be $\varphi(x)=x^2$. Then,
+		\begin{align*}
+		\E(X)=\int_{[0,1]}x\P(dx)=\int_0^1xdx=\frac{1}{2},
+		\end{align*}
+		and similarly,
+		\begin{align*}
+		\E(X^2)=\int_{[0,1]}x^2\P(dx)=\int_0^1x^2dx=\frac{1}{3}.
+		\end{align*}
+		Therefore $\varphi(\E [X])=1/4$ which does not equal $\E[\varphi(X)]=1/3$.
+		
+		\item Let $\varphi=\1_{\{0\}}$. Suppose that there is a sequence of linear functions $L_n(x)=a_nx+b_n$ such that $\sup_n L(x)=\varphi(x)$ for all $x$. Suppose that $a_{n_0}\neq 0$ for some $n_0$. Then $L_{n_0}$ is unbounded from above and there is some $x_0\in \R$ such that $L_{n_0}(x_0)=2$. Thus $\sup_n L_n(x_0)\geq 2>\varphi(x_0)$ which is a contradiction. Thus we have all $a_n=0$.\\
+		\newline
+		For $x\neq 0$, we have $\varphi(x)=0=sup_n L_n(x)=\sup_n b_n$, which implies $b_n\leq 0$ for all $n$. However when $x=0$, and $\sup_n L_n(0)=\sup_n b_n\leq 0\neq 1 \varphi(x)$. \\
+		\newline
+		Thus we have shown there does not exist a sequence of linear  functions $L_n$ such that $\sup_n L(x)=\varphi(x)$ for all $x$.
+		\end{enumerate}
+	\item There is a flood when the water level $X$ is higher than the dam, which is at 7.5m. By Markov's inequality,
+	\begin{align*}
+	\P(\text{Flood})=\P(X\geq 7.5)\leq \frac{\E X}{7.5}=\frac{5}{7.5}=\frac{2}{3}.
+	\end{align*}
+	Therefore a flood will occur with maximum probability 2/3.
+	
+	\item ``$(1)\rightarrow (2).$'' This follows trivially since $\mathcal{S}\subset\mathcal{F}$.\\
+	\newline
+	``$(2)\rightarrow (1).$'' As suggested by the hint, we define 
+	\[\lambda=\{A\in\mathcal{F}:\P_1(A)=\P_2(A)\}.\]
+	We will now show that $\lambda$ is a $\lambda$-system:
+	\begin{enumerate}
+		\item [1.] Note that $\P_1(\Omega)=1=\P_2(\Omega)$, thus $\Omega\in \lambda$.
+		\item [2.] Suppose $A,B\in\lambda$ and $A\subset B$. We then have,
+			\begin{eqnarray*}
+			\P_1(B\backslash A)&=&\P_1(B)-\P_1(A) \\
+			&=& \P_2(B)-\P_2(A) \;\text{(since }A,B\in\lambda) \\
+			&=& \P_2(B\backslash A).
+			\end{eqnarray*}
+		\item [3.] Suppose $A_i\uparrow A$ for all $A_i\in\lambda$. Then
+			\begin{eqnarray*}
+			\P_1(A)&=&\lim_{i\to\infty} \P_1(A_i) \;\text{(continuity of measures}) \\
+			&=& \lim_{i\to\infty}\P_2(A_i) \;\text{(since }A_i\in\lambda) \\
+			&=&\P_2(A) \;\text{(continuity of measures}). \\
+			\end{eqnarray*}
+	\end{enumerate}
+	Therefore we have shown that $\lambda$ is a $\lambda$-system. Since $\mathcal{S}$ is closed under finite intersection, we have by definition it is a $\pi$-system. Thus by the $\lambda-\pi$ theorem $\mathcal{F}=\sigma(\mathcal{S})\subset\lambda$, which completes the proof.
 \end{enumerate}
 
-\point{For the last question:}
-
-	Since $\mathcal F = \sigma(\mathcal S)$, $\mathcal S \subseteq \mathcal F$ so
-	we trivially have $1 \Rightarrow 2$.
-	For the converse, define the following collection of sets
-	$\lambda = \{A \in {\mathcal F} : \P_1(A) = \P_2(A)\}$.
-	We first show that this collection is indeed a $\lambda$-system.
-	\begin{enumerate}
-		\item $\Omega \in \lambda$ since $\Omega \in \mathcal F$ ($\sigma$-algebra)
-		and $\P_1(\Omega) = 1 = \P_2(\Omega)$ (probability axiom).
-		\item Suppose $A, B \in \lambda$ and $A \subseteq B$ then
-		\begin{equation*}
-		\left.\begin{aligned}
-		B \setminus A = B \cap A^c
-		&\overset{(a)}{\in} \mathcal F
-		\\
-		\P_1(B \setminus A)
-		\overset{(b)}{=} \P_1(B) - \P_1(A)
-		&\overset{(c)}{=} \P_2(B) - \P_2(A)
-		\overset{(b)}{=} \P_2(B \setminus A)
-		\end{aligned}\right\rbrace
-		\ 
-		\Rightarrow
-		B \setminus A \in \lambda
-		\end{equation*}
-		Because
-		\begin{itemize}
-			\item (a) $\sigma$-algebras are closed under countable intersections and the complement operation
-			\item (b) property of probability and the fact that $A \subseteq B$
-			\item (c) by assumption $A,B \in \lambda$
-		\end{itemize}
-		\item Consider an infinite sequence of $A_i \in \lambda$ such that
-		$A_i \uparrow A$. $A \in \mathcal F$ because $\sigma$-algebras are closed under countable union and 
-		\begin{equation*}
-		\P_1(A) = \lim \P_1(A_i) = \lim \P_2(A_i) = \P_2(A)
-		\end{equation*}
-		by continuity of probability measures and because $A_i \in \lambda$.
-	\end{enumerate}
-	Therefore $\lambda$ satisfies the three conditions of $\lambda$-systems (it finally earns its name).
-	
-	By assumption $\mathcal S$ is a $\pi$-system because it is closed under intersection, therefore if $\P_1(A) = \P_2(A),\ \forall A \in \mathcal S$
-	then $\mathcal S \subset \lambda$ and, by the $\pi$-$\lambda$ theorem,
-	$\mathcal F \subset \lambda$, which completes the proof.
 
 
 \section{Computing expectations in practice}
