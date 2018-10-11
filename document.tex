@@ -90,7 +90,7 @@ and for version B (infinite fuel):
 
 \point{Definition:} The set of all possible outcomes is called the \emph{sample space}, which I will denote by $\Omega$ or $S$. 
 
-\point{Example:} what is the size or cardinality of $\Omega$ (i.e. the number of elements in it) for our recurrent example version A? I will denote the size by $|\Omega|$. Answer:$2^6$ because there are six bits each free to take two possible values. We conclude that the probability of any given outcome in version A is $1/64$. Note that 
+\point{Example:} what is the size or cardinality of $\Omega$ (i.e. the number of elements in it) for version A of our train example? I will denote the size by $|\Omega|$. Answer:$2^6$ because there are six bits each free to take two possible values. We conclude that the probability of any given outcome in version A is $1/64$. Note that 
 \[ \sum_{\omega \in \Omega} \text{probability of outcome $\omega$} = 1. \]
 Here is a picture for the train version A example:
 \begin{center}
@@ -214,6 +214,7 @@ where:
 \end{enumerate}
 
 
+
 \subsection{Some basic properties}\label{sec:basic-properties}
 
 Some examples of basic properties we can derive from these axioms:
@@ -258,9 +259,9 @@ Statistical models are built using probability models. Consider the following ex
 
 \point{Frequentist models:} use not one but many probability distributions all defined on a shared space $(\Omega, \events)$:
 \[ \text{frequentist model} = \{ \P_\theta : \events \to [0, 1], \theta \in \Theta\}. \]
-If the index set $\Theta$ is some subset of $\R^d$, the model is called parametric, otherwise, it is call non-parametric.
+If the index set $\Theta$ is some subset of $\R^d$, the model is called parametric, otherwise, it is called non-parametric.
 
-\point{Bayesian models:} use only one probability distribution. Augment the space $\Omega$ to include the unknown quantity $\theta \in [0, 1]$, i.e. $\bar \Omega = [0, 1] \times \Omega$. We will go over more detail when we talk about conditioning.
+\point{Bayesian models:} use only one probability distribution. Augment the space $\Omega$ to include the unknown quantity $\theta \in [0, 1]$, i.e. $\bar \Omega = [0, 1] \times \Omega$. We will go over this way of modelling in more detail when we talk about conditioning.
 
 
 \subsection{Simple examples of $\sigma$-algebra}
@@ -316,6 +317,9 @@ We would like to ``repair'' $\generators$ by adding more events until we get a c
 \end{description}
 
 This second example is actually enough to build a rich theory! How? Using random variables and their distributions, which we will cover shortly.
+
+
+\point{Example of a measure:} the Lebesgue measure is the same as the uniform probability distribution, except that it is defined on $\R$ instead of $[0, 1)$. 
 
 
 \subsection{Computations for discrete models}\label{sec:computation-discrete}
@@ -458,7 +462,7 @@ where $a_i$ is the assignment of student $i$, identifying $\{1, 2, 3, 4\}$ as th
 \begin{center}
 	\includegraphics[width=0.3\linewidth]{figures/maps}
 \end{center}
-Note that we abuse the notation and use the same symbol for lifted function evaluation, but no confusion can arise because of the type of the input. We do the same for lifted function inverse: for $B \subset T$, $f^{-1}(B) = \{x \in S : f(x) \in B\}$. The lifted inverse is nice because it always exists (the set it returns can be empty or have cardinality larger than one, but it is still a set.
+Note that we abuse the notation and use the same symbol for lifted function evaluation, but no confusion can arise because of the type of the input. We do the same for lifted function inverse: for $B \subset T$, $f^{-1}(B) = \{x \in S : f(x) \in B\}$. The lifted inverse is nice because it always exists: the set it returns can be empty or have cardinality larger than one, but it is still a set.
 
 \point{We can now formally define random variables:}
 \begin{enumerate}
@@ -738,13 +742,6 @@ where $\cap A_i = (X \le x)$, therefore $\P(\cap A_i) = F(x)$.
 \point{Hint:} use the construction from the ``proof idea'' of Section~\ref{sec:limit-properties-cdfs}, which is called the ``inverse CDF.''
 
 
-\subsection{Measure}
-
-A measure $\mu : \events \to [0, \infty)$ is defined in the same way as a probability measures, except that we remove the requirement that $\mu(\Omega) = 1$. Instead, we just ask that $\mu(\emptyset) = 0$.
-
-\point{Example:} the Lebesgue measure is the same as the uniform probability distribution, except that it is defined on $\R$ instead of $[0, 1)$. 
-
-
 \subsection{$\sigma$-algebra, revisited}
 
 Often it is useful to put some restrictions on what a random variable can depend on. For example, a model may have two random variables, $Y$ which is observed, and $X$ which is unknown. A statistical estimator $\delta$ should only depend on $Y$, not $X$. 
@@ -770,7 +767,7 @@ We use the shorthand $\delta \in \sigma(X)$ for $\sigma(\delta) \subset \sigma(X
 \end{align*}
 
 
-\subsection{Exercise set 2}
+\subsection{Exercise set 2}\label{sec:ex-set-2}
 
 \begin{enumerate}
   \item Let $X$ be a random variable with a uniform distribution on $[0, 2)$. Draw a possible graph of $X$, a density for $X$, and the \CDF\ of $X$.
@@ -1315,66 +1312,66 @@ Since the moment generating function for individual variables are often easy to 
 \end{enumerate}
 
 
-%\subsection{Solutions}
+\subsection{Solutions}
 
-% For first question:
+\point{First question:}
 
-%
-%\begin{enumerate}
-%  \item First, we show that $Y + Y'$ is a simple function (this will allow us to use the easy definition of expectation given in Section~\ref{sec:area-simple-function}). Write $Y = \sum_{i=1}^N a_i \1_{A_i}$, and $Y' = \sum_{j=1}^M b_j \1{B_j}$ and assume without loss of generality that $A_i$ forms a partition, and that $B_j$ forms another partition.\footnote{Otherwise, add one more block $A_{N+1} = \cup_{i=1}^N A_i$ with $a_{N+1} = 0$. Same for $B_j$.} Consider the sets $\{C_{i,j} = A_i \cap B_j : 1\le i \le N, 1\le j \le M\}$. Note that the $C_{i,j}$ are clearly disjoint, and that on $C_{i,j}$, $(Y + Y')$ is equal to $a_i + b_j$. Therefore:
-%\begin{eqnarray*}
-%\E[Y + Y'] &=& \sum_{i,j} (a_i + b_j) \P(C_{i,j}) \\
-%&=& \sum_{i,j} a_i \P(C_{i,j}) + \sum_{i,j} b_j \P(C_{i,j}) \\
-%&=& \sum_{i} a_i \sum_j \P(C_{i,j}) + \sum_{j} b_j \sum_i \P(C_{i,j}) \\
-%&=& \sum_{i} a_i  \P(\cup_j C_{i,j}) + \sum_{j} b_j  \P(\cup_i C_{i,j}) \;\text{(since the }C_{i,j}\text{ are disjoint)} \\
-%&=& \sum_{i} a_i  \P(A_i) + \sum_{j} b_j  \P(B_j) \;\text{(since }\{A_{i}\}\text{ is a partitions, similarly for }\{B_{j}\} \text{ )} \\
-%&=& \E[Y] + \E[Y'].
-%\end{eqnarray*}
-%\end{enumerate}
 
-% For last question:
+\begin{enumerate}
+  \item First, we show that $Y + Y'$ is a simple function (this will allow us to use the easy definition of expectation given in Section~\ref{sec:area-simple-function}). Write $Y = \sum_{i=1}^N a_i \1_{A_i}$, and $Y' = \sum_{j=1}^M b_j \1{B_j}$ and assume without loss of generality that $A_i$ forms a partition, and that $B_j$ forms another partition.\footnote{Otherwise, add one more block $A_{N+1} = \cup_{i=1}^N A_i$ with $a_{N+1} = 0$. Same for $B_j$.} Consider the sets $\{C_{i,j} = A_i \cap B_j : 1\le i \le N, 1\le j \le M\}$. Note that the $C_{i,j}$ are clearly disjoint, and that on $C_{i,j}$, $(Y + Y')$ is equal to $a_i + b_j$. Therefore:
+\begin{eqnarray*}
+\E[Y + Y'] &=& \sum_{i,j} (a_i + b_j) \P(C_{i,j}) \\
+&=& \sum_{i,j} a_i \P(C_{i,j}) + \sum_{i,j} b_j \P(C_{i,j}) \\
+&=& \sum_{i} a_i \sum_j \P(C_{i,j}) + \sum_{j} b_j \sum_i \P(C_{i,j}) \\
+&=& \sum_{i} a_i  \P(\cup_j C_{i,j}) + \sum_{j} b_j  \P(\cup_i C_{i,j}) \;\text{(since the }C_{i,j}\text{ are disjoint)} \\
+&=& \sum_{i} a_i  \P(A_i) + \sum_{j} b_j  \P(B_j) \;\text{(since }\{A_{i}\}\text{ is a partitions, similarly for }\{B_{j}\} \text{ )} \\
+&=& \E[Y] + \E[Y'].
+\end{eqnarray*}
+\end{enumerate}
 
-%	Since $\mathcal F = \sigma(\mathcal S)$, $\mathcal S \subseteq \mathcal F$ so
-%	we trivially have $1 \Rightarrow 2$.
-%	For the converse, define the following collection of sets
-%	$\lambda = \{A \in {\mathcal F} : \P_1(A) = \P_2(A)\}$.
-%	We first show that this collection is indeed a $\lambda$-system.
-%	\begin{enumerate}
-%		\item $\Omega \in \lambda$ since $\Omega \in \mathcal F$ ($\sigma$-algebra)
-%		and $\P_1(\Omega) = 1 = \P_2(\Omega)$ (probability axiom).
-%		\item Suppose $A, B \in \lambda$ and $A \subseteq B$ then
-%		\begin{equation*}
-%		\left.\begin{aligned}
-%		B \setminus A = B \cap A^c
-%		&\overset{(a)}{\in} \mathcal F
-%		\\
-%		\P_1(B \setminus A)
-%		\overset{(b)}{=} \P_1(B) - \P_1(A)
-%		&\overset{(c)}{=} \P_2(B) - \P_2(A)
-%		\overset{(b)}{=} \P_2(B \setminus A)
-%		\end{aligned}\right\rbrace
-%		\ 
-%		\Rightarrow
-%		B \setminus A \in \lambda
-%		\end{equation*}
-%		Because
-%		\begin{itemize}
-%			\item (a) $\sigma$-algebras are closed under countable intersections and the complement operation
-%			\item (b) property of probability and the fact that $A \subseteq B$
-%			\item (c) by assumption $A,B \in \lambda$
-%		\end{itemize}
-%		\item Consider an infinite sequence of $A_i \in \lambda$ such that
-%		$A_i \uparrow A$. $A \in \mathcal F$ because $\sigma$-algebras are closed under countable union and 
-%		\begin{equation*}
-%		\P_1(A) = \lim \P_1(A_i) = \lim \P_2(A_i) = \P_2(A)
-%		\end{equation*}
-%		by continuity of probability measures and because $A_i \in \lambda$.
-%	\end{enumerate}
-%	Therefore $\lambda$ satisfies the three conditions of $\lambda$-systems (it finally earns its name).
-%	
-%	By assumption $\mathcal S$ is a $\pi$-system because it is closed under intersection, therefore if $\P_1(A) = \P_2(A),\ \forall A \in \mathcal S$
-%	then $\mathcal S \subset \lambda$ and, by the $\pi$-$\lambda$ theorem,
-%	$\mathcal F \subset \lambda$, which completes the proof.
+\point{For the last question:}
+
+	Since $\mathcal F = \sigma(\mathcal S)$, $\mathcal S \subseteq \mathcal F$ so
+	we trivially have $1 \Rightarrow 2$.
+	For the converse, define the following collection of sets
+	$\lambda = \{A \in {\mathcal F} : \P_1(A) = \P_2(A)\}$.
+	We first show that this collection is indeed a $\lambda$-system.
+	\begin{enumerate}
+		\item $\Omega \in \lambda$ since $\Omega \in \mathcal F$ ($\sigma$-algebra)
+		and $\P_1(\Omega) = 1 = \P_2(\Omega)$ (probability axiom).
+		\item Suppose $A, B \in \lambda$ and $A \subseteq B$ then
+		\begin{equation*}
+		\left.\begin{aligned}
+		B \setminus A = B \cap A^c
+		&\overset{(a)}{\in} \mathcal F
+		\\
+		\P_1(B \setminus A)
+		\overset{(b)}{=} \P_1(B) - \P_1(A)
+		&\overset{(c)}{=} \P_2(B) - \P_2(A)
+		\overset{(b)}{=} \P_2(B \setminus A)
+		\end{aligned}\right\rbrace
+		\ 
+		\Rightarrow
+		B \setminus A \in \lambda
+		\end{equation*}
+		Because
+		\begin{itemize}
+			\item (a) $\sigma$-algebras are closed under countable intersections and the complement operation
+			\item (b) property of probability and the fact that $A \subseteq B$
+			\item (c) by assumption $A,B \in \lambda$
+		\end{itemize}
+		\item Consider an infinite sequence of $A_i \in \lambda$ such that
+		$A_i \uparrow A$. $A \in \mathcal F$ because $\sigma$-algebras are closed under countable union and 
+		\begin{equation*}
+		\P_1(A) = \lim \P_1(A_i) = \lim \P_2(A_i) = \P_2(A)
+		\end{equation*}
+		by continuity of probability measures and because $A_i \in \lambda$.
+	\end{enumerate}
+	Therefore $\lambda$ satisfies the three conditions of $\lambda$-systems (it finally earns its name).
+	
+	By assumption $\mathcal S$ is a $\pi$-system because it is closed under intersection, therefore if $\P_1(A) = \P_2(A),\ \forall A \in \mathcal S$
+	then $\mathcal S \subset \lambda$ and, by the $\pi$-$\lambda$ theorem,
+	$\mathcal F \subset \lambda$, which completes the proof.
 
 
 \section{Computing expectations in practice}
@@ -1510,7 +1507,7 @@ Now our independence assumption on the arrival times of the woman and man means 
 \end{eqnarray*}
 in other words, we can approach the problem as iterated univariate integrals, and do so in any order we wish.
 
-\point{Fubini:} same statement as Tonelli, but instead of requiring $g \ge 0$, we ask that $\int |g| \ud(\mu_1 \times \mu_2) < \infty$. How to prove this finite absolute value condition? By first applying Tonelli on $|g| \ge 0$!
+\point{Fubini:} same statement as Tonelli, but instead of requiring $g \ge 0$, we ask that $\int |g| \ud(\mu_1 \times \mu_2) < \infty$. How to check this ${\L}_1$ condition? By first applying Tonelli on $|g| \ge 0$!
 
 \noindent Being able to write joint integrals as iterated ones is nice because the inner integral is just over the real line, so we can use our density $f$ of $X_1$ and calculus at this point.
 
@@ -1566,6 +1563,33 @@ Now let us integrate both sides and use Fubini:
 which yields:
 \[ \E X = \int_0^\infty \P[X > t] \ud t = \int_0^\infty (1 - F_X(t))  \ud t. \]
 
+
+\subsection{Transformations of random variables and random vectors}
+
+\point{One dimension.} In light of exercise~6 in Section~\ref{sec:ex-set-2}, it should not be a surprise how to solve the following problem: ``given a random variable $X$ with known density $f_X$ (with respect to the Lebesgue measure), and strictly increasing, differentiable function $g$, find the density of $Y=g(X)$ (again, with respect to the Lebesgue measure).''
+
+\point{Solution:} from exercise~6 in Section~\ref{sec:ex-set-2}, we already know the CDF $F_Y$ of $Y$, namely $F_Y(y) = F_X(g^{-1}(y))$. To get the density $f_Y$ of $Y$, based on Section~\ref{sec:calculus}, we simply take the derivative with respect to $y$ and use chain rule, obtaining:
+\[ f_Y(y) = \frac{\ud}{\ud y} F_X(g^{-1}(y)) = f_X(g^{-1}(y)) \frac{\ud}{\ud y} g^{-1}(y). \]
+
+\point{The multivariate version} is a natural extension of the above formula: let $X : \Omega \to \R^n$ denote a random vector with density $f_X : \R^n \to [0, \infty)$, let $g : \R^n \to \R^n$ be invertible with both $g$ and $g^{-1}$ continuously differentiable (a so called $C_1$ \emph{diffeomorphism}), then the density of $f_Y : \R^n \to [0, \infty)$ is given by
+\[ f_Y(y) = f_X(g^{-1}(y)) \left| \det \left( \frac{\partial}{\partial y_c} g_r^{-1}(y) \right) \right| \]
+where the derivative is generalized into the determinant of a Jacobian matrix indexed by rows $r \in \{1, 2, \dots, n\}$ and columns $c \in \{1, 2, \dots, n\}$. 
+
+\point{Note:} the above theorem can be modified to change $\R^n$ to open subsets of $\R^n$ in the obvious way, which is useful when $X$ takes values in a subset of $\R^n$ such as the \emph{simplex} (a list of $n$ positive numbers that sum to one) in the case of a Dirichlet random variable. 
+
+\point{For computations:} it is often easier to compute the derivative of $g$ rather than $g^{-1}$, and thankfully using properties of Jacobian matrices,
+\[  \left| \det \left( \frac{\partial}{\partial y_c} g_r^{-1}(y) \right) \right| = \frac{1}{\left| \det \left( \frac{\partial}{\partial y_c} g_r(y) \right) \right|}. \]
+
+\point{Example:} if $X_1 \sim \text{Exp}(1)$ and $X_2 \sim \text{Exp}(1)$ are independent, show that $Y = X_1 / (X_1 + X_2)$ is uniform between zero and one.  Hint: the function $g(x_1, x_2) = x_1 / (x_1 + x_2)$ is not a diffeomorphism (it looses information) so you cannot apply the above theorem directly! Use instead $g(x_1, x_2) = (x_1 / (x_1 + x_2), x_1 + x_2)$. This augmentation trick is often useful. In computational statistics it forms the basis of ``reversible jump Markov chain Monte Carlo,'' a method used in Bayesian statistics to select among models of different dimensionalities which fits better the data.
+
+\point{Do you really need to do this?} Not always! Sometimes you may be only interested in the expectation of the transformed random variable $\E[Y]$. In this case, we know from the first assignment that this can be done directly without computing $g^{-1}$ or derivatives via:
+\[ \E[Y] = \int g(x) f_X(x) \ud x. \]
+This is often much quicker than finding $f_Y$ and then computing
+\[ \E[Y] = \int y f_Y(y) \ud y. \]
+However in other cases, such as when a random variable is not well summarized by its first few moments (e.g. mean and variance), you will have to compute $f_Y$.
+
+  
+
 % transformations
 
 % exchange derivative and integrals
@@ -1574,6 +1598,11 @@ which yields:
 
 
 \section{Asymptotics}
+
+Often we are faced with a question about a large number of random variables, say $X_1, X_2, \dots, X_{1,000,000,000}$. In the context of big data, or big models, or large Monte Carlo simulations, the number of random variables of interest can be quite large. Providing an exact answer to questions involving so many random variables is often  computationally prohibitive or impossible. 
+
+\point{Key observation:} paradoxically, under certain angles, the behaviour of large sets of random variables becomes increasingly simple. This allows us to make approximations. Asymptotics is the field concerned with making sure that these approximations can become arbitrarily accurate as the number of random variables increases. Moreover, asymptotics can sometimes give some hint on how to compare different approximations, i.e. how fast approximations converge (\emph{rates}). 
+
 
 \subsection{Infinitely often and eventually}\label{sec:io-ev}
 
@@ -1621,7 +1650,8 @@ The proposition follows from De Morgan's law.
   \item The claim can be rewritten as $\P(S^{(3)}_n = (0,0,0)\io) = 0$.
   \begin{enumerate}
     \item First, by the binomial formula, \[\P(S^{(1)}_{2n} = 0) = \binom{2n}{n} 2^{-2n}.\]
-    \item Next, apply Stirling's formula to get \[\P(S^{(1)}_{2n} = 0)  \sim \frac{c}{\sqrt{n}},\] where $c$ is a constant, and $a_n \sim b_n$ means that $a_n/b_n \to 1$.
+    Why? Well each individual path of length $2n$ has probability $2^{-2n}$. How many such paths are at zero at step $2n$? Those where you go up $n$ times and down $n$ times. Counting the number of paths is like counting the subset of $\{1, 2, \dots, 2n\}$ where we go up. There are $\binom{2n}{n}$ subsets of $\{1, 2, \dots, 2n\}$ of size $n$.
+    \item Next, apply Stirling's formula ($n! \sim \sqrt{2 \pi n}\left(\frac{n}{e}\right)^n$) to get \[\P(S^{(1)}_{2n} = 0)  \sim \frac{c}{\sqrt{n}},\] where $c$ is a constant, and $a_n \sim b_n$ means that $a_n/b_n \to 1$.
     \item This means that for the whole process,  \[\P(S^{(3)}_{2n} = 0)  \sim \frac{c}{n^{3/2}},\] which is summable, i.e. \[ \sum_{n=1}^\infty \frac{c}{n^{3/2}} < \infty,\] because $3/2 > 1$.
     \item Hence, by BC 1, $\P(S^{(3)}_n = (0,0,0)\io) = 0$.
   \end{enumerate}
@@ -1641,8 +1671,9 @@ The proposition follows from De Morgan's law.
 
 \point{Converse?} It is NOT true that \[ \P(A_n\io) = 0 \Longrightarrow \sum \P(A_n) < \infty. \] Counter-example:
 \begin{itemize}
+	\item Let $\P$ be uniform on $[0, 1]$.
   \item Take $A_n = [0, 1/n]$.
-  \item $\P(A_n \io) = 0$.
+  \item We have $(A_n \io) = \{0\}$, hence $\P(A_n \io) = 0$.
   \item But $\sum \P(A_n) = \infty$.
 \end{itemize}
 
@@ -1838,6 +1869,25 @@ The next questions we will explore are (1) how to prove this CLT result and exte
 \subsection{Generating functions and Central Limit Theorem} 
 
 Please let me know if you have missing details in your notes for this section, I will fill this section ASAP.
+
+% first, convolution formula
+
+% then picture of many distributions converging
+
+% then, heuristic
+
+% then statement and plan of proof
+
+% then generating functions
+
+% then ch functions, proof
+	% for exchange derivative and E, use Bernoulli counter-example
+
+% then delta method, MAKE SURE TO GIVE IS exercise earlier, then assignment to analyze IS
+
+% example for freq theory too
+
+
 
 
 \section{Poisson theory}
