@@ -251,7 +251,7 @@ Reliable systems replicate a critical component (e.g. a power supply in a comput
 If you answered $12\%$, you are using a property that is \emph{not} built into (or derivable from) the axioms of probability: namely that if $\P(A \cap B) = \P(A) \P(B)$. It is an extra assumption called \emph{independence} of the events $A$ and $B$. It is kept separate because there are situation where it is useful to describe the world, and others where it is not (can you imagine a scenario where the two assembly lines are not independent?). This contrast with the disjoint union axiom of probability, which models a universal aspect of reality. 
 
 
-\subsection{Statistical models}
+\subsection{Statistical models}\label{sec:statistical-model}
 
 Statistical models are built using probability models. Consider the following example:
 
@@ -1538,7 +1538,7 @@ which is the area of the dashed region in the following figure:
 
 \point{Important:} the above should not be confused with \emph{uncorrelated random variables}: $X$ and $Y$ are uncorrelated if and only if \[ \E[XY] = \E[X] \E[Y]. \]
 
-\point{Note:} $X$ and $Y$ uncorrelated implies independence\footnote{Assuming say $XY \in \L_2$.} but the converse is not true!
+\point{Note:} $X$ and $Y$ independent implies they are uncorrelated,\footnote{Assuming say $XY \in \L_2$.} but the converse is not true!
 
 \point{Exercise:} consider $(X,Y)$ with a uniform density on the unit circle. 
 \begin{center}
@@ -1599,14 +1599,6 @@ where the derivative is generalized into the determinant of a Jacobian matrix in
 This is often much quicker than finding $f_Y$ and then computing
 \[ \E[Y] = \int y f_Y(y) \ud y. \]
 However in other cases, such as when a random variable is not well summarized by its first few moments (e.g. mean and variance), you will have to compute $f_Y$.
-
-  
-
-% transformations
-
-% exchange derivative and integrals
-
-% more factoids about integrals
 
 
 \section{Asymptotics}
@@ -1708,7 +1700,7 @@ Problem? $A_n$ are not independent! We will actually prove something stronger. I
 
 \subsection{Weak law of large number (WLLN)}
 
-Let $X_i : \Omega \to \R$ be iid, with $\E[X_i] = \mu, |\mu| < \infty$, and defined $S_n = X_1 + \dots + X_n$. To capture our intuition of how repeated random processes behave (``frequencies approach probabilities''), we would like to be able to write something like: \[ \frac{1}{n} S_n \to \mu. \]That raises the question: what do we mean by ``$\to$''? So far, the definition we used was \emph{pointwise limits}, meaning that for all $\omega\in\Omega$, \[ \lim_{n\to\infty} \frac{1}{n} S_n(\omega) = \mu.\]Note here that the LHS is a random variable, so the right hand side should be interpreted as a constant random variable (i.e. such that$\mu(\omega) = \mu$ for all $\omega)$. 
+Let $X_i : \Omega \to \R$ be iid, with $\E[X_i] = \mu, |\mu| < \infty$, and defined $S_n = X_1 + \dots + X_n$. To capture our intuition of how repeated random processes behave (``frequencies approach probabilities''), we would like to be able to write something like: \[ \frac{1}{n} S_n \to \mu. \]That raises the question: what do we mean by ``$\to$''? So far, the definition we used was \emph{pointwise limits}, meaning that for all $\omega\in\Omega$, \[ \lim_{n\to\infty} \frac{1}{n} S_n(\omega) = \mu.\]Note here that the LHS is a random variable, so the right hand side should be interpreted as a constant random variable (i.e. such that $\mu(\omega) = \mu$ for all $\omega)$. 
 
 \point{It is too much to ask} for such convergence to hold in general. Consider for instance the train example, where $\omega$ corresponds to an infinite trajectory. Then for the trajectory $\omega_0$ where the train always goes right (s.t. $X_i(\omega_0) = +1$ for all $i$). Then \[ \lim \frac{1}{n} S_n(\omega_0) = 1 \neq \mu = 0.\]
 
@@ -1720,7 +1712,6 @@ Let $X_i : \Omega \to \R$ be iid, with $\E[X_i] = \mu, |\mu| < \infty$, and defi
 \begin{center}
 \includegraphics[width=0.7\linewidth]{figures/LLN}
 \end{center}
-
 
 \point{Proof:} we will start with a proof that uses an extra assumption, $\var X < \infty$. I will then give a sketch of how to get rid of this condition.
 \begin{enumerate}
@@ -1763,9 +1754,9 @@ The definition of ``$\to$'' used in the previous section is used in other contex
 
 \point{Notation:} $Y_n \ascv Y$.
 
-\point{Lemma} connecting this notion of convergence back to convergence in probability as well as the notions of i.o. and ev.: $X_n \ascv X$ if and only if for all $\epsilon > 0$, $\P(|X_n - X| > \epsilon\ev) = 0$.
+\point{Lemma} connecting this notion of convergence back to convergence in probability as well as the notions of i.o. and ev.: $X_n \ascv X$ if and only if for all $\epsilon > 0$, $\P(|X_n - X| > \epsilon\io) = 0$.
 
-\point{Proof:} we have: \[\omega \in (X_n \to X) \Longleftrightarrow \forall \epsilon>0, \omega\in (|X_n-X| < \epsilon \ev),\] and hence:
+\point{Proof:} we have: \[\omega \in (X_n \to X) \Longleftrightarrow \forall \epsilon>0, \omega\in (|X_n-X| \le \epsilon \ev),\] and hence:
 \begin{eqnarray*}
 X_n \ascv X &\Longleftrightarrow& \forall \epsilon >0, \P(|X_n - X| \le \epsilon \ev) = 1 \\
 &\Longleftrightarrow& \forall \epsilon > 0, \P(|X_n - X| > \epsilon \io) = 0.
@@ -1788,7 +1779,7 @@ X_3 &=& \1_{[1/2+1/3,1/2+1/3+1/4]\text{ mod }2\pi}\\
 
 \point{Proposition:} convergence a.s. implies convergence in probability.
 
-\point{Proof:} according to our earlier lemma, we have for all $\epsilon > 0$, $\P(|X_n - X| > \epsilon\ev) = 0$. Then, if we let $A_n \defeq (|X_n - X| > \epsilon)$:
+\point{Proof:} according to our earlier lemma, we have for all $\epsilon > 0$, $\P(|X_n - X| > \epsilon\io) = 0$. Then, if we let $A_n \defeq (|X_n - X| > \epsilon)$:
 \begin{eqnarray*}
 0 &=& \P\left( \bigcap_{k=1}^\infty \bigcup_{n \ge k} A_n \right) \\
 &=& \lim_{k\to\infty} \P\left( \bigcup_{n\ge k} A_n \right) \text{ (by monotonicity of }\P\text{)} \\
@@ -1797,7 +1788,201 @@ X_3 &=& \1_{[1/2+1/3,1/2+1/3+1/4]\text{ mod }2\pi}\\
 It follows that $\lim_{k\to\infty} \P(A_k) = 0$.
 
 
+\subsection{Toward Central Limit Theorems} 
+
+Central limit theorems (CLT) are tools to approximate the distribution of a sum of certain random variables, $S_n = \sum_{i=1}^n X_i$. Before we describe CLTs and their proofs, let us motive the problem by first computing the exact distribution of $S_n$ to illustrate why it is non-trivial.
+
+
+\subsection{Exact distribution of sums of random variables}
+
+Let us say we have two iid random variables $X$ and $Y$ with densites $f_X$ and $f_Y$. What is the distribution of $Z = X + Y$? It is not as easy as it looks, for example you should certainly not average the densities (check! either by playing Settlers of Catan, or deriving the pmf of the sum of two dice).
+
+\point{Example:} to make things concrete, suppose $X$ and $Y$ are iid uniform on $[0, 1]$.
+
+\point{Compute the CDF of $Z$ first:} at a fixed point, say one, $F_Z(1)$. To do so let us use the techniques of Section \ref{sec:expectation-indep}:
+\begin{align*}
+\P(Z \le 1) &= \P(X + Y \le 1) \\
+ &= \int \1[(x,y) \in A] f_X(x) f_Y(y) \ud x \ud y,
+\end{align*}
+where the region $A$ is shown in red below.
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/region} 
+\end{center}
+Hence 
+\[ \P(Z \le 1) = \int_{-\infty}^\infty \int_{-\infty}^{1-x} f_X(x) f_Y(y) \ud y \ud x = \frac{1}{2}. \]
+More generally,
+\begin{align*}
+\P(Z \le z) &= \int_{-\infty}^\infty \int_{-\infty}^{z-x} f_X(x) f_Y(y) \ud y \ud x \\
+&= \int_{-\infty}^\infty f_X(x) \int_{-\infty}^{z-x}  f_Y(y) \ud y \ud x \\
+&= \int_{-\infty}^\infty f_X(x) F_Y(z - x) \ud x
+\end{align*}
+
+\point{Computing the density:} by differentiation of the above expression with respect to the argument $z$. 
+\begin{align*}
+f_Z(z) &= \frac{\ud F_Z(z)}{\ud z} \\
+&= \frac{\ud}{\ud z} \int_{-\infty}^\infty f_X(x) F_Y(z - x) \ud x.
+\end{align*}
+If only we could interchange the order of differentiation and integration that would lead to a nice expression:
+\begin{align*}
+f_Z(z) &=
+ \int_{-\infty}^\infty f_X(x) \frac{\ud}{\ud z} F_Y(z - x) \ud x \\
+  &=
+  \int_{-\infty}^\infty f_X(x) f_Y(z - x) \ud x.
+\end{align*}
+In the next section, we justify this swap.
+
+\point{Exercise:} show that if you sum two uniform, you get the following density, called the triangular density:
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/triangular} 
+\end{center}
+
+\point{Summing more than two variables.} In theory, generalizing this argument to more than two variables is simple, just iterate the above argument. In practice, for summing $n$ random variables we end up with a $n-1$ dimensional integral to compute. It can be tricky to compute the integral exactly, motivating the need for CLTs.\footnote{But there is one clever trick that exploit the special structure of these iterated integrals, called the Fast Fourier Transform. It uses similar techniques as the CLT. But it is still more expansive than the CLT and for sums of random vectors it can be prohibitive.}
+
+
+\subsection{Interlude: exchanging the order of integration and differentiation}
+
+Here we present some useful theorem justifying swapping the order of differentiation and integration. Doing so will not only justify the swap in last section, but will also be needed soon in our CLT proof. 
+
+\point{Example: ``reparameterization trick,''} a technique very popular in machine learning. The idea is that you have a collection of probability models indexed by a parameter $\theta$ (as in Section~\ref{sec:statistical-model} for example) and you seek to compute
+\[ \nabla \E_\theta [h(X)]. \] 
+Here the difficulty is that the distribution of $X$ depends on $\theta$. The idea with the reparameterization trick is to remove this dependency by writing $X = g(Z, \theta)$, where the distribution of $Z$ does not depend on $\theta$. From Section~\ref{sec:inverse-cdf}, we know how to do this: set $Z$ to be uniform, and $g(\cdot, \theta)$ to the inverse CDF of $F_\theta(\cdot)$. After doing this, the hope is to swap the order of differentiation and integration:
+\begin{align*}
+\nabla \E_\theta [h(X)] &= \nabla \E [h(g(Z,\theta))] \;\;\text{ (always possible)} \\
+&=  \E [\nabla h(g(Z,\theta))] \;\;\text{ (have to be careful here).}
+\end{align*}
+If we can do this, that would be nice, since we can then use the Law of large number to approximate the right hand side:
+\[ \E [\nabla h(g(Z,\theta))] \approx \frac{1}{N} \sum_{n=1}^N \nabla h(g(Z^{(n)},\theta)),  \]
+where $Z^{(n)}$ are iid samples, and the inner gradient is often computed using Automatic Differentiation techniques.
+
+\point{Counter-example.} Let us see a concrete example where the above trick \emph{does not} work, to emphasize the importance of checking conditions for integral-differential swaps. Let us say $X \sim \Bern(\theta)$. We can reparametrize with $Z \sim \Unif(0,1)$ and $g(z, \theta) = \1[z < \theta]$. Indeed, $g(Z, \theta) \sim \Bern(\theta)$. We have:
+\[  \frac{\ud}{\ud \theta} \underbrace{ \int_0^1 g(z, \theta) \ud z }_{=\theta} = 1,  \]
+but on the other hand:
+\[  \int_0^1 \underbrace{\frac{\ud}{\ud \theta} g(z, \theta)}_{=0 \text{ \emph{almost} everywhere}} \ud z = 0. \]
+
+\point{Theorem for swaps:} suppose 
+\begin{enumerate}
+  \item $g(\cdot, \theta)$ is integrable for all $\theta \in [a, b]$, 
+  \item $g(x, \theta)$ is differentiable for all $x$ and $\theta$, 
+  \item there is an integrable envelope $h(x)$ such that $|\ud g(x, \theta) / \ud \theta| \le h(x)$ for all $x$ and $\theta$,
+\end{enumerate}
+then both sides of the equation below are well defined and equal:
+\[ \frac{\ud}{\ud \theta} \int g(x, \theta) \mu(\ud x) = \int \frac{\ud}{\ud \theta} g(x, \theta)   \mu(\ud x). \]
+
+\point{Exercise:} find the condition that does not hold in the counter example.
+
+% both measure theoretic + add cont diff conditions 
+% or at least, Leibniz version in full
+
+\subsection{CLT: numerical exploration and intuition}
+
+We have seen how computing the distribution of sums $S_n = X_1 + \dots + X_n$ is tedious, even for iid random variables. Now, as promised in the introduction of this chapter, the good news is that the distribution of such sums typically becomes more and more regular.
+
+\point{Numerical example.} To start with, let us look, for 3 possible distributions for $X_i$, what the distribution of the sums look like when we increase $n$. The columns are three different distributions for $X_1$, and each row shows $S_n$ for $n \in \{1,2,4,8,16,32\}$.   
+\begin{center}
+	\includegraphics[width=1.0\linewidth]{figures/sums} 
+\end{center}
+As you can see, we start with three very different distributions (first row, $n=1$, shows the distribution of $S_1 = X_1$):
+\begin{enumerate}
+	\item A discrete distribution: Bernoulli distribution $X_i \sim \Bern(0.3)$.
+	\item A continuous distribution with support on $[0, \infty)$: an exponential distribution, $X_i \sim \text{Exp}(1)$
+	\item A multimodal distribution: with a density given by a \emph{mixture} of normal distribution $f_{X_i}(x) = 0.4 \normald(x; -2, 0.1) + 0.6 \normald(x; 2, 0.1)$ where $\normald(\cdot; \mu, \sigma^2)$ is the normal density (defined below).
+\end{enumerate}
+
+\point{Normal approximation:} notice that for $n=32$, all three look the same, up to stretching and translation. In fact, all three look like normal distributions! This is surprising, since the normal is continuous on $(-\infty, \infty)$ and unimodal, which neither of the three starting distribution $X_1$ remotely looked like! Our next big goal is to understand why!
+
+\point{Heuristic.} Before going into proofs, however, the above numerical study already motivates the following heuristic:
+\begin{enumerate}
+	\item Find the mean $\mu$ and variance $\sigma^2$ of $S_n$. (why? in the ``normal approximation'' paragraph above, we say all three ``look like normal distributions,'' now we need to find which normal distribution!
+	\item Let $Z_n$ denote a normal distribution with mean $\mu$ and variance $\sigma^2$, defined as the random variable with density
+	\[ \normald(x; \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right). \]
+	\item Use the approximation $S_n \dapprox Z_n$.
+\end{enumerate}
+
+\point{Interpretation of approximation:} $S_n \dapprox Z_n$? We will need more theoretical understanding to refine what this means exactly. For now think about it as:
+\begin{enumerate}
+	\item $\P(S_n \le x) \approx \P(Z_n \le x)$, or
+	\item $\E [ g(S_n) ] \approx \E [ g(Z_n) ]$ for nice $g$, e.g. bounded continuous.
+\end{enumerate}
+
+\point{CLTs and leaps of faith.} CLTs attempt to justify the above heuristic, either by telling us that the approximation will become arbitrarily accurate as $n \to \infty$ (basic CLT), or by providing explicit bounds on the error (Berry-Esseen theorem), or by relaxing the conditions on the random variables. In some situations, the theory might not bridge completely to your problem, but even in such cases, it might be still useful to take a ``leap of faith'' and use the normal approximation (in particular, in a situation where you might not be able to give an answer at all otherwise).
+
+\point{Example:} You seed a Petri dish with a colony of 1e9 bacteria. Each day, the number of bacteria  either:
+\begin{itemize}
+	\item stays the same, with probability $2/5$;
+	\item doubles, with probability $3/10$;
+	\item quadruples, with probability $1/5$;
+	\item is divided by a factor of two, with probability $1/10$.
+\end{itemize}
+Ten days later, what is the probability that there are more than 30e9 bacteria? 
+
+\point{Hint:} write number of bacteria as $2^{\sum X_i}$, and rewrite the probability you want to obtain into one that can be computed using the normal approximation.
+
+		
+%Following the hint in the question we will seek to express the number of bacteria at day 10 in terms of $2^{\sum_{i=1}^{10} X_i}$. To see this, consider the possible day-over-day changes in the number of bacteria in the Petri dish: (i) stays the same; (ii) doubles; (iii) quadruples; (iv) or is halved. Each of the changes in the number can be represented as a power of two. For example, if the number starts with value 1e9 then doubles, stays the same, quadruples, and halves in the subsequent 4 days,  the number of bacteria can be expressed succinctly as: 
+%\begin{align*}
+%\mbox{the number of bacteria after 4 days} &= 1e9 \times 2^1 \times 2^0 \times 2^2 \times 2^{-1} =
+%1e9 \times 2^{1 + 0 + 2 - 1} = 1e9 \times 2^{2} = 4e9. 
+%\end{align*}
+%To generalize the number of bacteria over all possible paths, we define the random variable $X_i$ to correspond to the power of 2 that the number ``grows'' in each day. Therefore, over a ten day period the (random) value of the number of bacteria is represented as $2^{\sum_{i=1}^{10} X_i}$. Since we want the number of bacteria to be more than 30 times of its initial value, we need to calculate:
+%\begin{align*}
+%\P(\mbox{more than 30e9}) &= \P\left(2^{\sum_{i=1}^{10}X_i} \geq 30\right) = \P\left(\sum_{i=1}^{10}X_i \geq \log_2(30)\right).
+%\end{align*}
+%\qMark{2}
+%
+%However, we do not know the distribution of $\sum_{i=1}^{10}X_i$! Notwithstanding this limitation, this quantity is still possible to approximate. We will use the Central Limit theorem to provide an approximation which is easy to calculate. First, let $S_n := \sum^{n}_{i=0} X_i$, then:
+%$$S_{10} \overset{approx.}{\approx} a + bZ$$
+%where $Z$ follows the standard normal distribution, with:
+%\begin{align*}
+%a & = n\mu = n \cdot \E(X_i) = 10 \left( \frac{2}{5} \cdot 0 + \frac{3}{10} \cdot 1 + \frac{1}{5} \cdot 2 + \frac{1}{10} \cdot (-1) \right) = 10 \cdot 0.6 = 6 \\
+%b & = \sigma \sqrt{n} = \sqrt{\var(X_i) \cdot n} = \sqrt{\left( \E(X_i^2) - \E(X_i)^2 \right) \cdot 10} = \sqrt{\left( 1.2 - 0.6^2 \right) \cdot 10} = \sqrt{\frac{42}{5}}\approx 2.898,
+%\end{align*}
+%where the fact that $\E(X_i^2) = \frac{2}{5} \cdot 0^2 + \frac{3}{10} \cdot 1^2 + \frac{1}{5} \cdot 2^2 + \frac{1}{10} \cdot (-1)^2 = 1.2$ was used.
+%\qMark{2}
+%
+%Therefore, 
+%\begin{align*}
+%\P(\mbox{more than 30e9}) &= \P\left(2^{\sum_{i=1}^{10}X_i} \geq 30\right) = \P\left(\sum_{i=1}^{10}X_i \geq \log_2(30)\right) \\ 
+%&= \P(S_{10} \geq \log_2{30}) = P\left(Z \geq \frac{\log_2{30} - 6}{\sqrt{\frac{42}{5}}}\right)\\&= 1 - \Phi\left(-0.3772\right) \approx 0.647.
+%\end{align*}
+
+
+
+\subsection{Basic CLT}
+
+\point{Assumptions:} the random variables we sum are independent and identically distributed and have finite variance. Also, without loss of generality assume $\E X_i = 0$ (otherwise, center the random variables).
+
+\point{Relax:} there are CLTs for non-identical random variables, also for random vectors, and finally, for dependent random variables (e.g. certain types of Markov chains). 
+
+\point{In relation with LLN:} sure, the LLN gives us $\frac{1}{n} S_n \ascv 0$. But this does not give us much information about how to approximate the distribution of $S_n$ for finite $n$.
+
+\point{Exercise:} show that in fact, $\frac{1}{n^\alpha} S_n \ascv 0$ for all $\alpha > 1/2$. 
+
+\point{Idea:} the above exercise suggest that $\alpha = 1/2$ is a critical point. 
+
+
+
+
+% then picture of many distributions converging
+
+% then, heuristic
+
+% then statement and plan of proof
+
+% then generating functions
+
+% then ch functions, proof
+% for exchange derivative and E, use Bernoulli counter-example
+
+% then delta method, MAKE SURE TO GIVE IS exercise earlier, then assignment to analyze IS
+
+% example for freq theory too
+
+
+
+
 \subsection{Types of convergence: big picture}\label{sec:conv-types-big-picture}
+
+We would like to generalize the notion of convergence used in the CLT. We would like this new notion of convergence, called convergence in distribution, to sit nicely in our hierarchy of convergence modes as follows. 
 
 \point{Covered so far:} 
 \[ X_n \to X \Longrightarrow X_n \ascv X \Longrightarrow X_n \pcv X. \]
@@ -1830,13 +2015,11 @@ however the limit of the cdfs at zero is equal to zero but the cdf of the limit 
 	\includegraphics[width=0.5\linewidth]{figures/conv-dist-counter-2} 
 \end{center}
 
-\point{We can now formalize the CLT:} if $X_1, X_2, \dots$ are idd with $E X_1^2 = 1$ and $\E X_1 = 0$, then:
+\point{We can now write the CLT as follows:} if $X_1, X_2, \dots$ are idd with $E X_1^2 = 1$ and $\E X_1 = 0$, then:
 \[ \frac{X_1 + \dots + X_n}{\sqrt{n}} \dcv Y, \]
 where $Y$ is a standard normal. 
 
 \point{Note:} this statement is not true in probability or a.s. (this can be proven using `Kolmogorov zero-one law'.
-
-The next questions we will explore are (1) how to prove this CLT result and extend it? (2) How is it used in practice. To answer these questions, we will need to talk about properties of convergence, as well a generating functions.
 
 
 \subsection{Properties of convergence}
@@ -1873,33 +2056,9 @@ The next questions we will explore are (1) how to prove this CLT result and exte
 	\includegraphics[width=0.5\linewidth]{figures/types-of-conv} 
 \end{center}
 
-\point{Partial converse:} back to the relation between convergence in probability and convergence in mean. For $p=1$, we have $X_n \pcv X$ implies $X_n \lpcv X$ if and only if they are \emph{uniformly integrable}, defined as: for all $\epsilon > 0$, there is $K > 0$ such that $\sup \E[|X| \1(|X| \ge K)] \le \epsilon$. 
+\point{Partial converse:} back to the relation between convergence in probability and convergence in mean. For $p=1$, we have $X_n \pcv X$ implies $X_n \lpcv X$ if and only if they are \emph{uniformly integrable}, defined as: for all $\epsilon > 0$, there is $K > 0$ such that $\sup \E[|X_n| \1(|X_n| \ge K)] \le \epsilon$. 
 
 \point{Exercise:} check that indeed the example from Section~\ref{sec:exchange-lim} is not uniformly integrable.
-
-
-\subsection{Generating functions and Central Limit Theorem} 
-
-Please let me know if you have missing details in your notes for this section, I will fill this section ASAP.
-
-% first, convolution formula
-
-% then picture of many distributions converging
-
-% then, heuristic
-
-% then statement and plan of proof
-
-% then generating functions
-
-% then ch functions, proof
-	% for exchange derivative and E, use Bernoulli counter-example
-
-% then delta method, MAKE SURE TO GIVE IS exercise earlier, then assignment to analyze IS
-
-% example for freq theory too
-
-
 
 
 \section{Poisson theory}
