@@ -13,21 +13,15 @@
 \input{macros/basic-math-macros}
 \input{macros/notation}
 
-
-
 % use to create table of symbols
 \makenomenclature
-
 
 \begin{document}
 
 \maketitle
-
-\emph{Note: I will continue editing these files, so it might be wasteful to print much beyond the contents of the current lecture. Also I might make changes on what is covered beyond the first few chapters.}
-
 \tableofcontents
-
 \newpage
+
 
 \section{Motivations}
 
@@ -746,7 +740,7 @@ where $\cap A_i = (X \le x)$, therefore $\P(\cap A_i) = F(x)$.
 \point{Hint:} use the construction from the ``proof idea'' of Section~\ref{sec:limit-properties-cdfs}, which is called the ``inverse CDF.''
 
 
-\subsection{$\sigma$-algebra, revisited}
+\subsection{$\sigma$-algebra, revisited}\label{sec:sigma-alg-and-estimator}
 
 Often it is useful to put some restrictions on what a random variable can depend on. For example, a model may have two random variables, $Y$ which is observed, and $X$ which is unknown. A statistical estimator $\delta$ should only depend on $Y$, not $X$. 
 
@@ -804,11 +798,11 @@ We use the shorthand $\delta \in \sigma(X)$ for $\sigma(\delta) \subset \sigma(X
   \item We have that $X: \Omega \to \states$ and $g : \states \to \states'$ are random variables. Let us denote by $\events_\Omega, \events_{\states}$ and $\events_{\states'}$ the \sigmaalg\ on $\Omega$, $\states$ and $\states'$ respectively. Let $A \in \events_{\states'}$. We have to show that $(g \circ X)^{-1}(A) \in \events_\Omega$. First, note that $(g \circ X)^{-1}(A) = X^{-1}(g^{-1}(A))$. Since $g$ is a random variable, $g^{-1}(A) \in \events_\states$. Next, since $X$ is a random variables, $g^{-1}(A) \in \events_\states$ implies that $X^{-1}(g^{-1}(A)) \in \events_\Omega$.
   \item Examples are common. The uniform distribution on $[0, 1/2)$ has height 2.
    \item As in Section~\ref{sec:limit-properties-cdfs}, we pick $X(\omega) \defeq \sup\{x : F(x) < \omega\}$ (note that in this special case were $\Omega = [0, 1)$,  writing ``$F(x) < \omega$'' is well defined---for general $\Omega$ is would not).
-	This construction has some nice properties:
+	This construction has some nice properties (draw a picture of a \CDF\ having flat regions as well as discontinuities to convince yourself, as these are the interesting ``corner cases''):
 	\begin{enumerate}
-	  \item \label{point:inv-cdf-monotone} $X$ is monotone increasing (this follows directly from the definition),
-	  \item \label{point:inv-cdf-incl-one} $X\circ F(x) \le x$ (draw a picture of a \CDF\ having flat regions to convince yourself),
-	  \item \label{point:inv-cdf-incl-two}$F\circ X(\omega) \ge \omega$ (draw a picture of a \CDF\ having discontinuities to convince yourself).
+	  \item \label{point:inv-cdf-monotone} $X$ is monotone increasing,
+	  \item \label{point:inv-cdf-incl-one} $X\circ F(x) \le x$,
+	  \item \label{point:inv-cdf-incl-two}$F\circ X(\omega) \ge \omega$.
 	\end{enumerate}
 	We first use properties \ref{point:inv-cdf-incl-one} and \ref{point:inv-cdf-incl-two} to prove the following set equality:
 	\[ (X \le x) = \{\omega \in \Omega : \omega \le F(x) \}.\]
@@ -1174,9 +1168,6 @@ When we cannot rewrite the event using the methods described in Sections~\ref{se
 We will soon see in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$ implies $\P(A_1) \le \P(A_2)$.
 
 
-
-
-
 \section{Independence}
 
 \subsection{More than one random variables (random vectors)}\label{sec:random-vectors}
@@ -1286,7 +1277,7 @@ In this section, we explain the tool used to prove the characterization statemen
 \point{Exercise:} find 3 random variables such that these random variables are pairwise independent but not independent. Hint: this can be done using indicator random variables.
 
 
-\subsection{Chernoff's bound, continued}
+\subsection{Chernoff's bound, continued}\label{sec:chernoff-revisited}
 
 We encountered the moment generating function $f(t) = \E[e^{tX}]$ when talking about Chernoff's bound. When $X$ is a sum of independent random variables, $X = X_1 + X_2 + \dots + X_n$, we get this nice formula:
 \[ f(t) = \prod_{i=1}^n f_i(t), \]
@@ -1316,8 +1307,7 @@ Since the moment generating function for individual variables are often easy to 
 \end{enumerate}
 
 
-
-\subsection{Solutions for exercise set 3}
+\subsection{Solutions for exercise set 3}\label{sec:sol-ex-iii}
 \begin{enumerate}
 	\item Let $Y=\sum_{i=1}^Na_i\1_{A_i}$ and $Y'=\sum_{j=1}^Mb_j\1_{B_j}$ for $\{A_i\}_{i=1}^N, \{B_j\}_{j=1}^M$ are measurable disjoint collections. Notice that since $\{A_i\}_{i=1}^N$ and $\{B_j\}_{j=1}^M$ are disjoint, we have
 	\[\1_{A_i}=\sum_{j=1}^M1_{A_i\cap B_j},\quad \1_{B_j}=\sum_{i=1}^N1_{A_i\cap B_j}.\]
@@ -1388,22 +1378,7 @@ Since the moment generating function for individual variables are often easy to 
 
 \section{Computing expectations in practice}
 
-
-% \subsection{Expectations in the discrete case}
-% 
-% % Discrete expectation can arise in at least two different ways:
-% % 
-% % \begin{itemize}
-% %   \item $X(\Omega)$ is discrete.  
-% %   \item $\P$ is discrete, i.e. there are $A = \{\omega_1, \omega_2, \dots, \omega_n\} \subset \Omega$, called atoms, such that $\P(A) = 1$. 
-% % \end{itemize}
-% 
-% Discrete expectations arise when we can find a set of \emph{atoms}, defined as a set 
-% 
-% \noindent In both cases:
-% \[ \E[X] = \sum_{x \in X(\Omega)} x \P(X = x). \]
-
-\subsection{Computing integral using calculus}\label{sec:calculus}
+\subsection{Computing integrals using calculus}\label{sec:calculus}
 
 When $\Omega = [a, b] \subset \R$, $\mu$ is uniform, and $f$ is bounded, then the Lebesgues integral $\int f \ud \mu$ behaves in the same way as the standard Riemann integral (as long as the latter exists, which is true iff the set of discontinuities of $f$ have measure zero). Hence you can in principle use the \point{fundamental theorem of calculus} to compute these integrals: if there is a function $F$ such that $F'(x) = f(x)$ for all $x \in \Omega$, then 
 \[ \int f \ud \mu = \int f(x) \ud x = F(b) - F(a). \]
@@ -1473,7 +1448,7 @@ and on the other hand:
 \end{eqnarray*}.
 
 
-\subsection{How probability space and random variables are constructed in practice}\label{sec:using-rv-to-construct-prs}
+\subsection{How probability spaces and random variables are constructed in practice}\label{sec:using-rv-to-construct-prs}
 
 So far we have often insisted in explicitly constructed $\Omega$, $\events$, $\P$, and designed random variables $X$ by providing, for each $\omega$, the value $X(\omega)$. This level of detail is useful for certain proofs (e.g. Markov's inequality), but for many day-to-day calculations, it is not necessary to go into that much detail. 
 
@@ -1708,7 +1683,7 @@ Let $X_i : \Omega \to \R$ be iid, with $\E[X_i] = \mu, |\mu| < \infty$, and defi
 
 \point{Proposition:} let $X_i : \Omega \to \R$ be iid, with $\E[X_i] = \mu, |\mu| < \infty$, and defined $S_n = X_1 + \dots + X_n$. Then for all $\epsilon > 0$, \[ \lim_{n\to\infty} \P\left( \left| \frac{1}{n} S_n - \mu\right| \ge \epsilon \right) = 0. \]
 
-\point{Visualization:} suppose $\mu = 0$, and note that $\left( \left| \frac{1}{n} S_n -0\right| \ge \epsilon \right) = ( |S_n| > \epsilon n)$. On a graph where the x-axis is $n$ and the y-axis is $S_n$ (the same picture we used for train trajectories), consider the cone specified by $\epsilon n$ and $-\epsilon n$. The event is then that the trajectory is inside the cone at step $n$.
+\point{Visualization:} suppose $\mu = 0$, and note that $\left( \left| \frac{1}{n} S_n -0\right| \ge \epsilon \right) = ( |S_n| > \epsilon n)$. On a graph where the x-axis is $n$ and the y-axis is $S_n$ (the same picture we used for train trajectories), consider the cone specified by $\epsilon n$ and $-\epsilon n$. The event $( |S_n| > \epsilon n)$ can be understood as selecting the trajectories that are outside the cone at step $n$. The probabilities of these events should go to zero as $n\to\infty$.
 \begin{center}
 \includegraphics[width=0.7\linewidth]{figures/LLN}
 \end{center}
@@ -1836,10 +1811,10 @@ In the next section, we justify this swap.
 	\includegraphics[width=0.3\linewidth]{figures/triangular} 
 \end{center}
 
-\point{Summing more than two variables.} In theory, generalizing this argument to more than two variables is simple, just iterate the above argument. In practice, for summing $n$ random variables we end up with a $n-1$ dimensional integral to compute. It can be tricky to compute the integral exactly, motivating the need for CLTs.\footnote{But there is one clever trick that exploit the special structure of these iterated integrals, called the Fast Fourier Transform. It uses similar techniques as the CLT. But it is still more expansive than the CLT and for sums of random vectors it can be prohibitive.}
+\point{Summing more than two variables.} In theory, generalizing this argument to more than two variables is simple, just iterate the above argument. In practice, for summing $n$ random variables we end up with a $n-1$ dimensional integral to compute. It can be tricky to compute the integral exactly, motivating the need for CLTs.\footnote{But there is one clever trick that exploit the special structure of these iterated integrals, called the Fast Fourier Transform. It uses similar techniques as the CLT. But it is still more expensive than the CLT and for sums of random vectors it can be prohibitive.}
 
 
-\subsection{Interlude: exchanging the order of integration and differentiation}
+\subsection{Interlude: exchanging the order of integration and differentiation}\label{sec:exchange}
 
 Here we present some useful theorem justifying swapping the order of differentiation and integration. Doing so will not only justify the swap in last section, but will also be needed soon in our CLT proof. 
 
@@ -1870,10 +1845,10 @@ then both sides of the equation below are well defined and equal:
 
 \point{Exercise:} find the condition that does not hold in the counter example.
 
-% both measure theoretic + add cont diff conditions 
-% or at least, Leibniz version in full
+\point{Exercise:} use DCT and the mean value theorem to prove the theorem for swaps.
 
-\subsection{CLT: numerical exploration and intuition}
+
+\subsection{CLT: numerical exploration and intuition}\label{sec:clt-numerical}
 
 We have seen how computing the distribution of sums $S_n = X_1 + \dots + X_n$ is tedious, even for iid random variables. Now, as promised in the introduction of this chapter, the good news is that the distribution of such sums typically becomes more and more regular.
 
@@ -1906,7 +1881,7 @@ As you can see, we start with three very different distributions (first row, $n=
 
 \point{CLTs and leaps of faith.} CLTs attempt to justify the above heuristic, either by telling us that the approximation will become arbitrarily accurate as $n \to \infty$ (basic CLT), or by providing explicit bounds on the error (Berry-Esseen theorem), or by relaxing the conditions on the random variables. In some situations, the theory might not bridge completely to your problem, but even in such cases, it might be still useful to take a ``leap of faith'' and use the normal approximation (in particular, in a situation where you might not be able to give an answer at all otherwise).
 
-\point{Example:} You seed a Petri dish with a colony of 1e9 bacteria. Each day, the number of bacteria  either:
+\point{Exercise:} You seed a Petri dish with a colony of 1e9 bacteria. Each day, the number of bacteria  either:
 \begin{itemize}
 	\item stays the same, with probability $2/5$;
 	\item doubles, with probability $3/10$;
@@ -1917,37 +1892,8 @@ Ten days later, what is the probability that there are more than 30e9 bacteria?
 
 \point{Hint:} write number of bacteria as $2^{\sum X_i}$, and rewrite the probability you want to obtain into one that can be computed using the normal approximation.
 
-		
-%Following the hint in the question we will seek to express the number of bacteria at day 10 in terms of $2^{\sum_{i=1}^{10} X_i}$. To see this, consider the possible day-over-day changes in the number of bacteria in the Petri dish: (i) stays the same; (ii) doubles; (iii) quadruples; (iv) or is halved. Each of the changes in the number can be represented as a power of two. For example, if the number starts with value 1e9 then doubles, stays the same, quadruples, and halves in the subsequent 4 days,  the number of bacteria can be expressed succinctly as: 
-%\begin{align*}
-%\mbox{the number of bacteria after 4 days} &= 1e9 \times 2^1 \times 2^0 \times 2^2 \times 2^{-1} =
-%1e9 \times 2^{1 + 0 + 2 - 1} = 1e9 \times 2^{2} = 4e9. 
-%\end{align*}
-%To generalize the number of bacteria over all possible paths, we define the random variable $X_i$ to correspond to the power of 2 that the number ``grows'' in each day. Therefore, over a ten day period the (random) value of the number of bacteria is represented as $2^{\sum_{i=1}^{10} X_i}$. Since we want the number of bacteria to be more than 30 times of its initial value, we need to calculate:
-%\begin{align*}
-%\P(\mbox{more than 30e9}) &= \P\left(2^{\sum_{i=1}^{10}X_i} \geq 30\right) = \P\left(\sum_{i=1}^{10}X_i \geq \log_2(30)\right).
-%\end{align*}
-%\qMark{2}
-%
-%However, we do not know the distribution of $\sum_{i=1}^{10}X_i$! Notwithstanding this limitation, this quantity is still possible to approximate. We will use the Central Limit theorem to provide an approximation which is easy to calculate. First, let $S_n := \sum^{n}_{i=0} X_i$, then:
-%$$S_{10} \overset{approx.}{\approx} a + bZ$$
-%where $Z$ follows the standard normal distribution, with:
-%\begin{align*}
-%a & = n\mu = n \cdot \E(X_i) = 10 \left( \frac{2}{5} \cdot 0 + \frac{3}{10} \cdot 1 + \frac{1}{5} \cdot 2 + \frac{1}{10} \cdot (-1) \right) = 10 \cdot 0.6 = 6 \\
-%b & = \sigma \sqrt{n} = \sqrt{\var(X_i) \cdot n} = \sqrt{\left( \E(X_i^2) - \E(X_i)^2 \right) \cdot 10} = \sqrt{\left( 1.2 - 0.6^2 \right) \cdot 10} = \sqrt{\frac{42}{5}}\approx 2.898,
-%\end{align*}
-%where the fact that $\E(X_i^2) = \frac{2}{5} \cdot 0^2 + \frac{3}{10} \cdot 1^2 + \frac{1}{5} \cdot 2^2 + \frac{1}{10} \cdot (-1)^2 = 1.2$ was used.
-%\qMark{2}
-%
-%Therefore, 
-%\begin{align*}
-%\P(\mbox{more than 30e9}) &= \P\left(2^{\sum_{i=1}^{10}X_i} \geq 30\right) = \P\left(\sum_{i=1}^{10}X_i \geq \log_2(30)\right) \\ 
-%&= \P(S_{10} \geq \log_2{30}) = P\left(Z \geq \frac{\log_2{30} - 6}{\sqrt{\frac{42}{5}}}\right)\\&= 1 - \Phi\left(-0.3772\right) \approx 0.647.
-%\end{align*}
 
-
-
-\subsection{Basic CLT}
+\subsection{Basic CLT}\label{sec:basic-clt}
 
 \point{Assumptions:} the random variables we sum are independent and identically distributed and have finite variance. Also, without loss of generality assume $\E X_i = 0$ (otherwise, center the random variables).
 
@@ -1957,27 +1903,86 @@ Ten days later, what is the probability that there are more than 30e9 bacteria?
 
 \point{Exercise:} show that in fact, $\frac{1}{n^\alpha} S_n \ascv 0$ for all $\alpha > 1/2$. 
 
-\point{Idea:} the above exercise suggest that $\alpha = 1/2$ is a critical point. 
+\point{Idea:} the above exercise suggest that $\alpha = 1/2$ is a critical point. A related heuristic is that for a symmetric simple random walk, the expected distance from the origin at step $n$ is roughly $\sqrt{n}$.
+
+\point{Theorem:} indeed, if $X_1, X_2, \dots$ are idd with $E X_1^2 = 1$ and $\E X_1 = 0$, then for any $x \in \R$:
+\[ \P\left( \frac{X_1 + \dots + X_n}{\sqrt{n}} \le x\right) \to \P(Y \le x), \text{ as }n\to\infty, \]
+where $Y$ is a standard normal.
+
+\subsection{Exercise set 4}
+
+\begin{enumerate}	
+	\item First problem in Section~\ref{sec:exchange}.
+	\item Second problem in Section~\ref{sec:exchange} again.
+	\item One problem in Section~\ref{sec:clt-numerical}.
+	\item One problem in Section~\ref{sec:basic-clt}.
+\end{enumerate}
 
 
+\subsection{Solutions for exercise set 4}
 
+\point{Question 1:} there is a discontinuity at $\theta = x$, so we cannot say the function is differentiable at all points, which is required for this theorem (in contrast to many other measure theoretic ones, where almost everywhere is enough, here we really need everywhere).
 
-% then picture of many distributions converging
+\point{Question 2:} the first idea is to transform the statement into one about sequences of function in the optic of applying DCT. Let $\theta_n \to \theta$ by arbitrary in $[a,b]$. Let 
+\[ h_n = \frac{g(x, \theta_n) - g(x, \theta)}{\theta_n - \theta}. \]
+Note that
+\[ \lim h_n = \frac{\ud g}{\ud \theta}(x, t). \]
+Next let us bound $|h_n|$ by $h$:
+\[ |h_n(x) | \le \sup_{\theta \in [a,b]} \left| \frac{\ud g}{\ud \theta}(x,\theta)\right| \le h(x), \] 
+where we use the mean value theorem in the first inequality and the assumption on $h$ in the theorem statement for the second inequality. With this bound and the second assumption on $h$ that it is an integrable envelope, we can apply DCT and obtain the result.
 
-% then, heuristic
+\point{Question 3:} Following the hint in the question we will seek to express the number of bacteria at day 10 in terms of $2^{\sum_{i=1}^{10} X_i}$. To see this, consider the possible day-over-day changes in the number of bacteria in the Petri dish: (i) stays the same; (ii) doubles; (iii) quadruples; (iv) or is halved. Each of the changes in the number can be represented as a power of two. For example, if the number starts with value 1e9 then doubles, stays the same, quadruples, and halves in the subsequent 4 days,  the number of bacteria can be expressed succinctly as: 
+\begin{align*}
+\mbox{the number of bacteria after 4 days} &= 1e9 \times 2^1 \times 2^0 \times 2^2 \times 2^{-1} =
+1e9 \times 2^{1 + 0 + 2 - 1} = 1e9 \times 2^{2} = 4e9. 
+\end{align*}
+To generalize the number of bacteria over all possible paths, we define the random variable $X_i$ to correspond to the power of 2 that the number ``grows'' in each day. Therefore, over a ten day period the (random) value of the number of bacteria is represented as $2^{\sum_{i=1}^{10} X_i}$. Since we want the number of bacteria to be more than 30 times of its initial value, we need to calculate:
+\begin{align*}
+\P(\mbox{more than 30e9}) &= \P\left(2^{\sum_{i=1}^{10}X_i} \geq 30\right) = \P\left(\sum_{i=1}^{10}X_i \geq \log_2(30)\right).
+\end{align*}
 
-% then statement and plan of proof
+However, we do not know the distribution of $\sum_{i=1}^{10}X_i$! Notwithstanding this limitation, this quantity is still possible to approximate. We will use the Central Limit theorem to provide an approximation which is easy to calculate. First, let $S_n := \sum^{n}_{i=0} X_i$, then:
+$$S_{10} \overset{approx.}{\approx} a + bZ$$
+where $Z$ follows the standard normal distribution, with:
+\begin{align*}
+a & = n\mu = n \cdot \E(X_i) = 10 \left( \frac{2}{5} \cdot 0 + \frac{3}{10} \cdot 1 + \frac{1}{5} \cdot 2 + \frac{1}{10} \cdot (-1) \right) = 10 \cdot 0.6 = 6 \\
+b & = \sigma \sqrt{n} = \sqrt{\var(X_i) \cdot n} = \sqrt{\left( \E(X_i^2) - \E(X_i)^2 \right) \cdot 10} = \sqrt{\left( 1.2 - 0.6^2 \right) \cdot 10} = \sqrt{\frac{42}{5}}\approx 2.898,
+\end{align*}
+where the fact that $\E(X_i^2) = \frac{2}{5} \cdot 0^2 + \frac{3}{10} \cdot 1^2 + \frac{1}{5} \cdot 2^2 + \frac{1}{10} \cdot (-1)^2 = 1.2$ was used.
 
-% then generating functions
+Therefore, 
+\begin{align*}
+\P(\mbox{more than 30e9}) &= \P\left(2^{\sum_{i=1}^{10}X_i} \geq 30\right) = \P\left(\sum_{i=1}^{10}X_i \geq \log_2(30)\right) \\ 
+&= \P(S_{10} \geq \log_2{30}) = P\left(Z \geq \frac{\log_2{30} - 6}{\sqrt{\frac{42}{5}}}\right)\\&= 1 - \Phi\left(-0.3772\right) \approx 0.647.
+\end{align*}
 
-% then ch functions, proof
-% for exchange derivative and E, use Bernoulli counter-example
+\point{Question 4:} we start with the weaker result, convergence in probability, which is more intuitive; i.e. a simple modification of our argument for WLLN \begin{enumerate}
+	\item First, assume without loss of generality that $\mu = 0$ (otherwise, set $X'_i = X_i - \mu$). 
+	\item Use Chebyshev:
+	\begin{eqnarray*}
+		\P\left(\left|\frac{1}{n^\alpha}S_n\right| \ge \epsilon \right) &\le& \frac{\E\left| \frac{1}{n^\alpha} S_n \right|^2}{\epsilon^2} \\
+		&=& \frac{\E[X_1 + \dots + X_n]^2}{n^{2\alpha} \epsilon^2} \\
+		&=& \frac{\sum_{i=1}^n \E[X_i^2] + \sum_{(i,j):i\neq j} \E[X_i X_j]}{n^{2\alpha} \epsilon^2} \\
+		&=& \frac{n \E X_i^2}{n^{2\alpha} \epsilon^2} \\
+		&=& \frac{\text{constant}}{n^{2\alpha - 1}}.
+	\end{eqnarray*}
+	\item Taking limits on both sides: \[ \lim_{n\to\infty} \P\left(\left|\frac{1}{n^\alpha}S_n\right| \ge \epsilon \right) \le \lim_{n\to\infty} \frac{\text{constant}}{n^{2\alpha - 1}} = 0. \]
+	provided $2\alpha - 1 > 0$, i.e. $\alpha > 1/2$.
+\end{enumerate}
+To prove the version almost sure, we make use of a result in the posted readings:
+namely the basic $\L^2$ convergence theorem (see e.g. Du (8.3) in ch. 1) and
+of Kronecker's lemma (Du (8.5) in ch. 1). Let $X' := \frac{X}{n^\alpha}$ and
+note that
+\begin{align*}
+\sum_{i=1}^{\infty} \E {X'}_i^2 = \sum_{i=1}^{\infty} \frac{1}{n^{2\alpha}} <
+\infty 
+\end{align*}
+because $2 \alpha > 1$. We can therefore apply the basic $\L^2$ convergence
+theorem and obtain that $\sum_{i=1}^{\infty} \E X'$ converges a.s..  Kronecker's
+lemma then yields the required result.
 
-% then delta method, MAKE SURE TO GIVE IS exercise earlier, then assignment to analyze IS
-
-% example for freq theory too
-
-
+% TODO https://en.wikipedia.org/wiki/Kolmogorov%27s_two-series_theorem
+% TODO https://en.wikipedia.org/wiki/Kolmogorov%27s_inequality
 
 
 \subsection{Types of convergence: big picture}\label{sec:conv-types-big-picture}
@@ -2004,7 +2009,7 @@ We would like to generalize the notion of convergence used in the CLT. We would 
 
 \point{Definition 2:} we say $X_n : \Omega_n \to \R$ converges in distribution to $X : \Omega \to \R$, denoted $X_n \dcv X$, if for all $x$ with $\P(X=x) = 0$, $F_{X_n}(x) \to F(x)$. In other words, convergence of the CDFs at points that are not atoms under $X$.
 
-\point{Proposition (Portmanteau):} definition 1 and 2 are in fact equivalent.
+\point{Proposition (Portmanteau):} definition 1 and 2 are in fact equivalent. In fact, search Portmanteau in your favourite reference, there are many more equivalent definitions, e.g. a useful variant is to replace ``bounded continuous'' by ``Lipschitz'' (i.e. such that there is a constant $K > 0$ such that $|g(x_1) - g(x_2)| \le K |x_1 - x_2 |$.
 
 \point{Intuition} regarding why we do not require convergence of the CDF at atomic points: otherwise, our nice hierarchy in Section~\ref{sec:conv-types-big-picture} would not hold! Consider: $X_n = 1/n$. Show it converge in probability to zero:
 \begin{center}
@@ -2019,12 +2024,26 @@ however the limit of the cdfs at zero is equal to zero but the cdf of the limit 
 \[ \frac{X_1 + \dots + X_n}{\sqrt{n}} \dcv Y, \]
 where $Y$ is a standard normal. 
 
-\point{Note:} this statement is not true in probability or a.s. (this can be proven using `Kolmogorov zero-one law'.
+\point{Note:} this statement is not true in probability or a.s. (this can be proven using `Kolmogorov zero-one law').
 
 
-\subsection{Properties of convergence}
+\subsection{Overview of some properties of convergence of r.v.'s}
 
-\point{Proposition:} if $g$ is continuous, and $X_n \dcv X$, then $g(X_n) \dcv g(X)$.
+\point{Scheff\'e's theorem:} if $X_n$ have density $f_n$ such that $f_n \to f$ pointwise, where $f$ is the density of $X$, then $X_n \dcv X$.
+
+\point{Proof:} dominated convergence.
+
+\point{Continuous mapping I:}  if $g$ is continuous, $X_n \ascv X$, then $g(X_n) \ascv g(X)$. 
+
+\point{Proof:} follows directly from definition of continuity.
+
+\point{Continuous mapping II:} if $g$ is continuous, $X_n \dcv X$,  $g(X_n) \dcv g(X)$. 
+
+\point{Proof:} trivial, provided you use the right equivalent definition provided by Portmanteau.
+
+\point{Continuous mapping III:} if $g$ is continuous, $X_n \pcv X$, then $g(X_n) \pcv g(X)$. 
+
+\point{Note:} this can be relaxed to accommodate a set of discontinuity $D$ as long as it has probability zero under the asymptotic distribution.
 
 \point{Template for many results:} ``$X_n \stackrel{\square}{\longrightarrow} X$ and $Y_n \stackrel{\square}{\longrightarrow} Y$ implies $X_n \circ Y_n \stackrel{\square}{\longrightarrow} X \circ Y$'' where you should replace $\square$ and $\circ$ by any of these combinations (note that some combinations require extra assumptions):
 \begin{enumerate}
@@ -2041,6 +2060,320 @@ where $Y$ is a standard normal.
   \item Subsequence characterization of convergence in probability: $X_n \pcv X$ if and only if for all subsequence $n_k$, there is a further subsequence $n_{k_i}$ such that $X_{n_{k_i}} \ascv X$.
   \item Skorokhod representation: suppose $X_n \dcv X$, then there exists $Y_n$ and $Y$ such that $Y_n, Y: \Omega \to \R$, $Y_n \deq X_n$, $Y \deq X$, and $Y_n \ascv Y$.
 \end{itemize}
+
+
+\subsection{Towards a proof of the CLT: generating functions}
+
+To prove the CLT, we first need to look at tools that will help us study sums of random variable. These tools are called generating functions.  We go over generating functions because they are useful in many contexts, from theory to computation. 
+
+\point{Why generating functions?} A generating function associates a function $G_X(s)$ to a random variable $X$. They are designed with two goals in mind:
+\begin{enumerate}
+	\item They \emph{characterize} certain classes of distributions. I.e. just as CDFs, if generating functions are equal (as functions), $G_X = G_Y$, then the corresponding random variables are equal in distribution, $X \deq Y$.
+	\item The generating function of sums of independent random variables is the product of the individual generating functions: $G_{X+Y}(s) = G_X(s) G_Y(s)$. 
+\end{enumerate}
+
+\point{Specific applications} of generating functions:
+\begin{enumerate}
+	\item Most CLT proofs.
+	\item The Fast Fourier Transform, one of the most important algorithms out there, is heavily based on generating functions. As an example of application of the Fast Fourier Transform, say you want to get the coefficient of the polynomial product $(a_n x^n + a_{n-1} x^{n-1} + \dots + a_0) \times (b_n x^n + b_{n-1} x^{n-1} + \dots + b_0)$. How long does it take to compute the coefficients of the product, $c_{2n} x^{2n} + c_{2n-1} x^{2n-1} + \dots +s c_0$? Naively, $O(n^2)$. Surprisingly, there exists a $O(n \log n)$ algorithm based on the Fast Fourier Transform.\footnote{Many references available online, e.g. \url{http://www.cs.uleth.ca/~benkoczi/files/fourier-excerpt.pdf}}
+\end{enumerate}
+
+\point{Types of generating function} that we will survey:
+\begin{description}
+	\item[Probability generating functions:] simplest to understand but only characterizes natural number valued random variables. We will start there for pedagogical reasons.
+	\item[Moment generating functions:] which we already encountered when we talked about Chernoff bound in Section~\ref{sec:chernoff-revisited}. They are defined for some random variables beyond natural number valued ones, but not all.
+	\item[Characteristic function:] which are always defined but will require a quick review on complex numbers. After covering those we will be ready for the proof of CLT.
+\end{description}
+
+
+\subsection{Probability generating functions}
+
+\point{Restriction:} we only consider natural number valued random variables, i.e. $X : \Omega \to \{0, 1, 2, \dots \}$.
+
+\point{Definition} of a probability generating function (PGF):
+\[ G_X(s) = \E[s^X], \]
+which in the context of a natural number valued random variables,
+\[ G_X(s) = \sum_{i=0}^\infty \P(X = i) s^i. \]
+Note that this sum might diverge for some values of $s$. For reason that will become clear soon, we elect to only define it when $\E|s^X| < \infty$ (the terminology is ``define $G$ for $s$ where the series is absolutely convergent'').\footnote{From real analysis, this is is true in a radius of at least one around the origin.}
+
+\point{Exercise:} compute it for a Bernoulli. Then for a Poisson, with pmf for parameter $\lambda > 0$ given by \[p(n) = e^{-\lambda} \frac{\lambda^n}{n!} \1[n\in \N]. \]
+
+\point{Solution for Bernoulli:} if $X \sim \Bern(\theta)$, then $G_X(s) = (1-\theta) + \theta s$.
+
+\point{Solution for Poisson:} if $Y \sim \Poi(\lambda)$, the $G_Y(s) = e^{\lambda(s-1)}$. 
+
+\point{Next:} do  probability generating functions indeed satisfy the two desiderata described in the last section (characterization and nice behaviour for sums)?
+
+\point{First desiderata: nice behaviour with sums.} If $X$ and $Y$ are independent, the PGF of their sum is the product of the PGFs, $G_{X+Y} = G_X G_Y$.
+
+\point{Proof:} by Tonelli:
+\[ \E |s^{X+Y}| = \E | s^X s^Y | = \E | s^X | \E |s^Y|, \]
+and the right hand side is finite by the absolute convergence assumption introduced in the definition. Then this mean we can apply Fubini and obtain:
+\[ G_{X+Y}(s) = \E [s^{X+Y}] = \E [s^X] \E [s^Y] = G_X(s) G_Y(s). \]
+
+\point{Exercise:} find the PMF of a sum of two independent (1) Bernoullis, (2) Poisson random variables with rates $\lambda_1$ and $\lambda_2$.
+
+\point{Solution for Bernoulli:} $G_{X_1 + X_2}(s) = ((1-\theta) + \theta s)^2$.
+
+\point{Solution for Poisson:} $G_{Y_1+Y_2}(s) = e^{(\lambda_1+\lambda_2)(s-1)}$.
+
+\point{Observation: closure under sums.} Notice that for the Poisson example above, the PGF of $Y_1 + Y_2$ coincides with the PGF of a Poisson with mean parameter $\lambda = \lambda_1+\lambda_2$. This is not always the case: for example, for the Bernoulli example, we do not have this property. In the Poisson case, can we conclude right away that $Y_1 + Y_2$ is Poisson distributed? 
+
+\point{Answer:} not yet! A priori, we do not know that some other distribution could yield the same PGF! But we will next argue that in fact this cannot happen!
+
+\point{Second desiderata: characterization.} How to show that some other distribution cannot in fact yield the same PGF? By solving the following problem: give me a PGF $G$, and reconstruct the PMF, $p_k = \P(X = k)$. How to do this? Hint: view $G(s)$ as a polynomial. Start with reconstructing $p_0 = p(0)$.
+
+\point{Solution:} \[ G(s) = p_0 + p_1 s + p_2 s^2 + p_3 s^3 + \dots. \]
+Hence: $G(0) = p_0$. Next, how to get $p_1$?
+
+\point{Trick:} If you know $G$ you can differentiate it! Get:
+\[ G'(s) = p_1 + 2 p_2 s + 3 p_3 s^2 + \dots. \]
+Hence: $G'(0) = p_1$.
+
+\point{More generally:} \[ p_n = \frac{G^{(n)(0)}}{n!}. \]
+
+\point{Application (reading):} branching processes. If a cell has a number of offspring that is Poisson-distributed with rate $\lambda$, and all its descendants recursively also have each iid Poisson-distributed descendants, what is the probability $p$ that the population eventually dies off? If $\lambda < 1$, $p=1$! For $\lambda \ge 0$, we can have $p < 1$, and even compute it from the PGF! Please read Section 5.4 in Grimmett and Stirzaker. 
+
+\point{Application (optional):}  probability generating functions are important for the analysis of time series for count data, see for example \cite{zhu_negative_2010}.
+
+
+\subsection{Moment generating function}
+
+How to extend the ideas of last section to more general random variables? First try: moment generating functions (MGF).\footnote{Also known as the \emph{Laplace transform}, up to reparameterization.}
+
+\point{Idea:} in the previous section, we looked at the expectation of $s^X$. If $X$ is non integer-valued, and we plug in a negative $s$, we get $\sqrt{-1}$. In an attempt to avoid complex numbers, the MFG $M(t)$ use the reparameterization $s = e^t > 0$ to avoid complex numbers, yielding:\footnote{However, as we will see soon, complex numbers are in some sense inevitable to do this in full generality.}
+\[ M(t) = \E[e^{tX}]. \]
+As with the PGF, this expectation may diverge for some values of $t$. As we shall see this is more problematic here since we get into situations where this is defined only at $t=0$, in which case the MGF clearly does not characterizes the distribution.
+
+\point{Exercise:} compute the MGF of a standard normal distribution. Hint: complete the square to use known normalization of the normal density.
+
+\point{Answer:} $\varphi(t) = \exp(t^2 / 2)$. 
+
+
+\subsection{Characteristic function}
+
+We would like to have a construction that is defined for all real random variables, and that has our two desiderata. 
+
+\point{Idea:} in the last section we use the function $f(t) = e^t$, which is a function into an unbounded space, $f : \R \to [0, \infty)$. Let us try to map into a bounded space. To do this, let us wrap around the line into a circle as follows:
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/ch-fct} 
+\end{center}
+Let us formalize this construction using some light complex analysis.
+
+\point{Recall:} a complex number $c \in \C$ can be written as: $c = a + b i$ where $i = \sqrt{-1}$, i.e. such that $i^2 = -1$.
+
+\point{Definition:} a complex random variable is defined as $Z = X + iY$, and we define its expectation as $\E Z = \E X + i\E Y$.
+
+\point{Some nice tricks with Taylor series:} let us say $x$ is real.  
+\begin{align*}
+	e^{ix} &= 1 + (ix) + \frac{(ix)^2}{2!} + \frac{(ix)^3}{3!} + \dots \\
+	&= 1 + (ix) - \frac{x^2}{2!} - \frac{i(x)^3}{3!} + \dots \\
+	&= (1 - \frac{x^2}{2!} + \dots) + i(x - \frac{x^3}{3!} + \dots) \\
+	&= \cos x + i \sin x.
+\end{align*}
+So, $|e^{ix}| = 1$ and we have something like we wanted in our picture above! Now clearly, if I give you some real value random variable $Y$,
+\[ \E[e^{itY}] = \E[\cos(tY)] + i \E[\sin(tY)], \]
+is always well defined and finite since $\sin$ and $\cos$ are bounded!
+
+\point{Success!} Define the characteristic function as $\varphi_Y(t) = \E[e^{itY}]$. It satisfies both our desiderata!
+
+\point{Proof:} See Durrett. Based on the following idea: if I give you $\varphi$, you can reconstruct $Y$ via the formula
+\[ \P(Y \in (a, b]) = \lim_{T\to\infty} \int_{-T}^T \frac{e^{-ita} - e^{itb}}{it} \varphi(t) \ud t. \]
+
+
+\subsection{Further properties of characteristic functions}
+
+\point{Property P0:} $X_n \dcv X \Longleftrightarrow \varphi_{X_n}(t) \to \varphi_{X}(t)$.
+
+\point{Property P1:} $\varphi_X(0) = 1$
+
+\point{Property P2:} $|\varphi_X(t)| \le 1$
+
+\point{Proof:} complex version of Jensen. If $g$ is convex, then $g(\E X) \le \E[g(X)]$. Take $g(x) = |x|$.
+
+\point{Property P3:} $\varphi_X(t)$ is always continuous (viewed as a function of $t$). 
+
+\point{Proof:} take $t_n \to t$.
+\begin{align*}
+&\Longrightarrow i t_n X \to i t X \text{ a.s.}, \\
+&\Longrightarrow \exp(i t_n X) \to \exp(i t X) \text{ a.s.}, 
+\end{align*}
+Where the last implication follows by continuity of $\exp$. Finally,
+\[ \varphi_X(t_n) = \E[e^{it_n X}] \ascv \E[e^{itX}] = \varphi_X(t), \]
+by using DCT with $|e^{it_n X}| = 1$.
+
+\point{Property P4:} If $\E|X| < \infty$, then $\varphi_X(t)$ has a derivative and 
+\begin{align*} 
+\frac{\ud}{\ud t} \varphi_X(t) &= \frac{\ud}{\ud t} \E[ e^{itX} ] \\
+&= \E[\frac{\ud}{\ud t} e^{itX}] \text{ (will use our earlier swap result)} \\
+&= \E[iX e^{itX}], 
+\end{align*}
+and in particular,
+\[ \E X = \frac{\varphi_X(0)}{i}. \]
+
+\point{Proof:} we use the result in Section~\ref{sec:exchange}, which we copy here for convenience.
+
+\point{Theorem for swaps:} suppose 
+\begin{enumerate}
+	\item $g(\cdot, \theta)$ is integrable for all $\theta \in [a, b]$, 
+	\item $g(x, \theta)$ is differentiable for all $x$ and $\theta$, 
+	\item there is an integrable envelope $h(x)$ such that $|\ud g(x, \theta) / \ud \theta| \le h(x)$ for all $x$ and $\theta$,
+\end{enumerate}
+then both sides of the equation below are well defined and equal:
+\[ \frac{\ud}{\ud \theta} \int g(x, \theta) \mu(\ud x) = \int \frac{\ud}{\ud \theta} g(x, \theta)   \mu(\ud x). \]
+
+\point{Back to proof:} we use our earlier result with $x = \omega$,  $\theta = t$, 
+\[ g(\omega, t) = e^{itX(\omega)}, \]
+and envelope
+\[ h(\omega) = |X(\omega)|. \]
+For condition 1, we have
+\[ \int | g(\omega, t) | \P(\ud \omega) = \int 1 \P(\ud \omega) = 1. \]
+For condition 2, we have indeed that $e^{itx} = \cos(tx) + i \sin(tx)$ is continuous for all $x$ and $t$. 
+For condition 3, we have $\E|X| < \infty$ by assumption.
+
+\point{Property P5:} more generally, if $\E[|X^k|] < \infty$, 
+\[ \varphi^{(k)}(t) = \E[(iX)^k e^{itX}]. \]
+As a consequence, we get the following important special case: if $\E X^2 < \infty$, then by Taylor's Theorem (Peano form) applied around zero, there exists a function $h$ such that $h(t) \to 0$ as $t\to 0$ with:
+\[ \varphi(t) = 1 + it\E X - \frac{1}{2} t^2 \E[X^2] + h(t) t^2. \]
+
+\point{Factoid:} the characteristic function of a standard normal distribution is 
+\[ \varphi(t) = e^{-\frac{1}{2} t^2}. \]
+This will be the last ingredient needed for proving the CLT. This from should not be a surprise given the closely related form for the MGF. However proving this is surprisingly tricky (requires contour integration methods from complex analysis). 
+
+
+\subsection{Proof of basic CLT}
+
+\point{Theorem:} if $X_1, X_2, \dots$ are idd with $E X_1^2 = 1$ and $\E X_1 = 0$, then:
+\[ \frac{X_1 + \dots + X_n}{\sqrt{n}} \dcv Y, \]
+where $Y$ is a standard normal. 
+
+\point{Proof:} let us fix an arbitrary $t$, and start by looking at only one variable $X_1$. We have, by P5, that 
+\[ \varphi_{X_1}(t) = 1 - \frac{1}{2} t^2 + h(t) t^2, \]
+where all we know about $h$ is that $h(t) \to 0$ when $t \to 0$.
+
+\point{Trick:} to look at a normalized sum, note
+\begin{align*}
+\varphi_{aX}(t) &= \E[ e^{it(aX)}] \\
+&= \E[ e^{i (at) X} ] \\
+&= \varphi_{X}(at).
+\end{align*}
+
+\point{Apply trick to proof:} to get the characteristic function of $\frac{S_n}{\sqrt{n}} = \frac{X_1 + \dots + X_n}{\sqrt{n}}$,
+\begin{align*}
+\varphi_{S_n/\sqrt{n}}(t) &= ( \varphi_{X_1}(t/\sqrt{n}))^n \\
+&= \left(1 - \frac{1}{2} (t/\sqrt{n})^2 + h(t/\sqrt{n}) (t/\sqrt{n})^2\right)^n \\
+&= \left(1 - \frac{(-t^2/2) + h(t/\sqrt{n}) t^2}{n} \right)^n
+\end{align*}
+
+\point{From real analysis:} $e^x = \lim_{n\to\infty} (1 + x/n)^n$.
+
+\point{Extension:} if $x_n \to x$, then $e^x = \lim_{n\to\infty} (1 + x_n/n)^n$.
+
+\point{Applying this to our setup:} 
+\begin{align*}
+x &= -t^2/2 \\
+x_n &= -t^2/2 + h(t/\sqrt{n}) t^2.
+\end{align*}
+we get $\lim_{n\to\infty} \varphi_{S_n/\sqrt{n}}(t) = e^{-t^2/2}$.
+
+\point{Conclusion:} by P0, it follows that 
+\[ S_n / \sqrt{n} \dcv Z, \]
+where $\varphi_Z(t) = e^{-t^2/2}$. By our characterization result and the factoid from last section, it follows that $Z$ is a standard normal random variable.
+
+
+\subsection{CLT: multivariate version}
+
+\point{Setup:} suppose now we have a sum of iid copies of a $d$-dimensional mean zero random \emph{vector}, $X_1 = (X_{1,1}, X_{1,2}, \dots, X_{1,d})$. The interesting bit is that we do \emph{not} assume independence across the $d$ dimensions. 
+
+\point{Goal:} We are interested in approximating the distribution of the sum of vectors $\sum_{i=1}^n X_i$, where $X_i = (X_{1,i}, X_{i,2}, \dots, X_{i,d})$. We assume $X_i \deq X_j$ for all $i,j$ and that the $X_i$ are independent (across $i \in \{1, \dots, n\}$, but still allowing for dependence within one vector across dimensions $k \in \{1, \dots, d\}$).
+
+\point{Assumption:} we do need to assume some kind of second moment assumption. In the vector context, this becomes $\E|X_{1,k} X_{1,k'}| < \infty$. This reduces to our usual condition if $d=1$, so no surprise here.
+
+\point{Theorem:} under the above assumptions,
+\[ \frac{X_1 + X_2 + \dots + X_n}{\sqrt{n}} \dcv Z, \]
+but this raises a few questions: (1) what does convergence in distribution mean for random vectors? (2) what is the limiting random vector $Z = (Z_1, Z_2, \dots, Z_d)$, and (3) how does this limiting object takes into account the dependence structure within each $X_i$?
+
+\point{Convergence in distribution of random vectors:} here the trick is to recall that we have the following definition of univariate convergence in probability (by Portmanteau): $Y_n \dcv Y$ if
+\[ \E[g(Y_n)] \to \E[g(Y)], \]
+for all bounded continuous $g$. Note that this ``univariate'' definition actually immediately generalizes verbatim to random vectors!
+
+\point{Limiting object:} recall that a mean-zero normal can be thought of as a density proportional to exponentiating a polynomial of degree two (with leading coefficient negative to ensure integrability):
+\[ f(x) \propto \exp(-a x^2) = \exp(- x a x), \]
+for $a > 0$. The density of the limiting object is a generalization of the above given by
+\[ f(x) \propto \exp(- x' A x), \]
+where $x'$ is a transpose of dimension $1$ by $d$, $A$ is $d$ by $d$, and $x$ is $d$ by $1$, therefore the product is a scalar. Here is what the density looks like:
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/mvn} 
+\end{center}
+To ensure integrability, we ask that the matrix $A$ be such that $x' A x$ be positive  for all $x \in \R^d$, a condition called \emph{positive definiteness}. One fact we will assume from linear algebra is that $A$ being positive definite implies it is invertible. 
+
+\point{Multivariate normal:} it turns out the reparameterization $\Sigma = 2A^{-1}$, called the covariance matrix, is more interpretable, because then $\E[Z_{d} Z_{d'}] = \Sigma_{d,d'}$. Moreover, the normalization constant has a closed form, which yields the standard expression for the \emph{multivariate normal distribution}:
+\[ f(x) = \frac{1}{\sqrt{(2\pi)^d |\Sigma|}} \exp\left(-\frac{1}{2} x' \Sigma^{-1} x\right). \]
+
+\point{How to compute $\Sigma$ in the multivariate CLT:} $\E[Z_{d} Z_{d'}] = \E[X_{1,d} X_{1,d'}]$, i.e. again we can just look at matching the first two moments of one random vector.  
+
+\point{Proving tool: Cram\'er-Wold device.} Let $Y$ and $Y_n$ be any random vectors. Then $Y_n \dcv Y$ if and only if for all scalar $v \in \R^d$, $Y_n' v \dcv Y' v$.
+
+
+\subsection{CLT: self-centered version}\label{sec:clt-non-centered}
+
+So far we have assumed the $X_i$ have zero mean. This can always be done without loss of generality but it is often useful to memorize the formula that does that for you:
+\[ \sqrt{n}(\bar X_n - \mu) \to N(0, \Sigma), \]
+where the $d$ dimensional random vector $\bar X_n$ is the \emph{empirical average}, $\bar X_n = (X_1 + X_2 + \dots + X_n) /n$, the $d$-dimensional vector $\mu$ is the mean, $\mu = \E[X_1]$, and the matrix $\Sigma$ is the covariance matrix, which in the non-centered case is $\Sigma_{d,d'} = \E[ (X_{1,d} - \mu_d) (X_{1,d'} - \mu_{d'}) ]$.
+
+
+\subsection{Delta method}
+
+\point{Motivation.} Recall that the sample variance is given by
+\[ S_n^2 = \frac{1}{n} \sum_{i=1}^n (X_i - \bar X_n)^2 \]
+and has the property that $S_n^2 \ascv \var X_1$. Can we use the CLT to justify a normal approximation of the distribution of $S_n^2$ for $n$ large? Convince yourself that it does not ``quite'' fit the statement of the CLT.
+
+\point{Idea:} start with a CLT on the 2-d vectors $Y_i = (X_i, X_i^2)$:
+\[ \sqrt{n}(\bar Y_n - \mu) \to N(0, \Sigma), \]
+where, using the shorthand $\alpha_j = \E X_1^j$, $\mu = (\alpha_1, \alpha_2)$, $\Sigma_{1,1} = \alpha_2 - \alpha_1^2$, $\Sigma_{1,2} = \Sigma_{2,1} = \alpha_3 - \alpha_1 \alpha_2$, and  $\Sigma_{2,2} = \alpha_4 - \alpha_2^2$. Then we will transform this CLT into the convergence statement we want, using a differentiable function $\phi$. 
+
+\point{Example:} $S_n^2 = \phi(\bar Y_n)$, where $\phi(x, y) = y - x^2$. 
+
+\point{Goal:} get a new asymptotic approximation on $\phi(\bar Y_n)$ given a known asymptotic approximation on $\bar Y_n$. We already know from the continuous mapping theorem that $\phi(\bar Y_n) \ascv \phi(\mu)$. This suggests looking at convergence in distribution of 
+\begin{align}\label{eq:clt-for-delta}
+\sqrt{n}(\phi(\bar Y_n) - \phi(\mu)).
+\end{align}
+How to tackle the weak limit of this sequence of random variables?
+
+\point{Technique:} Taylor expansion of $\phi$ around the mean $\mu$, 
+\[\phi(\bar Y_n) = \phi(\mu) + \phi'(\mu)(\bar Y_n - \mu) + \dots.\]
+Informally plugging the above into Equation~(\ref{eq:clt-for-delta}), we get
+\[ \sqrt{n}(\phi(\bar Y_n) - \phi(\mu)) \approx \phi'(\mu) (\bar Y_n - \mu). \]
+
+\point{Theorem (delta method):} if $\phi : \R^k \to \R^m$ is differentiable at $\mu$, and 
+\[ \sqrt{n}(T_n - \mu) \dcv T \] 
+then
+\[ \sqrt{n}(\phi(T_n) - \phi(\mu)) \dcv \phi'(\mu) T, \] 
+where $\phi'$ is the $m$ by $k$ matrix of partial derivatives, $\phi'_{i,j}=\partial_i \phi_j$.
+
+\point{Proof:} if assuming continuous differentiation, a simple application of the mean value theorem, continuous mapping and Slutsky. See e.g. van der Vaart for the full version.
+
+\point{Exercise:} complete the motivation, showing that, \[ \sqrt{n}(S^2_n - \var X_1) \dcv Z, \]
+where $Z$ is a normal with mean zero and variance $\alpha_4 - \alpha_2^2$.
+
+
+\subsection{LLNs and CLTs under relaxed assumptions}
+
+\point{Removing all independence assumptions:} so far we have allowed dependences between components of random vectors but not across separate random vectors. This can be considerably relaxed. One of the most useful relaxation is based on \emph{Markov chains}. We sketch here the results in their simplest possible form, and will talk in more depth later if time permits
+
+\point{Markov chains, discrete case:} consider a list of random variables $X_1, X_2, \dots$ with a distribution constructed as follows:
+\[ \P(X_1 = x) = v_x, \]
+where $v = (v_1, v_2, \dots, v_N)$ is a known vector called a initial distribution, $x \in \{1, 2, \dots, N\}$, and
+\[ \P(X_i = x' | X_{i-1} = x) = M_{x,x'}, \]
+where $M = (M_{x,x'})$ is a known $N$ by $N$ matrix called the transition matrix. 
+
+\point{Theorem:} if $M^N$ has no zero entries,\footnote{There are far more general conditions, but they need more setup. We will hopefully get to them soon.} there exists a distribution $\pi$ such that we have the following LLN:
+\[ \frac{1}{n} \sum_{i=1}^n f(X_i) \ascv \mu = \int f(x) \pi(\ud x). \]
+and CLT:
+\[ \sqrt{n}(\bar X_n - \mu) \dcv Z, \]
+where $Z \sim N(0, \sigma^2)$.
+
+\point{What is $\pi$?} This time it is more complicated than the distribution of one of the $X_i$'s, since the distributions are not identical! But it turns out we can still get a lot of knowledge about $\pi$, called the \emph{stationary distribution}. Similarly for $\sigma^2$, called the asymptotic variance. To be continued when we talk about Markov chains in more depth. 
 
 
 \subsection{Convergence in $L^p$}
@@ -2077,6 +2410,8 @@ It is easy to show that for all $t$, $\varphi_{X_n}(t) \to  \varphi_{X}(t)$.
 
 \point{Exercise:} show how to solve the motivation problem using this proposition.
 
+\point{Solution:} for a Poisson distribution, the maximum likelihood and moment matching coincide, so we can fit the parameter as follows $\hat \lambda \approx \frac{1}{16} (7 + 1 + \dots + 2) = 3.5625$. This yields \[\P(X = 0) = e^{-\hat \lambda} \hat\lambda^0 / 0! \approx 2.8\%. \] 
+
 \point{Generalization using ``triangular arrays:''} let $X_{n,m}$ denote an array with the variables in each row being independent:
 \begin{itemize}
   \item $X_{2,1}, X_{2,2}$ are independent.
@@ -2099,28 +2434,34 @@ Then: $S_n = X_{n,1} + X_{n,2} + \dots + X_{n,n}$ is such that $S_n \dcv X$, whe
 
 \point{Prerequisite definition:} a \emph{Radon-Nikodym derivative} (RN) is like a density, but where we build a measure instead of a probability measure. Compare:
 \begin{itemize} 
-  \item The probability measure $\nu$ has density $f$ with respect to a measure $\mu$ if \[ \nu(A) = \int_A f(x) \mu(\ud x). \]
-  \item The measure $\nu$ has RN derivative $f$ with respect to a measure $\mu$ if \[ \nu(A) = \int_A f(x) \mu(\ud x). \]
+  \item The probability measure $\nu$ has density $f \ge 0$ with respect to a measure $\mu$ if \[ \nu(A) = \int_A f(x) \mu(\ud x). \]
+  \item The measure $\nu$ has RN derivative $f \ge 0$ with respect to a measure $\mu$ if \[ \nu(A) = \int_A f(x) \mu(\ud x). \]
 \end{itemize}
 
-\point{Poisson process---motivation and connexion to Poisson convergence:}  
+\point{Poisson process---motivation and connexion to Poisson convergence:}\footnote{Reference for the Poisson process: the best reference in my opinion for this part of the material is the beautiful short monograph by Kingman (1993), ``Poisson Processes.''}  
 \begin{itemize}
   \item Let $n$ denote the number of nucleotides in your genome (about 3e9 base pairs). 
   \item Say you are exposed to a small dose of radiation. 
   \item Let $Y_i$ denote the indicator that nucleotide $i$ in a cell mutates. 
   \item Say $Y_i \iidsim \Bern(1e-9)$, and let $S_n = Y_1 + Y_2 + \dots + Y_n$.  
   \item By the Poisson convergence section, $S_n$ is approximately Poisson distributed, with rate parameter $\lambda$.
-  \item Now let us view the genome as one line segment (a continuous approximation of the discrete DNA strand). 
+  \item Now let us view the genome as one line segment $[0, 3]$ (a continuous approximation of the discrete DNA strand). 
   \item What is the approximate probability of the number of mutation in the first half of the genome? Last quarter? Are those independent?
 \end{itemize}
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/pp-genome} 
+\end{center}
 
-\point{Poisson distribution vs. process:} the distribution only keeps track of the total number of mutation, while the process keeps track of where they occur (equivalently, the number in \emph{any} subset of genome).
+\point{Poisson distribution vs.\ process:} the distribution only keeps track of the total number of mutation, while the process keeps track of where they occur (equivalently, the number in \emph{any} subset of genome).
 
 \point{Notation:} 
 \begin{itemize}
-  \item $\ppspace$: the space in which each point sits in (for example, the interval approximating the genome).
+  \item $\ppspace$: the space in which each point sits in (for example, the interval $[0, 3]$ approximating the genome).
   \item For $A \subset \ppspace$, let $N_A$ denote the random number of points that fall in $A$.
 \end{itemize}
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/pp-with-intervals} 
+\end{center}
 
 \point{From the motivating example:} we are interested in cases where:
 \begin{enumerate}
@@ -2129,24 +2470,41 @@ Then: $S_n = X_{n,1} + X_{n,2} + \dots + X_{n,n}$ is such that $S_n \dcv X$, whe
 \end{enumerate}
 
 \point{Recall:} a nice property of these random variables is:
-\[ N_{A\sqcup B} = N_A + N_B \sim \Poi(\underbrace{\mu(A) + \mu(B)}_{\mu(A\sqcup B)} \]
+\[ N_{A\sqcup B} = N_A + N_B \sim \Poi(\underbrace{\mu(A) + \mu(B))}_{\mu(A\sqcup B)} \]
 
 \point{Note:} this is an instance of what is called \emph{Kolmogorov consistency}.
 
 \point{Example 2:} random positions of animals in the forest $\ppspace = [0,1]\times[0,1]$, $\mu = \mu^2$. Exercise: what are the assumptions we implicitly make if we say the animal positions are distributed according to a Poisson process?
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/pp-2d} 
+\end{center}
+\point{Assumptions in above example:}
+\begin{enumerate}
+	\item Solitary animals.
+	\item Do not avoid each other.
+	\item No food/water source attracting animals.
+\end{enumerate}
+We will next discuss how to relax the last assumption, in the context of another 1d example. 
 
-\point{Example 3:} customers entering a store. Here, $\ppspace = [0, \infty)$ represents time. Problem: same expected number of customers between 1am - 2am and 1pm - 2pm. Solution? Non-uniform $\mu$, defined via a RN derivative. 
+\point{Example 3:} customers entering a store. Here, $\ppspace = [0, \infty)$ represents time. Problem: same expected number of customers between 1am--2am and 1pm--2pm. Solution? Non-uniform $\mu$, defined via a RN derivative. 
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/pp-non-unif} 
+\end{center}
+Compute the intensity via
+\[ \mu(A) = \int_A f_\mu(x) \ud x. \]
+Then as before,
+\[ N_A \sim \Poi(\mu(A)). \]
 
 \point{Next:} a formal definition of Poisson processes. 
 
 \point{Assumptions on} $\mu$, called the intensity measure:
 \begin{enumerate}
   \item A measure on $(\ppspace, \events_\ppspace)$,
-  \item Can be broken into a countable collection of finite measure segments: exists countable partition $A_i$ of $\ppspace$ such that $\mu(A_i) < \infty$.
-  \item The intensity measure is non-atomic: for all $x \in \ppspace$, $\mu(\{x\}) = 0$. 
+  \item Can be broken into a countable collection of finite measure segments: exists countable partition $A_i$ of $\ppspace$ such that $\mu(A_i) < \infty$ (this property is called ``$\mu$ is  $\sigma$-finite'').
+  \item The intensity measure is non-atomic: for all $x \in \ppspace$, $\mu(\{x\}) = 0$.
 \end{enumerate}
 
-\point{Formal definition of a Poisson Process (PP):} under the above assumption, the collection of random variables $\{N_A : A \in \ppspace\}$ is called a Poisson process with intensity $\mu$ if:
+\point{Formal definition of a Poisson Process (PP):} under the above assumption, the collection of random variables $\{N_A : A \in \events_\ppspace\}$ is called a Poisson process with intensity $\mu$ if:
 \begin{enumerate}
   \item $A \cap B = \emptyset \Longrightarrow N_A$ and $N_B$ are independent.
   \item $N_A \sim \Poi(\mu(A))$.
@@ -2157,21 +2515,40 @@ Then: $S_n = X_{n,1} + X_{n,2} + \dots + X_{n,n}$ is such that $S_n \dcv X$, whe
   \item Simulate the point for one of the block $A_i$ at the time:
   \begin{enumerate}
     \item Simulate the number of points in $A_i$, $N_{A_i} \sim \Poi(\mu(A_i))$.
-    \item For $i = 1, \dots, N_{A_i}$:
+    \item For $j = 1, \dots, N_{A_i}$:
     \begin{enumerate}
-      \item $X_i ~ \mu / \mu(A_i)$
+      \item $X_{i,j}$ is sampled independently according to $\mu$ restricted to $A_i$ and renormalized in order to form a probability distribution, i.e.:
+      \[ \P(X_{i,j} \in B) = \frac{\mu(B \cap A_i)}{\mu(A_i)}. \]
     \end{enumerate}
     \item The random set of points in $A_i$ is $S_i = \{X_1, \dots, X_{N_{A_i}}\}$
   \end{enumerate}
-  \item Return the union of the points over all the $S_i$'s
+  \item Return the union $S$ of the points over all the $S_i$'s
 \end{enumerate}
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/pp-algo} 
+\end{center}
 
-Note that equivalently, the PP can be viewed as a random set of points, denoted $S \sim \PP(\mu)$.
+\point{Proof sketch:} the distribution of the algorithm satisfies our two defining axioms. 
 
+\point{Lemma:} the distribution of $S$ does not depend on the choice of partition $\{A_i\}$.
 
-\subsection{Reference for the Poisson process}
+\point{Proof of lemma:} consider two partitions $\{A_i\}$ and $\{B_i\}$. We want to show $S_{\{A_i\}} \deq S_{\{B_i\}}$. Build a new partition as we did in exercise~\ref{sec:sol-ex-iii} 
+\[ \{ C_{i,j} = A_i \cap B_j \}. \]
+Show 
+\[ S_{\{A_i\}} \deq S_{\{C_{i,j}\}} \]
+and 
+\[ S_{\{B_i\}} \deq S_{\{C_{i,j}\}}, \]
+where we $S_{\{A_i\}}$ denote the output of the above algorithm using partition $\{A_i\}$.
+The key point in the argument is that
+\[ N_{A_i} \deq \sum_j N_{C_{i,j}}, \]
+which holds by combining additivity of measures
+\[ \mu(A_i) \deq \sum_j \mu(C_{i,j}),  \]
+and ``additivity'' of Poisson distributions, 
+\[ X_i \iidsim \Poi(\lambda_i) \Longrightarrow \sum_i X_i \sim \Poi\left(\sum_i \lambda_i\right). \]
 
-The textbook (Gut 2013) has a limited coverage of Poisson processes. The best reference in my opinion for this part of the material is the beautiful short monograph by Kingman (1993), ``Poisson Processes.'' It is out of print, but a quick Google revealed that it seems to be currently available as pdf. 
+\point{Back to proposition:} given the two set $A$ and $B$ in the axiom, just pick $A_1 = A$ and $A_2 = B$, the proof then follows directly from the lemma.
+
+\point{Counts and sets: two equivalent views.} The algorithm shows that the PP can be viewed as a random set of points, denoted $S \sim \PP(\mu)$. With a slight abuse of notation, if $\mu$ has RN density $f_\mu$, we might also write $S \sim \PP(f_\mu)$.
 
 
 \subsection{Poisson process with constant intensity on the real line}
@@ -2181,17 +2558,17 @@ The textbook (Gut 2013) has a limited coverage of Poisson processes. The best re
   \item $\ppspace = [0, \infty)$
   \item $\mu =$ uniform.
 \end{itemize}
-Let $T_1, T_2, \dots$ denote the arrival times, i.e. $T_i = \inf\{t : N_{[0,t]} \ge 1\}$.
+Let $T_1, T_2, \dots$ denote the arrival times, i.e. $T_1 = \inf\{t : N_{[0,t]} \ge 1\}$, and more generally, $T_k = \inf\{t : N_{[0,t]} \ge k\}$.
 Then:
 \begin{eqnarray}
 \P(T_1 > t) &=& \P(N_{[0,t]} = 0) \\
-&=& \frac{e^{t - 0} (t-0)^n}{n!} \;\;n=0 \\
+&=& \frac{e^{t - 0} (t-0)^n}{n!} \;\;\text{ with }n=0 \\
 &=& 1 - \text{CDF of an exponential}
 \end{eqnarray}
 Similarly, each inter-arrival times $T_i - T_{i-1}$ are also exponential(1).
 
 
-\subsection{Superposition and thinning}
+\subsection{Superposition}
 
 \point{Motivation:} consider the example concerned with animals in the forest. What if we consider two species simultaneously, assuming they do not interact?
 
@@ -2199,20 +2576,45 @@ Similarly, each inter-arrival times $T_i - T_{i-1}$ are also exponential(1).
 
 \point{Exercise:} prove this using the algorithmic construction and the fact that the sum of Poissons is Poisson. 
 
-\point{Note:} this can be generalized to countable unions of PPs, provided that the sum of intensities is still $\sigma$-finite.
+\point{Note:} this can be generalized to countable unions of PPs, provided that the sum of intensities is still $\sigma$-finite. 
 
-\point{Definition (thinning):} Let $S = \{X_1, X_2, \dots\} \sim \PP(\mu)$, $Y_i \sim \Bern(p)$. We defined the thinned process by using the iid coin flips $Y_i$ to decide, for each point in $S$, whether we keep this point or not: $T \defeq \{X_i \in S : Y_i = 1\}$.
 
-\point{Proposition (thinning):} The random set $T$ defined above by the thinning procedure is a Poisson process, and its intensity is obtained by scaling down the original intensity $\mu$: $T \sim \PP(p\mu)$, where $(p\mu)(A) \defeq p \mu(A)$.
+\subsection{Thinning}
+
+\point{Definition (thinning).} Let $S = \{X_1, X_2, \dots\} \sim \PP(\mu)$, $Y_i \iidsim \Bern(p)$. We define the thinned process by using the iid coin flips $Y_i$ to decide, for each point in $S$, whether we keep this point or not: $T \defeq \{X_i \in S : Y_i = 1\}$.
+
+\point{Proposition (thinning).} The random set $T$ defined above by the thinning procedure is a Poisson process, and its intensity is obtained by scaling down the original intensity $\mu$: $T \sim \PP(p\mu)$, where $(p\mu)(A) \defeq p \mu(A)$.
 
 \point{Proof:} will be easier once we talk about conditioning next week. 
+
+\point{Thinning for densities.} Suppose now the intensity measure has a RN derivative, $S = \{X_1, X_2, \dots\} \sim \PP(f_\mu)$. We can let the coin flips be non-identical: given a position of a point $x$, let us say we use for the corresponding $Y$ a coin with success probability $p(x)$ for some $p : \ppspace \to [0, 1]$. Then $T \defeq \{X_i \in S : Y_i = 1\}$ is again a PP, this time with intensity RN given by the pointwise product $f(x) = p(x) f_\mu(x)$.
+
+\point{Powerful computational trick:} let us say you have a complicated intensity function with RN $f$ from which you would like to simulate a PP. If $f$ is bounded by $M$, then you can use the following recipe:
+\begin{enumerate}
+	\item Let $f_\mu = M$, the uniform density scaled by $M$. Note: $f(x) = p(x) f_\mu(x)$ for some function $p : \ppspace \to [0, 1]$, namely
+	\[ p(x) =  \frac{f(x)}{f_\mu(x)} = \frac{f(x)}{M}. \] 
+	\item Simulate $S = \{X_1, X_2, \dots\} \sim \PP(f_\mu)$ which is trivial to do.
+	\item For each $X_i$, simulate a Bernoulli $Y_i$ with success probability $p(X_i)$.
+	\item Return $T \defeq \{X_i \in S : Y_i = 1\}$. By the second thinning theorem, this is distributed according to a PP with intensity $f$ as hoped.
+\end{enumerate}
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/thinning} 
+\end{center}
+
+\point{Exercise:} generalize this recipe to $f_\mu(x)$ being some non-constant upper-bound on $f$. 
 
 
 \subsection{Mapping}
 
 \point{Motivation:} consider the animals in the forest example. What is the distribution of the $x$-coordinates of the random animal locations?
 
-\point{More general setup:} suppose we have a mapping $\phi : \ppspace \to \ppspace'$. In the above example, $\ppspace = [0,1]^2$, $\ppspace' = [0,1]$, and $\phi(x, y) = x$.
+\point{More general setup:} suppose we have a mapping $\phi : \ppspace \to \ppspace'$.
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/pp-mapping} 
+\end{center} 
+\point{Exercise:} write the projection example using the framework of a mapping $\phi$.
+
+\point{Solution:} In the above example, $\ppspace = [0,1]^2$, $\ppspace' = [0,1]$, and $\phi(x, y) = x$.
 
 \point{Proposition:} Let $S \sim \PP(\mu)$. Assume $\mu^\star(A) \defeq \mu(\phi^{-1}(A))$ has no atom and is $\sigma$-finite. Then $\phi(S) \sim \PP(\mu^\star)$.
 
@@ -2225,29 +2627,33 @@ Similarly, each inter-arrival times $T_i - T_{i-1}$ are also exponential(1).
 \point{Definition:} $Y$ is called a compound Poisson process.
 
 \point{Next:} we would like to gain information about the distribution of $Y$. We will see that we can compute its characteristic function:
-\[ \E\left[e^{itY}\right] = \exp\left\{ \left(e^{itf(x)} - 1\right) \mu(\ud x) \right\}. \]
-See the reference by Kingman for details and more.
+\[ \E\left[e^{itY}\right] = \exp\left\{ \int \left(e^{itf(x)} - 1\right) \mu(\ud x) \right\}. \]
+
+\point{Proof:} start with $f$ simple:
+\[ f = \sum_j a_j \delta_{A_j}. \]
+Let $\lambda_j = \mu(A_j)$, $N_j \sim \Poi(\lambda_j)$, and
+\[ Y = \sum_j a_j N_j. \]
+We now compute the characteristic function as follows:
+\begin{align*}
+\E[ e^{itY} ] &= \prod_j \E[e^{ita_j N_j}] \\
+&= \prod_j e^{\lambda_j (e^{ita_j} - 1)} \\
+&= \exp\left( \sum_j \lambda_j (e^{it a_j} - 1)\right) \\
+&= \exp\left( \int (e^{itf(x)} - 1)\mu(\ud x)\right).
+\end{align*}
+Next, for arbitrary $f$, use DCT to obtain:
+\[ \E[ e^{itY} ] = \exp\left( \int (e^{itf(x)} - 1)		 \mu(\ud x)\right). \]
 
 
 \section{Conditioning}
 
 \subsection{Background: $\sigma$-algebra and information}\label{sec:sigma-algebra-and-information}
 
-\point{Motivation:} let $\Omega$ denote the space of outcomes corresponding to throwing two independent dice. Let $X_1$ denote the first throw, and $X_2$, the sum of the two throws. We would like to guess $X_2$ from observing only $X_1$.
-
-\point{Notation:} we call a random variable $\delta$ trying to predict $X_2$ an \emph{estimator} of $X_1$. Consider the following suggestions:
-\begin{itemize}
-  \item $\delta_1 = 3 + X_1$,
-  \item $\delta_2 = X_2$.
-\end{itemize}
-Clearly, there is a problem with $\delta_2$: it is cheating! Solution: require an estimator to be a function of only the observed random variables, $\delta = f(X_1)$.
-
-\point{Equivalently:} from the bonus problem in assignment 1, require that $(\sigma \in I) \in \sigma(X_1) = \{(X\in I) : I \in \borels\}$.
+It will be useful for you to review Section~\ref{sec:sigma-alg-and-estimator} before reading this chapter.
 
 
 \subsection{Conditioning on an event}
 
-\point{Motivation:} a couple has two children. Your initial beliefs over the sex of the second child is 1/2 boy, 1/2 girl. You get one piece of information: at least one of the two chilren is a girl. What is the optimal way of updating your beliefs?
+\point{Motivation:} a couple has two children. You would like to predict the sex of the second (youngest) child. Your initial beliefs over the sex of that second child is 1/2 boy, 1/2 girl. You get one piece of information: at least one of the two children is a girl. What is the optimal way of updating your beliefs?
 
 \point{Conditioning on an even:} consists in an operator that takes as an input:
 \begin{enumerate}
@@ -2257,15 +2663,15 @@ Clearly, there is a problem with $\delta_2$: it is cheating! Solution: require a
 The interpretation of $E$ is that you know the true outcome is somewhere in $E$, but you still do not know which outcome in $E$. The output of conditioning on an event: a new, updated belief, denoted $\P(\cdot | E)$. The optimal value for this updated belief, for any query set $A$, is given by:
 \[ \P(A | E) = \frac{\P(A\cap E)}{\P(E)}. \]
 
-\point{Example:} the updated belief for the motivation question is 1/3 boy, 2/3 girl.
+\point{Example.} In the motivation at the beginning of the section, we are interested in $A$ and $A^\complement$, where $A = \{(g,g), (b,g)\}$. The observation is $E = \{(b,g),(g,b),(g,g)\}$, hence the updated belief for the motivation question is $\P(A|E) = 2/3, \P(A^\complement|E) = 1/3$.
 
 
 \subsection{Conditioning on a random variable}
 
 \point{Interpretation:} let $X$ and $Y$ be two random variables defined on the same probability space:
 \begin{itemize}
-  \item $Y$ is observed,
-  \item $X$ is the variable you would like to predict.
+  \item $Y$ is observed, (e.g. $Y = \1_E$ in the motivating example)
+  \item $X$ is the variable you would like to predict (e.g. $X = \1_A$ in the motivating example).
 \end{itemize}
 The conditional expectation of $X$ given $Y$ is a new estimator random variable $\delta = f(Y)$, which can be interpreted as the ``best'' estimator of $X$ based on $Y$. Notation: this random variable $\delta$ is denote by $\E[X|Y]$.
 
@@ -2274,7 +2680,15 @@ The conditional expectation of $X$ given $Y$ is a new estimator random variable 
 where minimization is performed over functions $f$ (technically, over measurable functions). If a function $f^*$ maximizes this program and give a finite value to the objective function, then $\E[X|Y] \defeq f^*(Y)$.
 
 \point{Exercise:} show that in the two children problem, you obtain:
-\[ f^*(x) = \bracearraycond{0 \;\;&\text{if }x=0\\ 2/3\;\;&\text{if }x=1\\\text{any value}\;\;&\text{otherwise.}} \]
+\[ f^*(y) = \bracearraycond{0 \;\;&\text{if }y=0\\ 2/3\;\;&\text{if }y=1\\\text{any value}\;\;&\text{otherwise.}} \] 
+
+\point{Solution:} we have:
+\begin{align*} \E(f(Y) - X)^2 &= \frac{1}{4}\left[ (f(0) - 0)^2 + (f(1) - 1)^2 + (f(1) - 0)^2 + (f(1) - 1)^2 \right] \\ 
+&= \frac{f(0)^2 + 3 f(1)^2 - 4f(1) +2}{4},
+\end{align*}
+hence we see right away that $f(0) = 0$ and that the values of $f$ are unimportant except at $y=0$ and $y=1$. To find $f_1 = f(1)$, we compute the derivative with respect to $f_1$ and get
+\[ \frac{\ud}{\ud f_1} \left(  \frac{3 f_1^2 - 4 f_1 +2}{4}\right) = \frac{3}{2} f_1 - 1, \]
+hence finding the root we get indeed $f_1 = 2/3$.
 
 \point{Note:} by the discussion in Section~\ref{sec:sigma-algebra-and-information}, note that we only used $Y$ via $\sigma(Y)$. For this reason, we can define the notion of conditioning on a $\sigma$-algebra $\events$, denoted $\E[X|\events]$, in the same way as we did above.
 
@@ -2295,9 +2709,27 @@ and its associated law of total probability, a special case where $X = \1_A$:
 U &\sim \Unif(0,1) \\
 X | U &\sim \Bin(n, U),
 \end{eqnarray*}
-where the second line means that if $Z \sim \Bin(n,p)$, then $\E[g(X) | U] = \E[g(Z)]|_{p=U}$. Show that $\P(X = i) = 1/(n+1)$ using the law of total probability. 
+Show that $\P(X = i) = 1/(n+1)$ using the law of total probability. Hint: use the Beta function, defined for $x> 0$ and $y > 0$:
+\[ B(x, y) = \int_0^1 u^{x-1} (1-u)^{y-1} \ud u = \frac{\Gamma(x) \Gamma(y)}{\Gamma(x+y)}, \]
+where $\Gamma$ denotes the Gamma function, which for integer $x$ satisfies $\Gamma(x) = (x-1)!$.
 
-\point{Discrete case:} to get some intuition, let us first assume that $Y$ is simple, $Y = \sum_{i=1}^n a_i \1_{A_i}$, where $A_i$ forms a partition. By simple set properties:
+\point{Notation used above:} what do we need precisely by ``$X | U \sim \Bin(n, U)$''? More generally, suppose $\{D_y\}$ is some collection of distribution indexed by a parameter $y$ (e.g. the Binomials indexed by their success probability parameter). Then the notation ``$X|Y\sim D(Y)$'' means that for all $A$, $\P(X\in A|Y) = D_Y(A)$.
+
+\point{Solution:} by the Law of Total Probability, $\P(X=i) = \E[ \P(X=i | U) ]$. By the distributional statement $X|U \sim \Bin(n, U)$, and the fact that the Binomial distribution has a known probability mass function in which we plug in (compose) with the random success probability parameter $U$:
+\begin{align*}
+	\P(X = i) &= \E[ \P(X=i | U)] \\
+	&= \E\left[ \binom{n}{i} U^i (1 - U)^{n-i} \right] \\
+	&= \binom{n}{i} \E\left[ U^i (1-U)^{n-i} \right].
+\end{align*}
+Now the last line is the expectation of a function $g(u) = u^i (1-u)^{n-i}$ of a uniform random variable. Therefore we can compute as:
+\begin{align*}
+	\P(X = i) &= \binom{n}{i} \E\left[ U^i (1-U)^{n-i} \right] \\
+	&= \binom{n}{i} B(i+1, n - i + 1) \\
+	&= \frac{1}{n+1},
+\end{align*}
+using the hint.
+
+\point{Discrete case:} to get more intuition on the law of total expectation/probability, let us first assume that $Y$ is simple, $Y = \sum_{i=1}^n a_i \1_{A_i}$, where $A_i$ forms a partition. By simple set properties:
 \begin{eqnarray*}
 \P(A) &=& \sum_{i=1}^n \P(A \cap (Y=a_i)) \\
 &=& \sum_{i=1}^n \P(A|Y=a_i) \P(Y = a_i).
@@ -2305,26 +2737,39 @@ where the second line means that if $Z \sim \Bin(n,p)$, then $\E[g(X) | U] = \E[
 Now, let: 
 \begin{equation} 
 f(y) = \bracearraycond{
-  \P(A|Y=a_i) &\text{if }y\in\{a_1, \dots, a_n\} \\ 
+  \P(A|Y=y) &\text{if }y\in\{a_1, \dots, a_n\} \\ 
   \text{arbitrary,} & \text{otherwise.}
 }
 \end{equation}
-We will see shortly that $\P(A|Y) = f(Y)$.
+Conditioning on a random variable can be thought as introducing a nice notation for this identity, $\P(A|Y) := f(Y)$. This also provides a way to generalize to conditioning into a non-discrete random variable.
 
-\point{Next:} it is easy to generalize this property to cases where we select only a subset of the blocks in the partition. To formalize this, let $B \subset \{a_1, \dots, a_n\}$, then a set of blocks can be denoted as $H \defeq (Y \in B)$, i.e. $H \in \sigma(Y)$. With this notation, show that:
-\[ \P(A \cap H) = \E[ \1_H \P(A | Y). \]
+\point{Next:} we first generalize the above to cases where we select only a subset of the blocks in the partition. To formalize this, let $B \subset \{a_1, \dots, a_n\}$, then a set of blocks can be denoted as $H \defeq (Y \in B)$, i.e. $H \in \sigma(Y)$. With this notation, show that:
+\[ \P(A \cap H) = \E[ \1_H \P(A | Y)]. \]
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/law-of-total-pr} 
+\end{center}
 
-\point{Definition/property:} we will use this property, which we have shown to hold for simple $Y$, as the basis of our fully general definition of conditional expectation.  Let $X, Y \in \L_1$ be defined on a common probability space. Then there exists a random variable, denoted $\E[X|Y]$, such that:
+\point{Definition of conditional probability:} we will use this property, which we have shown to hold for simple $Y$, as the basis of our fully general definition of conditional probability.  Let $Y \in \L_1$. Then there exists a random variable, denoted $\P(A|Y)$, such that:
 \begin{enumerate}
-  \item $\E[X|Y] \in \sigma(Y)$, (i.e. $\E[X|Y]$ is an estimator of $X$ based on $Y$)
-  \item for all $H \in \sigma(Y)$, $\E[ \1_H X ] = \E[ \1_H \E[X|Y] ]$.
+  \item $\P(A|Y) \in \sigma(Y)$, (i.e. $\P(A|Y)$ is an estimator based only on the information offered by $Y$)
+  \item for all $H \in \sigma(Y)$, $\P(A \cap H) = \E[ \1_H \P(A | Y)]$.
 \end{enumerate} 
 Moreover this random variable is almost sure unique.
 
-\point{Proof:} if you are interested, see \\
-{\footnotesize \url{http://bibserver.berkeley.edu/205/WorkInProgress/CondExpExistUnique.pdf}}
+\newcommand\othersigma{{\mathcal G}}
 
-\point{Alternative proof:} there is an alternative argument based on Radon-Nikodym theorem, that is that $\nu$ has density $f$ with respect to $\mu$ if and only if $(\mu(A) = 0 \Rightarrow \nu(A) = 0)$ (a property called $\nu$ is absolutely continuous with respect to $\mu$, denoted $\nu \ll \mu$). I am happy to go over it at the office hours.
+\point{Ingredient for the proof: Radon-Lebesgue-Nikodym theorem} let $(\Omega, \othersigma)$ denote a measurable space with two measures $\nu$ and $\mu$. Then $\mu(A) = 0 \Rightarrow \nu(A) = 0$ (a property called ``$\nu$ is absolutely continuous with respect to $\mu$'', denoted $\nu \ll \mu$), if and only if $\nu$ has a density with respect to $\mu$, i.e. $\nu(A) = \int_A f \ud \nu$ for some $f \in \othersigma$.
+
+\point{Proof of existence of conditional expectation:} let $\othersigma = \sigma(Y)$, and define, for all $H \in \othersigma$, $\nu(H) = \P(A \cap H)$ and $\mu(H) = \P(H)$. Since $\mu(H) = 0 \Longrightarrow \nu(H) = 0$, it follows by Radon-Lebesgue-Nikodym that there is a $f \in \othersigma$ such that $\nu(H) = \int_H f \ud \mu$. This yields the result with $f = \P(A|Y)$. 
+
+\point{Proof of uniqueness:} suppose there are two random variables $Z_1 = \P(A|Y)$ and another one $Z_2$ both satisfying the two conditions in the definition of conditional probability. We have $\E[\1_H Z_1] = \P(A\cap H) = \E[\1_H Z_2]$, therefore $\E[\1_H (Z_1 - Z_2)] = 0$ for all $H \in \sigma(Y)$. Take $H = (D > 0)$, we get by Chebyshev, $\E[\1_H D] = 0 \Longrightarrow \P(D > 0) = 0$. By a symmetrical argument on $Z_2 - Z_1$, $\P(D < 0) = 0$.
+
+\point{Definition of conditional expectation:} a generalization of the above yield also the definition conditional expectation.  Let $X, Y \in \L_1$ be defined on a common probability space. Then there exists a random variable, denoted $\E[X|Y]$, such that:
+\begin{enumerate}
+\item $\E[X|Y] \in \sigma(Y)$, (i.e. $\E[X|Y]$ is an estimator of $X$ based on $Y$)
+\item for all $H \in \sigma(Y)$, $\E[ \1_H X ] = \E[ \1_H \E[X|Y] ]$.
+\end{enumerate} 
+Moreover this random variable is almost sure unique.
 
 
 \subsection{Key properties}
@@ -2347,6 +2792,9 @@ f_Y(y) &\defeq& \int f(x, y) \ud x.
 \E[ \1_{H'} X ] &=& \E[ \1_{H'} \E[X|Y] ],
 \end{eqnarray*}
 which is true since $H' \in \sigma(Y)$. Complete the proof using the DCT.
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/cond-exp-property} 
+\end{center}
 
 
 \subsection{Equivalence of the two definitions}
@@ -2364,9 +2812,9 @@ Note:
 \end{enumerate}
 
 
-\subsection{The Bayes estimator}
+\subsection{The Bayes estimator (a special case)}
 
-\point{Motivation:} a complete order over estimator.
+\point{Motivation:} a complete order over estimator. 
 
 \point{Frequentist notion of optimality:} since in the MLE (Maximum Likelihood Estimation) framework we do not place a prior on $\theta = X$, the performance of an estimator $\delta$ depends on the true parameter $\theta$:
 \[ \text{MSE}_\theta(\delta) = \E_\theta[(\delta - \theta)^2] = \E[(\delta - \theta)^2 | \theta]. \]
@@ -2380,6 +2828,10 @@ The MLE mimizes this objective function.
 
 \point{Bayesian alternative:} average over $\theta$, to get a real number summary of each estimator:
 \[ \text{mse}(\delta) = \E[ \text{MSE}_\theta(\delta) ]. \]
+
+\point{Consequence:} this yields a \emph{complete order} over estimator. The name of the best estimator is called the \emph{Bayes estimator}, and corresponds to the posterior mean $\E[\theta | \text{data}]$ with our choice of loss function being the square difference. 
+
+\point{Note:} the Bayes estimator can be defined for other loss functions, in which case it involves an optimization problem where the objective function is a conditional expectation given the data.
 
 
 \subsection{Geometric view of expectation and further properties}
@@ -2401,7 +2853,7 @@ Suppose in the remaining of the section that $Y \in \L_2$.
 \point{Examples:}
 \begin{enumerate}
   \item $V = \R^2$, $\|v\|_2 = \sqrt{v_1^2 + v_2^2}$, triangle inequality is the Pythagorean theorem.
-  \item $V = \L_2$, $\|X\| = \sqrt{\E X^2 }$, triangle inequality is called Minkowski's inequality (see textbook, p.129).
+  \item $V = \L_2$, $\|X\| = \sqrt{\E X^2 }$, triangle inequality is called Minkowski's inequality, described in more detail shortly.
 \end{enumerate}
 
 \point{2. Subspace:} a ``closed'' subset of a vector space, $W \subset V$, i.e. such that $v_1, v_2 \in W \Rightarrow v_1 + v_2 \in W$. 
@@ -2409,13 +2861,13 @@ Suppose in the remaining of the section that $Y \in \L_2$.
 \point{Examples:}
 \begin{enumerate}
   \item $\{$points of the form $(0, x)\} \subset \R^2$,
-  \item $W = \{Z \in \L_2 : Z \in \sigma(Y)\} = \{Z \in \L_2 : Z = f(Y), f\text{ measurable}\}$. Here $W$ is closed because $f_1, f_2$ measurable implies $a f_1 + f_2$ is also measurable.
+  \item $W = \{Z \in \L_2 : Z \in \sigma(Y)\} = \{Z \in \L_2 : Z = f(Y), f\text{ measurable}\}$. 
 \end{enumerate}
 
 \point{3. Projection:} of a point $v$ into a subspace $W$. This projection is defined as:
 \[ \argmin_{w \in W} \| v - w\|. \]
 
-\point{Key example:} when $V = \L_2$, $W$ as point 2l above:
+\point{Key example:} when $V = \L_2$, $W$ as point 2 above:
 \begin{eqnarray*}
 \E[X|Y] &=& \argmin_{Z \in W} \| Z - X \| \\
 &=& \text{projection of $X$ into $W$.}
@@ -2427,7 +2879,11 @@ Suppose in the remaining of the section that $Y \in \L_2$.
 &=& \E[X | \events_1].
 \end{eqnarray*}
 
-\point{Proof sketch:} draw a picture!
+\point{Proof sketch:} 
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/tower} 
+\end{center}
+
 
 \point{Last few properties of conditional expectations:}
 \begin{enumerate}
@@ -2442,37 +2898,124 @@ Suppose in the remaining of the section that $Y \in \L_2$.
 
 \point{Minkowski inequality:} is usually proven using \emph{Cauchy-Schwarz inequality}, which is a must-know itself.
 
-\point{Cauchy-Schwarz:} $|\dotprod{u}{v}| \le \| u \|_2 \| v \|_2$, where $\dotprod{\cdot}{\cdot}$ denotes an inner product, e.g. $\dotprod{X}{Y} = \E[X Y]$. This result should be pretty intuitive: suppose you have two vectors $u$ and $v$ of fixed length and you want to maximize their dot product. How to do this? Make them point in the same direction! In this case we actually get equality. The proof follows from a generalization of the fact that $(a - b)^2 \ge 0$ hence $2ab \le a^2 + b^2$.
+\point{Cauchy-Schwarz:} $|\dotprod{u}{v}| \le \| u \|_2 \| v \|_2$, where $\dotprod{\cdot}{\cdot}$ denotes an inner product, e.g. $\dotprod{X}{Y} = \E[X Y]$. This result should be pretty intuitive: suppose you have two vectors $u$ and $v$ of fixed length and you want to maximize their dot product. How to do this? Make them point in the same direction! In this case we actually get equality. In the case of a real vector space, this is clear from the identity $\dotprod{u}{v}^2 = (\| u \|_2 \| v \|_2 \cos \theta)^2 \le (\| u \|_2 \| v \|_2)^2$, where $\theta$ is the angle between the two vectors. See wikipedia for the general proof.
+
+%The proof follows from a generalization of the fact that $(a - b)^2 \ge 0$ hence $2ab \le a^2 + b^2$.
 
 \point{Minkowski from Cauchy-Schwarz:} 
 \begin{align*}
 \| X + Y \|_2^2 &= \E | X + Y |^2 \\
 &\le \E [ (|X| + |Y|) |X + Y| ] \\
-&= \E [ |X||X + Y| ] + \E [ |Y||X + Y| ] \\
+&= \E [ |X|\times|X + Y| ] + \E [ |Y|\times|X + Y| ] \\
 &\le \| X \|_2 \|X + Y\|_2 + \| Y \|_2 \|X + Y\|_2 \;\text{ (using Cauchy-Schwarz)}  \\
-&= ( \| X \|_2 + \| Y \|_2 ) \|X + Y\|_2 \\
-&= ( \| X \|_2 + \| Y \|_2 ) \frac{ \|X + Y\|^2_2 }{ \|X + Y\|_2}.
+&= ( \| X \|_2 + \| Y \|_2 ) \|X + Y\|_2.
 \end{align*} 
+Finally, divide each side by $\|X + Y\|_2$.
 
 \point{Generalizations:} to go from $L^2$ to $L^p$, $p \ge 1$ is easy. Search \emph{H\"{o}lder's inequality} and use that instead of Cauchy-Schwarz in the above argument. 
 
 
-\subsection{Conditional independence and Bayes Ball algorithm}
+\subsection{Conditional independence}
 
-Compare and contrast the following definition with the definition of independence:
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
 
-\point{Definition:} two random variables $X$ and $Y$ are conditionally independent given $Z$ if $\E[g_1(X) g_2(Y)|Z] = \E[g_1(X)|Z] \E[g_2(Y)|Z]$. 
+\point{Conditional independence of events:} events $A$ and $B$ are conditionally independent given $C$, denoted $A \independent B | C$, if \[\P(A \cap B | C) = P(A | C) P(B | C).\] Notice this is just the standard  notion of independence applied to a conditional probability $\P(\cdot | C)$.
 
-\point{Exercise:} independence does not imply conditional independence, and conditional independence does not imply independence.
+\point{Conditional independence of random variables:} two random variables $X$ and $Y$ are conditionally independent given $Z$, $X \independent Y | Z$, if \[ \E[g_1(X) g_2(Y)|Z] = \E[g_1(X)|Z] \E[g_2(Y)|Z]\] for all bounded continuous $g_1, g_2$.
 
-\point{Reference:} the Bayes ball algorithm is a method for identifying certain conditional independence relationships from a directed graphical model (Bayes net). It is best explained with pictures. See {\footnotesize \url{http://www.cs.princeton.edu/courses/archive/spr09/cos513/scribe/lecture02.pdf}}, where you can also find a proof.
+\point{Exercise:} independence does not imply conditional independence, and conditional independence does not imply independence. Hint: consider the following 
+\begin{enumerate}
+	\item The random variables $X_1, X_2, X_3$ corresponding to the position of a player of ladders and snakes at turns one, two and three (ignore the snakes and ladders for simplicity), $X_1 \sim \Unif(1, \dots, 6)$, $X_i | X_{i-1} \sim \Unif(X_{i-1} + 1, \dots, X_{i-1} + 6)$.
+	\item The random variable $S = Y_1 + Y_2$ where $Y_1$ and $Y_2$ correspond to the throwing of two dice. 
+\end{enumerate}
+
+
+\subsection{Directed graphical models}
+
+\point{Generative model:} a description of a joint distribution as a product of conditional distribution. By the chain rule, this can always be done, but typically we expect a generative model to be such that each conditional distribution can be efficiently simulated from. 
+
+\point{Example:} (made up)
+\begin{align*}
+	X_1 &\sim \Unif(0, 1/2, 1) \\
+	X_2 | X_1 &\sim \Bern(X_1) \\
+	X_3 | X_1, X_4 &\sim \Poi(1 + X_1 + X_4) \\
+	X_4 &\sim \Bern(1/3) \\
+	X_5 | X_3 &\sim \Unif(0, .., X_3) \\
+	X_7 &\sim \text{Geo}(1/4) \\
+	X_6 | X_4, X_7 &\sim \Unif(X_4, X_7) \\
+	X_8 &\sim \text{Norm}(0, 1) 
+\end{align*}
+
+\point{Motivation for directed graphical models:} they help us address the following two problems:
+\begin{enumerate}
+	\item Design an algorithm to sample from the joint distribution $f(x_1, x_2, \dots, x_8)$.
+	\item Efficiently establish some conditional independence relationships. For example, do we have $X_4 \independent X_2 | X_1, X_5, X_6$? We will cover this in the next section.
+\end{enumerate}
+
+\point{First problem: sampling from the joint distribution.} This task arises when you need to generate ``synthetic data'' in a Bayesian context. This is also called ``forward sampling.'' The basic problem is that if there are $n$ variables, the chain rule can be written in $n!$ ways. Which one to pick? E.g.: compare these three orders
+\begin{enumerate}
+	\item $f(x_1, x_2, \dots, x_8) = f(x_1) f(x_2 | x_1) f(x_3 | x_1, x_2) f(x_4 | x_1, x_2, x_3) \dots f(x_8 | x_1, \dots, x_7)$, and order we denote by $(1,2,3,4,5,6,7,8)$,
+	\item order $(1, 4, 7, 2, 3, 6, 5, 8)$,
+	\item order $(8, 1, 2, 4, 3, 5, 7, 6)$.
+\end{enumerate}
+It is much easier to simulate from order 2 than order 1. Why? At the same time, order 2 is not unique: 3 would be just as efficient. Directed graphical models will bring much clarity here:
+
+\point{Definition:} a directed graphical model is a directed model where nodes are variables and there is an edge from variable $X_i$ to $X_j$ if the conditional distribution of $X_j$ in the generative model depends on $X_i$. 
+
+\point{Example.} For the previous generative model, we obtain:
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/graph-model} 
+\end{center}
+
+\point{Forward sampling using graphical models:} pick an order $(i_1, i_2, \dots)$ such that the edges of the graphical model are respected, i.e. for all edge $(i_k \to i_l)$, the first end point appear earlier in the order compared to the second, $k < l$. This is called a \emph{linearization} of a partial order, and can be performed in linear time in the size of the graph, via an algorithm called \emph{topological sorting}.
+
+
+\subsection{Establishing (conditional) independence relations using directed graphical models}
+
+\point{Establishing certain independence relations.} Let us start with independence, and do conditional independence after. 
+
+\point{Idea:} We can sometimes infer independence relationships just by looking at the shape of the graphical model.
+
+\point{Example:} using the same graphical model as before, suppose we want to find if $X_4$ is independent of $X_7$.
+
+\point{Bayes ball algorithm for independence.} The rules of this algorithm are as follows:
+\begin{enumerate}
+	\item Two nodes \emph{communicate} if there is some path following the graphical rules below. In this case we \emph{cannot say} just from the graphical model if the random variables are independent
+	\item If there are no such path, the nodes do not communicate. In this case we can conclude the random variables are independent
+\end{enumerate}
+\begin{center}
+	\includegraphics[width=0.2\linewidth]{figures/rules-unconditioned} 
+\end{center}
+
+\point{Exercise:} In our usual example, which nodes are guaranteed to be independent of $X_4$?
+
+\point{Solution:} $X_1, X_2, X_7, X_8$.
+
+\point{Conditional independence.} Suppose now we want to find conditional independence statements. We first extend our notion of graphical model:
+
+\point{Convention:} shade in grey the random variables that we want to condition upon.
+
+\point{Example.} In our recurring model, let us condition on $X_1, X_5, X_6$.
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/graph-model-cond} 
+\end{center}
+
+\point{Bayes ball algorithm for independence.} The algorithm works in the same way but with the following extended rule set taking into account shaded nodes:
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{figures/bayes-ball-full-rules} 
+\end{center}
+
+\point{Example:} From the usual graphical model, which of the white nodes\footnote{Shaded nodes are always conditionally independent, since, for any events $A$, $B$, $C$: $\P(AB|BC) = \P(A|BC)\P(B|BC) = \P(A|BC)$.} are guaranteed to be conditionally independent of $X_4$ given the shaded nodes?
+
+\point{Solution:} $X_2$ and $X_8$.
 
 
 \section{Markov chains}
 
 \subsection{Basic definitions and examples}
 
-\point{Informal:} A sequence of random variables where the future is independent of the past given the present.
+\point{Informal:} A sequence of random variables where the future is independent of the past given the present. 
 
 \point{From the graphical model point of view:} a chain-shaped graphical model.
 
@@ -2481,7 +3024,11 @@ Compare and contrast the following definition with the definition of independenc
 
 \point{Examples:}
 \begin{enumerate}
-  \item Let $E$ denote a set of undirected edges over $\states$. Define \[ \P(X_{n+1} = x | X_n) = \frac{1}{Z(X_n)} \1[\{x, X_n\} \in E]. \]Note that the normalization $Z(x)$ is given by the number of nodes connected to $x$. To make this more interesting, consider the vertices of the graph given by the location of a knight on a game of chess (8x8 square), and the edges given by the moves allowed for the knight (L shaped moves moving by one square in one axis, and 2 in the other axis). 
+  \item Let $E$ denote a set of undirected edges over $\states$. Define \[ \P(X_{n+1} = x | X_n) = \frac{1}{Z(X_n)} \1[\{x, X_n\} \in E]. \]Note that the normalization $Z(x)$ is given by the number of nodes connected to $x$. For example $Z(\text{f}) = 3$ below: 
+  \begin{center}
+  	\includegraphics[width=0.3\linewidth]{figures/discrete-graph} 
+  \end{center}
+  To make this more interesting, consider the vertices of the graph given by the location of a knight on a game of chess (8x8 square), and the edges given by the moves allowed for the knight (L shaped moves moving by one square in one axis, and 2 in the other axis). 
   \item The Wright-Fisher model: suppose that $N$ bacteria can live in a Petri dish. There are two species, blue and green bacteria. In the first day, there are $X_1$ green and $N-X_1$ blue bacteria. In the next day, there are still $N$ bacteria, the descendants from the previous generation. The parent of each of the $N$ in day 2 are selected independently and uniformaly from those in day 1. The color is inherited without mutation. This mean: \[ \P(X_n = k | X_n) = \binom{N}{k} \left(\frac{X_n}{N}\right)^k \left( 1 - \frac{X_n}{N}\right)^{N-k}. \]Note that $X_n = 0 \Rightarrow X_{n+1} = 0$, and $X_n = N \Rightarrow X_{n+1} = N$. These are called absorbing states.  
 \end{enumerate}
 
@@ -2493,6 +3040,9 @@ Compare and contrast the following definition with the definition of independenc
 \point{Definition:} a Markov chain is homogeneous is $p_n(x \to y) = p_{n+1}(x \to y)$ for all $n, x, y$. We denote it by $p(x \to y)$. 
 
 \point{Visualization:} of $p(x \to y)$ via a \emph{state diagram}. Consider a directed graph where the nodes are the points in $\states$ and where the is an edge $(x \to y) \in E$ if and only if $p(x \to y) > 0$. Informally, this encodes the sparsity patterns of the transition probabilities.
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{figures/state-diagram} 
+\end{center}
 
 \point{Note:} if $X_n$ is finite and homogeneous, it is characterized by 2 objects:
 \begin{enumerate}
@@ -2517,19 +3067,22 @@ Compare and contrast the following definition with the definition of independenc
 &=& \sum_{z \in \states} p(x \to z) p(z \to y) \\
 &=& (M^2)_{x,y}.
 \end{eqnarray*} 
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{figures/kolm-chap} 
+\end{center}
 
-\point{Exercise:} show that more generally, $\mu M^n = (\P(X_n = 1), \P(X_n = 2), \dots, \P(X_n = K))$.
+\point{Exercise:} show that more generally, \[\mu M^n = (\P(X_n = 1), \P(X_n = 2), \dots, \P(X_n = K)).\]
 
 
 \subsection{Hitting probabilities}
 
-\point{Setup:} suppose we have an homogeneous finite state Markov chain $X_n$ with exactly two absorbing states, denoted $x_0$ and $x_1$.
+\point{Setup:} suppose we have an homogeneous finite state Markov chain $X_n$ with exactly two absorbing states, denoted $x_1$ and $x_2$.
 
 \point{Example/exercise:} create a state space to model two-players snakes and ladders. The interpretation of $x_0$ is that the first player wins, and $x_1$, that the second player wins. 
 
 \point{Definition:} a hitting time $T_x$ is the first time (possibly infinity) that a state $x$ is reached, i.e. $T_x = \inf \{n : X_n = x\}$. 
 
-\point{Goal:} computing $h(x) = \P_x(T_{x_1} < T_{x_2})$.
+\point{Idea:} solve a bigger problem! What are the hitting probability \emph{for all starting points}, i.e. computing $h(x) = \P_x(T_{x_1} < T_{x_2})$. This allows us to build a recurrence between these problems.
 
 \point{Some easily obtained constraints on $h$:}
 \begin{enumerate}
@@ -2562,6 +3115,12 @@ We will cover two main results, used in different contexts:
 
 \point{Definition:} a Markov chain is irreducible if there is a directed path between each ordered pair of states.
 
+\point{Example:} which of those Markov chains are irreducible, if any?
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/irred-example} 
+\end{center}
+\point{Solution:} the middle one only, $M''$.
+
 \point{Theorem:} if $X_n$ is:
 \begin{enumerate}
   \item Markov,
@@ -2572,44 +3131,85 @@ We will cover two main results, used in different contexts:
 then \[ \frac{1}{N} \sum_{n=1}^N f(X_n) \ascv \E[f(X_\infty)],\]
 where \[\pi(x) = \P(X_\infty = x) = \frac{1}{\E_x T_x}. \] This is true for any initial distribution $\mu$.
 
-\point{Idea:} $i$-block, which is a subset of the Markov chain trajectory from one visit to a fixed arbitrary state $i$ to the next visit to $i$. We will related the average length of these blocks to the inverse of the expected time spent at $i$. Now these blocks are iid, which will allow us to use the LLN.
+\point{Examples:} 
+\begin{enumerate}
+	\item Consider the famous board game \emph{Monopoly}. What is the fraction of the rounds where there is a player at one of the squares, say \emph{Park Place}? In this example, $f(x) = \1[x = \text{Park Place}]$.
+	\item Justification that Markov chain Monte Carlo algorithms can provide arbitrarily good approximations if the user is patient enough, without having to resort to thinning/restarts/burn-in!
+\end{enumerate}
+
+\point{Proof idea:} $i$-block, which is a subset of the Markov chain trajectory from one visit to a fixed arbitrary state $i$ to the next visit to $i$. We will related the average length of these blocks to the inverse of the expected time spent at $i$. Now these blocks are iid, which will allow us to use the LLN.
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/iblocks} 
+\end{center}
 
 \point{Lemma/exercise:} $E[T_i] < \infty$ since the chain is finite and irreducible (recall that $T_x$ is a hitting time, defined in the previous section).
 
 \point{Main steps of the proof of LLN:}
 \begin{enumerate}
-  \item It is enough to show the theorem is true for the test function $f(x) = \1[x = i]$ for some fixed reference state $i$.
+  \item It is enough to show the theorem is true for the test function \[f(x) = \1[x = i]\] for some fixed reference state $i$.
   \item Define $N_n = \sum_{j=1}^n \1[X_j = i]$, the number of visits to $i$ in the first $n$ steps. We will show that $\frac{1}{n} N_n \to 1/\E_x [T_x]$, almost surely.
   \item Define $R(k) = \inf\{n:N_n = k\}$, the time of the $k$-th return at $i$.
   \item Note: is we let $|B_j|$ denote the length of the $j$-th $i$-block, $R(k) = |B_1| + |B_2| + \dots + |B_{k-1}|$.
   \item Hence, by the LLN, $R(k) / (k-1) \to \E_x [T_x]$ almost surely.
-  \item Note: $R(N_n) \le n \le R(N_n + 1)$ (by definition, draw a picture to convince yourself).
+  \item Note: $R(N_n) \le n \le R(N_n + 1)$. For example, in 
+  \begin{center}
+  	\includegraphics[width=0.6\linewidth]{figures/i-block-eg} 
+  \end{center}
+  we have 
+  \[
+  \underbrace{R(N_n)}_{R(2) = 7} \le \underbrace{n}_{10} \le \underbrace{R(N_n + 1)}_{R(3) = 13}
+  \]
   \item Dividing everything in the above inequalities by $N_n$, we get $\frac{1}{n} N_n \to 1/\E_x [T_x]$, almost surely.
 \end{enumerate}
+
+\point{CLT exercise:} a similar argument yield a CLT! Under the same conditions as the previous theorem (note we are still in finite state space, so existence of all moments is guaranteed): there exists a constant $c$ such that
+\[ \sqrt{n}(\bar X_n - \mu) \dcv Z, \]
+where $Z \sim N(0, c)$.
 
 
 \subsection{Extension to countably infinite spaces}
 
-The main difficulty is that the fact that $\events$ is counable and $X_n$ is irreducible does not imply that $\E_x T_x < \infty$.
+The main difficulty is that the fact that $\events$ is countable and $X_n$ is irreducible does not imply that $\E_x T_x < \infty$.
 
-\point{Counter-example:} from earlier in the course, drunk bird might not return home. Recall, using BC 1, if we let $A_n = (X_n = (0,0,0))$, then $\P(A_n \io) = 0$, implying that $\P_x(T_x = \infty) > 0$, so that $\E_x T_x = \infty$. 
+\point{Counter-example:} from earlier in the course, a drunk bird might not return home. Recall, using BC 1, if we let $A_n = (X_n = (0,0,0))$, then $\P(A_n \io) = 0$, implying that $\P_x(T_x = \infty) > 0$, so that $\E_x T_x = \infty$. 
 
 \point{Solution:} add an assumption. We say that a state is positive recurrent if $\E_x T_x < \infty$. With this additional assumption, the LLN holds in countably infinite spaces.
 
-\point{Note on terminology:} why ``positive'' recurrent? First, recurrent is a weaker condition, $\E_x N_x = \infty$. Now this is subdivided into two sub-cases, positive recurrent, defined above, and null recurrent, where $\E_x T_x = \infty$ but $\E_x N_x = \infty$. Finally, the opposite of recurrent is transient.
+\point{Note on terminology:} why ``positive'' recurrent? To differentiate from a weaker condition, just called ``recurrence'', defined by $\E_x N_x = \infty$. Now this is subdivided into two sub-cases, positive recurrent, defined above, and null recurrent, where $\E_x T_x = \infty$ but $\E_x N_x = \infty$. Finally, the opposite of recurrent is transient.
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/rec-hierarchy} 
+\end{center}
 
+\point{Exercise:} find an example which is null recurrent. Hint:
+\begin{center}
+	\includegraphics[width=0.2\linewidth]{figures/null-rec} 
+\end{center}
 
-\subsection{Convergence of the marginals}
+\subsection{Convergence of the marginals and coupling}
 
 Now, we would like to investigate the convergence of the marginals, which, using our linear algebra, boils down to investigating $\lim_{n\to\infty} M^n$ (note that we get back to the finite case for now). 
 
-\point{Problem:} just the conditions we used for the LLN are not enough! Counter example: $M = (0 1; 1 0)$.
+\point{Problem:} just the conditions we used for the LLN are not enough! Counter example: 
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{figures/non-aperiodic} 
+\end{center}
+Note: we have a LLN, \[ \frac{1}{N} \sum_{n=1}^N \1[X_n = \text{a}] \ascv \frac{1}{2}, \]
+but the marginals alternate between two matrices:
+\begin{center}
+	\includegraphics[width=0.2\linewidth]{figures/waltz} 
+\end{center}
 
 \point{Solution:} add an assumption, aperiodicity. To define it, we will need a few definitions.
 
 \point{Definition:} the period of $x\in\states$ is defined as $d_x = \gcd\{n : (M^n)_{x,x} > 0\}$.
 
 \point{Definition:} a state is aperiodic if $d_x = 1$. A chain is aperiodic if all states are aperiodic.
+
+\point{Examples:}
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{figures/aperiodic-examples} 
+\end{center}
+Note that for the first example, we write the gcd relative to two different start states but get the same results. This will always hold in general.
 
 \point{Theorem:} if $X_n$ is:
 \begin{enumerate}
@@ -2621,7 +3221,7 @@ Now, we would like to investigate the convergence of the marginals, which, using
 \end{enumerate}
 \[ \P(X_n = x) \to \P(X_\infty = x), \]for any initial distribution $\mu$.
 
-\point{Other notation for the result:} the above means that $\lim_{n\to \infty}$ exists and is composed of identical rows. Let us denote this limit by $L$. Let us denote its identical rows by $\pi$. 
+\point{Other notation for the result:} the above means that $\lim_{n\to \infty} M^n$ exists and is composed of identical rows. Let us denote this limit by $L$. Let us denote its identical rows by $\pi$. 
 
 \point{Note:} this means that $L = LM$, i.e. $\pi = \pi M$, or \[ \pi(y) = \sum_{x \in \states} \pi(x) p(x \to y). \]This is called the stationary equation or global balance equation.
 
@@ -2631,14 +3231,33 @@ Now, we would like to investigate the convergence of the marginals, which, using
 
 \point{Proof idea for the convergence of the marginals:} coupling.  
 \begin{enumerate}
-  \item We build two chains $\tilde X_n$ and $\tilde Y_n$, both with transition probabilities $p(x \to y)$.
-  \item $\tilde X_0 \sim \pi$, while $\tilde Y_0 \sim \mu$. 
-  \item $\tilde X_n$ and $\tilde Y_n$ are independent until they meet for the first time, at which point they stay together forever.
-  \item Note: $\tilde X_0 \sim \pi \Rightarrow X_n \sim \pi$ for all $n$. 
-  \item It is therefore enough to show that the two chain meet almost surely. This is where aperiodicity is used!
+  \item We build two chains $X_n$ and $Y_n$. Marginally, both have transition probabilities $p(x \to y)$.
+  \item $X_0 \sim \pi$, while $Y_0 \sim \mu$. 
+  \item $X_n$ and $Y_n$ make their transitions independently until they meet for the first time, at which point they stay together forever.
+  \item Note: $X_0 \sim \pi \Rightarrow X_n \sim \pi$ for all $n$. 
+  \item Let $T$ denote the time the two chains meet: $T = \inf\{n : X_n = Y_n\}$.
+  \item It is therefore enough to show that the two chain meet ``quickly,'' formally that $\P(T > n) \to 0$. This is where aperiodicity is used! What happens if not irreducible? Consider counter example at the beginning of the section to understand the importance of irreducibility.
+  \item To conclude the argument, note first that
+  \begin{align*}
+  	\P(X_n = y, T \le n) &= \sum_{m=1}^n \sum_x \P(T=m, X_m = x, X_n = y) \\
+  	&= \sum_{m=1}^n \sum_x \P(T=m, X_m = x) \P(X_n = y | T=m, X_m = x) \text{ (chain rule)} \\ &= \sum_{m=1}^n \sum_x \P(T=m, Y_m = x) \P(X_n = y | T=m, X_m = x) \text{ (by def. of $T$)}\\
+  	&= \sum_{m=1}^n \sum_x \P(T=m, Y_m = x) \P(Y_n = y | T=m, Y_m = x) \text{ (by homogeneity)} \\
+  	&= \P(Y_n = y, T \le n)\\
+  \end{align*}
+  which implies
+  \begin{align*}
+  	| \P(X_n = y) - \P(Y_n = y) | &= |(\P(X_n = y, T \le n) + \P(X_n = y, T > n)) \\&\;\;\;- (\P(Y_n = y, T \le n) + \P(Y_n = y, T > n))| \\
+  	&= |\P(X_n = y, T > n) - \P(Y_n = y, T > n)| \\
+  	&\le \P(X_n = y, T > n) + \P(Y_n = y, T > n),
+  \end{align*}
+  hence, summing over $y$, 
+  \begin{align*}
+  \sum_y	| \P(X_n = y) - \P(Y_n = y) | &\le \sum_y ( \P(X_n = y, T > n) + \P(Y_n = y, T > n)) \\
+  &= 2\P(T > n).
+  \end{align*}
 \end{enumerate}
 
-\point{For details}, see: \\{\footnotesize \url{http://bibserver.berkeley.edu/205/WorkInProgress/limit_theorem.pdf}}
+\point{Definition:} the quantity $\frac{1}{2} \sum_y | p(y) - q(y) |$ obtained by rearranging the last inequality in the proof is called the \emph{total variation distance} between distributions $p$ and $q$.
 
 
 \section{Application: MCMC}
@@ -2837,60 +3456,8 @@ Several of the samplers we have defined so far (in particular, the Gibbs sampler
 
 \point{Exercise:} conclude that the Ising Gibbs sampler is irreducible and hence that the LLN holds. 
 
-%\point{Goal:} to show that 
-
-
-% we define the $\L_2$ norm of a random variable by $\|X\| = \E[X^2]$ (exercise: show that this definition satisfies all the axioms of a norm).
-
- 
-
-% BACK TO WHERE YOU WERE/BEGINNING OF ZOO
-
-% TODO: write it
-
-% TODO: tonelli
-
-% NEXT: TAIL SUMS
-
-% consider a random variable $X$ with the following probability mass function $p_X(x) \defeq \P(X = x)$:
-% \\
-% \begin{tabular}{ll}
-% \hline
-% $x$ & $p_X(x)$ \\
-% \hline
-% -2 & 1/6 \\
-% -1 & 1/6 \\
-% 0  & 1/3 \\
-% +1 & 1/6 \\
-% +2 & 1/6 \\
-% \hline
-% \end{tabular}
-% Now let $Y = X^2$, and suppose we want to compute $\E[Y]$. 
-% 
-% \point{Naive way:} 
-
-
-% start with simple discrete example and g() = x^2, then prove
-
-% then, introduce density
-
-
-% need more on expectation --- PLAN: come back via assignment and another section after indep; e.g. will need Fubini for tail sums
-% - change of vars
-% - actual computations
-% - indicator tricks
-% - tail sums
-
-
-% - philosophy: \Omega complicated, not accessible
-% - todo: closure of r.v. under limits
-% - add note that symbols are clickeable
-% - todo: double-check statements of monotone/dominated does not require existence of lim 
-
-
 
 \bibliographystyle{plain}
 \bibliography{ref}
-
 
 \end{document}
