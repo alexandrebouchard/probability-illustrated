@@ -451,7 +451,7 @@ where $a_i$ is the assignment of student $i$, identifying $\{1, 2, 3, 4\}$ as th
 
 \point{Informal definition:}
 \begin{itemize}
-  \item A random variable if often used to encode a measurement, for example, in the previous train example, whether the train goes left or right at time step 3.
+  \item A random variable is often used to encode a measurement, for example, in the previous train example, whether the train goes left or right at time step 3.
   \item Random variables are used to model partial observability of the world. In contrast to each outcome $\omega \in \Omega$, which contains all the information possible within the model, a random variable can be defined to ``forget'' information. For example, you may only known the position of the train at time steps 1 and 6, and what happens in between is unknown.
   \item Another use of random variables is to express a quantity that is unknown, but that we would like to have the probability of. A concept that I call a ``query.''
 \end{itemize}
@@ -496,14 +496,14 @@ Note that we abuse the notation and use the same symbol for lifted function eval
   \item (Real) random variables and random vectors are special though, as they will later allow us to define the notion of expectation (not possible with colours, as we cannot for example ``add colours''). More on this later!
 \end{itemize}
 
-\point{Terminology:} values in the set $\states$ are called \emph{realizations}, and are often denoted with the small-cap version of the random variable, e.g. a realization of $X$ is denoted $x = X(\omega)$. This distinction is useful for example to distinguish $f(x)$, which is just function evaluation, from $f(X)$, which is the construction of a new random variable obtained by composing $f$ and $X$.
+\point{Terminology:} values in the set $\states$ are called \emph{realizations}, and are often denoted with the small-cap version of the random variable, e.g. a realization of $X$ is denoted $x = X(\omega)$. This distinction is useful for example to distinguish $f(x)$, which is just function evaluation, from $f(X)$, which is the construction of a new random variable obtained by composing $f$ and $X$ (composition is reviewed in the next section).
 
 \point{Warning:} make sure you follow the type conventions! For example, $\P($red$)$ or $\P(X)$ are not defined!\footnote{Some authors do give a meaning to the latter, but it is not what you think! We will see this meaning, namely the expectation of $X$, later.}
 
 
 \subsection{Compositions of random variables}\label{sec:composition-of-rv}
 
-\point{Recall:} $g \circ h$ means a new function that first use $g$, then $h$: $g \circ h(x) = g(h(x))$. 
+\point{Recall:} $g \circ h$ means a new function that first applies $h$ to the input, then plugs in the intermediate quantity into $g$: $g \circ h(x) = g(h(x))$. 
 
 \point{Convention:} use capital letters only for the random variables mapping elements from the sample space $\Omega \to \states$. Use standard function notation ($g, h$, etc) for subsequent transformations $g : \states \to \states'$  of the output of $X$. E.g. $g \circ X = g(X)$. 
 
@@ -860,9 +860,7 @@ where $f$ is the density of $X$. There are two limitations with this definition:
 
 \subsection{Notation, inputs and outputs}
 
-The integral you know from calculus (called the Riemann integral) takes one input (a function $f : \R \to \R$) and return one real number.
-
-In contrast, the Lebesgue integral needs \emph{two} inputs:
+The integral you know from calculus (called the Riemann integral) takes one input (a function $f : \R \to \R$) and return one real number. In contrast, the Lebesgue integral needs \emph{two} inputs:
 \begin{enumerate}
   \item a probability measure $\P : \events \to [0, 1]$, where $\events$ is a \sigmaalg\ on a sample space $\Omega$,
   \item a random variable $X : \Omega \to \R$.
@@ -1165,7 +1163,7 @@ This is indeed necessary as $(-X \le -5) = (X \ge 5) \neq (X \le 5)$.
 
 When we cannot rewrite the event using the methods described in Sections~\ref{sec:rewriting-equalities} and \ref{sec:rewriting-inequalities}, we can settle on bounding the event instead. Suppose event $A_1$ is defined using statement $s_1(Y)$ (e.g. $A_1 = (Y = 2)$) and similarly, event $A_2$, using $s_2(Y)$ (e.g. $A_2 = (Y^2 = 4)$. Suppose $s_1 \Longrightarrow s_2$. Then we have $A_1 \subseteq A_2$. In our example, $y = 2 \Longrightarrow y^2 = 4$, but the converse is not true if the random variable $Y$ can take negative values, as $y = -2$ also yields $y^2 = 4$. So all we get for general random variables is that $(Y = 2) \subset (Y^2 = 4)$.
 
-We will soon see in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$ implies $\P(A_1) \le \P(A_2)$.
+Now we have seen in Section~\ref{sec:limit-pr-measures} that $A_1 \subseteq A_2$ implies $\P(A_1) \le \P(A_2)$.
 
 
 \section{Independence}
@@ -1545,7 +1543,7 @@ Let us continue the discussion of Section~\ref{sec:using-rv-to-construct-prs}, o
 
 \point{Idea:} consider the following identity, which holds true for all $x \ge 0$, 
 \[ x = \int_0^\infty \1[x > t] \ud t. \]
-Now let us integrate both sides and use Fubini:
+Now for $X \ge 0$, let us take expectations on both sides and use Fubini:
 \[ \E X = \int_\Omega X \ud \P = \int_\Omega \int_0^\infty \1[X > t] \ud t \ud \P =  \int_0^\infty \int_\Omega \1[X > t] \ud \P  \ud t, \]
 which yields:
 \[ \E X = \int_0^\infty \P[X > t] \ud t = \int_0^\infty (1 - F_X(t))  \ud t. \]
@@ -2053,7 +2051,7 @@ where $Y$ is a standard normal.
   \item $\square = $d and $\circ = +,$ or $-, *, /$, AND $Y = $ constant (``Slutsky's theorem'').
 \end{enumerate}
 
-\point{Example:} of why we have to be careful, especially with convergence in distribution. Let $Y, X, X_n$ all be iid N(0,1), and $Y_n = -X_n$. Then $X_n \dcv X$ and $Y_n \dcv Y$, but $X_n + Y_n \dcv 0 \stackrel{d}{\neq} X+Y$.
+\point{Example:} of why we have to be careful, especially with convergence in distribution. Let $Y, X, X_n$ all be iid N(0,1), and $Y_n = -X_n$. Then $X_n \dcv X$ and $Y_n \dcv Y$, but $X_n + Y_n \dcv 0 \stackrel{d}{\neq} X+Y$. Here we cannot use Slutsky's theorem because neither $X_n$ nor $Y_n$ converge to a constant.
 
 \point{Main tools:} used to proved these results.
 \begin{itemize}
@@ -2359,7 +2357,7 @@ where $Z$ is a normal with mean zero and variance $\alpha_4 - \alpha_2^2$.
 
 \subsection{LLNs and CLTs under relaxed assumptions}
 
-\point{Removing all independence assumptions:} so far we have allowed dependences between components of random vectors but not across separate random vectors. This can be considerably relaxed. One of the most useful relaxation is based on \emph{Markov chains}. We sketch here the results in their simplest possible form, and will talk in more depth later if time permits
+\point{Removing all independence assumptions:} so far we have allowed dependences between components of random vectors but not across separate random vectors. This can be considerably relaxed. One of the most useful relaxation is based on \emph{Markov chains}. We sketch here the results in their simplest possible form, and will talk in more depth later.
 
 \point{Markov chains, discrete case:} consider a list of random variables $X_1, X_2, \dots$ with a distribution constructed as follows:
 \[ \P(X_1 = x) = v_x, \]
@@ -2367,7 +2365,7 @@ where $v = (v_1, v_2, \dots, v_N)$ is a known vector called a initial distributi
 \[ \P(X_i = x' | X_{i-1} = x) = M_{x,x'}, \]
 where $M = (M_{x,x'})$ is a known $N$ by $N$ matrix called the transition matrix. 
 
-\point{Theorem:} if $M^N$ has no zero entries,\footnote{There are far more general conditions, but they need more setup. We will hopefully get to them soon.} there exists a distribution $\pi$ such that we have the following LLN:
+\point{Theorem:} if $M^N$ has no zero entries,\footnote{There are far more general conditions, but they need more setup. We will get to the more general conditions later.} there exists a distribution $\pi$ such that we have the following LLN:
 \[ \frac{1}{n} \sum_{i=1}^n f(X_i) \ascv \mu = \int f(x) \pi(\ud x). \]
 and CLT:
 \[ \sqrt{n}(\bar X_n - \mu) \dcv Z, \]
