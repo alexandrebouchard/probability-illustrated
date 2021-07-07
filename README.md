@@ -1,6 +1,6 @@
 # Description 
 
-Lecture notes on probability with emphasis on tools used by statisticians
+Lecture notes on probability with emphasis on tools used by statisticians. [See PDF here](https://github.com/alexandrebouchard/probability-for-statisticians/raw/master/document.pdf)
 
 # License 
 
