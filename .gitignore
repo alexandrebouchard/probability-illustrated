@@ -5,7 +5,6 @@ document.fdb_latexmk
 document.fls
 document.nlo
 document.nls
-document.pdf
 macros/.notation.tex.RenameVariable-backup
 tmp/document.aux
 tmp/document.ilg
