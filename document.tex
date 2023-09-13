@@ -353,7 +353,7 @@ We already have enough tools to formulate and solve many interesting problems in
 \point{Tool 1: chain rule.} For any event $A$, $B$, 
 \[\P(A \cap B) = \P(A) \P(B | A) \;\; (= \P(B) \P(A | B)).\] 
 
-\point{Tool 2: law of total probability (version 1). } Suppose $B_1, B_2, \dots$ is a partition of $E$, then
+\point{Tool 2: law of total probability (version 1). } Suppose $B_1, B_2, \dots$ is a partition of $\Omega$, then
 \[ \P(E) = \sum_i \P(E \cap B_i) \;\; \left(= \sum_i \P(B_i) \P(E | B_i)\right). \]
 
 \point{Proposed strategy:} build the model and list the known (conditional) probabilities. Write the (conditional) probability you wish to compute. Then reintroduce the ``missing'' variable in this last probability using the law of total probability and the chain rule.  
