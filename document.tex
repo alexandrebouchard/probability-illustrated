@@ -1136,7 +1136,7 @@ Taking expectations on both sides:
 &=& \alpha \P(X \ge \alpha).
 \end{eqnarray*}
 
-\point{Note:} non-negativity is necessary. Consider for example a random variable with the discrete uniform distribution on $\{-1, +1\}$. 
+\point{Note:} non-negativity is necessary. Consider for example a random variable with the discrete uniform distribution on $\{-1, +1\}$, $\alpha = 1$.  
 
 \point{Note:} the bound will sometimes be greater than one. On the other hand, there are random variables $X$ and $\alpha$ such that the bound it tight, i.e. where $\P( X \ge \alpha) = \frac{\E X}{\alpha}$. For example $X$ such that $\P(X = 2) = 1/2$, $\P(X = 0) = 1/2$, $\alpha = 2$.
 
@@ -1362,7 +1362,7 @@ Since the moment generating function for individual variables are often easy to 
 		
 		\item Let $\varphi=\1_{\{0\}}$. Suppose that there is a sequence of linear functions $L_n(x)=a_nx+b_n$ such that $\sup_n L(x)=\varphi(x)$ for all $x$. Suppose that $a_{n_0}\neq 0$ for some $n_0$. Then $L_{n_0}$ is unbounded from above and there is some $x_0\in \R$ such that $L_{n_0}(x_0)=2$. Thus $\sup_n L_n(x_0)\geq 2>\varphi(x_0)$ which is a contradiction. Thus we have all $a_n=0$.\\
 		\newline
-		For $x\neq 0$, we have $\varphi(x)=0=sup_n L_n(x)=\sup_n b_n$, which implies $b_n\leq 0$ for all $n$. However when $x=0$, and $\sup_n L_n(0)=\sup_n b_n\leq 0\neq 1 \varphi(x)$. \\
+		For $x\neq 0$, we have $\varphi(x)=0=\sup_n L_n(x)=\sup_n b_n$, which implies $b_n\leq 0$ for all $n$. However when $x=0$, and $\sup_n L_n(0)=\sup_n b_n\leq 0\neq 1 \varphi(x)$. \\
 		\newline
 		Thus we have shown there does not exist a sequence of linear  functions $L_n$ such that $\sup_n L(x)=\varphi(x)$ for all $x$.
 		\end{enumerate}
