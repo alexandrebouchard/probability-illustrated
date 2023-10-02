@@ -200,7 +200,7 @@ By construction, the outlier cannot be in your list! We conclude the set $\Omega
 
 \point{Third difficulty:} a strange theorem of measure theory states that there exists no probability distribution defined on all events, $\P:2^\Omega \to [0, 1]$ such that $\P(\{\omega\}) = 0$ for all $\omega \in \Omega$.
 
-\point{Intuition:} when $\Omega$ is countably infinite, $2^\Omega$ is very strange! E.g. some events cannot be described by any language (any languages that we know of proceeds by putting letters from a finite alphabet one after another; well, that can only produce a countable set of descriptions. So that mean certain paths in $\Omega$ cannot be described in  version B of the train example)! 
+\point{Intuition:} when $\Omega$ is uncountably infinite, $2^\Omega$ is very strange! E.g. some events cannot be described by any language (any languages that we know of proceeds by putting letters from a finite alphabet one after another; well, that can only produce a countable set of descriptions. So that mean certain paths in $\Omega$ cannot be described in  version B of the train example)! 
 
 \point{Remedy (continued):} do not attempt to define $\P$ on all subsets of $\Omega$. Define it on a subset of events called a $\sigma$-algebra. Make the $\sigma$-algebra big enough to do all the computations we are interested in doing: taking countable unions, intersections, and complements. As we will see soon this solves our problem, in the sense that there is a $\events \subsetneq 2^\Omega$, $\P : \events \to [0, 1]$ such that $\P(\{\omega\}) = 0$ but for example $\P(A_t) = 1/2$.
 
