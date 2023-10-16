@@ -1268,9 +1268,13 @@ In this section, we explain the tool used to prove the characterization statemen
 
 \point{Exercise:} prove this using the $\pi$-$\lambda$ theorem. Hint: let $\lambda = \{A \in \events : \P_1(A) = \P_2(A)\}$.
 
+\point{Corollary:} $F_{X}$ determines $\P_{X}$.
+
+\point{Proof:} $(-\infty, x] \cap (-\infty, y] = (-\infty, \min\{x, y\}]$. Hence $\generators = \{(-\infty, x]\}$ is a $\pi$ system. Conclude with the $\pi$-$\lambda$ theorem. 
+
 \point{Corollary:} $F_{X,Y}$ determines $\P_{X,Y}$.
 
-\point{Proof:} $(-\infty, x] \cap (-\infty, y] = (-\infty, \min\{x, y\}]$.
+\point{Proof:} Use the same proof strategy, this time based on the following picture:
 \begin{center}
 	\includegraphics[width=0.5\linewidth]{figures/intersection}
 \end{center}
@@ -1922,7 +1926,7 @@ Ten days later, what is the probability that there are more than 30e9 bacteria?
 
 \point{In relation with LLN:} sure, the LLN gives us $\frac{1}{n} S_n \ascv 0$. But this does not give us much information about how to approximate the distribution of $S_n$ for finite $n$.
 
-\point{Exercise:} show that in fact, $\frac{1}{n^\alpha} S_n \ascv 0$ for all $\alpha > 1/2$. 
+\point{Exercise:} show that in fact, $\frac{1}{n^\alpha} S_n \pcv 0$ for all $\alpha > 1/2$ (the same can be done almost sure with a bit more work). 
 
 \point{Idea:} the above exercise suggest that $\alpha = 1/2$ is a critical point. A related heuristic is that for a symmetric simple random walk, the expected distance from the origin at step $n$ is roughly $\sqrt{n}$.
 
@@ -1977,7 +1981,7 @@ Therefore,
 &= \P(S_{10} \geq \log_2{30}) = P\left(Z \geq \frac{\log_2{30} - 6}{\sqrt{\frac{42}{5}}}\right)\\&= 1 - \Phi\left(-0.3772\right) \approx 0.647.
 \end{align*}
 
-\point{Question 4:} we start with the weaker result, convergence in probability, which is more intuitive; i.e. a simple modification of our argument for WLLN \begin{enumerate}
+\point{Question 4:}  \begin{enumerate}
 	\item First, assume without loss of generality that $\mu = 0$ (otherwise, set $X'_i = X_i - \mu$). 
 	\item Use Chebyshev:
 	\begin{eqnarray*}
@@ -1990,17 +1994,17 @@ Therefore,
 	\item Taking limits on both sides: \[ \lim_{n\to\infty} \P\left(\left|\frac{1}{n^\alpha}S_n\right| \ge \epsilon \right) \le \lim_{n\to\infty} \frac{\text{constant}}{n^{2\alpha - 1}} = 0. \]
 	provided $2\alpha - 1 > 0$, i.e. $\alpha > 1/2$.
 \end{enumerate}
-To prove the version almost sure, we make use of a result in the posted readings:
-namely the basic $\L^2$ convergence theorem (see e.g. Du (8.3) in ch. 1) and
-of Kronecker's lemma (Du (8.5) in ch. 1). Let $X' := \frac{X}{n^\alpha}$ and
-note that
-\begin{align*}
-\sum_{i=1}^{\infty} \E {X'}_i^2 = \sum_{i=1}^{\infty} \frac{1}{n^{2\alpha}} <
-\infty 
-\end{align*}
-because $2 \alpha > 1$. We can therefore apply the basic $\L^2$ convergence
-theorem and obtain that $\sum_{i=1}^{\infty} \E X'$ converges a.s..  Kronecker's
-lemma then yields the required result.
+%To prove the version almost sure, we make use of a result in the posted readings:
+%namely the basic $\L^2$ convergence theorem (see e.g. Du (8.3) in ch. 1) and
+%of Kronecker's lemma (Du (8.5) in ch. 1). Let $X' := \frac{X}{n^\alpha}$ and
+%note that
+%\begin{align*}
+%\sum_{i=1}^{\infty} \E {X'}_i^2 = \sum_{i=1}^{\infty} \frac{1}{n^{2\alpha}} <
+%\infty 
+%\end{align*}
+%because $2 \alpha > 1$. We can therefore apply the basic $\L^2$ convergence
+%theorem and obtain that $\sum_{i=1}^{\infty} \E X'$ converges a.s..  Kronecker's
+%lemma then yields the required result.
 
 % TODO https://en.wikipedia.org/wiki/Kolmogorov%27s_two-series_theorem
 % TODO https://en.wikipedia.org/wiki/Kolmogorov%27s_inequality
