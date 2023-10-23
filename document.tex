@@ -2234,7 +2234,7 @@ by using DCT with $|e^{it_n X}| = 1$.
 &= \E[iX e^{itX}], 
 \end{align*}
 and in particular,
-\[ \E X = \frac{\varphi_X(0)}{i}. \]
+\[ \E X = \frac{\varphi'_X(0)}{i}. \]
 
 \point{Proof:} we use the result in Section~\ref{sec:exchange}, which we copy here for convenience.
 
@@ -2287,7 +2287,7 @@ where all we know about $h$ is that $h(t) \to 0$ when $t \to 0$.
 \begin{align*}
 \varphi_{S_n/\sqrt{n}}(t) &= ( \varphi_{X_1}(t/\sqrt{n}))^n \\
 &= \left(1 - \frac{1}{2} (t/\sqrt{n})^2 + h(t/\sqrt{n}) (t/\sqrt{n})^2\right)^n \\
-&= \left(1 - \frac{(-t^2/2) + h(t/\sqrt{n}) t^2}{n} \right)^n
+&= \left(1 + \frac{(-t^2/2) + h(t/\sqrt{n}) t^2}{n} \right)^n
 \end{align*}
 
 \point{From real analysis:} $e^x = \lim_{n\to\infty} (1 + x/n)^n$. This formula also holds for complex $x$.
