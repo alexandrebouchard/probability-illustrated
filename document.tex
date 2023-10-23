@@ -1948,12 +1948,12 @@ where $Y$ is a standard normal.
 
 \point{Question 1:} there is a discontinuity at $\theta = x$, so we cannot say the function is differentiable at all points, which is required for this theorem (in contrast to many other measure theoretic ones, where almost everywhere is enough, here we really need everywhere).
 
-\point{Question 2:} the first idea is to transform the statement into one about sequences of function in the optic of applying DCT. Let $\theta_n \to \theta$ by arbitrary in $[a,b]$. Let 
-\[ h_n = \frac{g(x, \theta_n) - g(x, \theta)}{\theta_n - \theta}. \]
+\point{Question 2:} the first idea is to transform the statement into one about sequences of function in the optic of applying DCT. Let $\theta_n \to \theta$ be arbitrary in $[a,b]$. Let 
+\[ h_n(x, \theta) = \frac{g(x, \theta_n) - g(x, \theta)}{\theta_n - \theta}. \]
 Note that
-\[ \lim h_n = \frac{\ud g}{\ud \theta}(x, t). \]
+\[ \lim_{n\to \infty} h_n(x, \theta) = \frac{\ud g(x, \theta)}{\ud \theta}. \]
 Next let us bound $|h_n|$ by $h$:
-\[ |h_n(x) | \le \sup_{\theta \in [a,b]} \left| \frac{\ud g}{\ud \theta}(x,\theta)\right| \le h(x), \] 
+\[ |h_n(x, \theta) | \le \sup_{\theta \in [a,b]} \left| \frac{\ud g(x,\theta)}{\ud \theta}\right| \le h(x), \] 
 where we use the mean value theorem in the first inequality and the assumption on $h$ in the theorem statement for the second inequality. With this bound and the second assumption on $h$ that it is an integrable envelope, we can apply DCT and obtain the result.
 
 \point{Question 3:} Following the hint in the question we will seek to express the number of bacteria at day 10 in terms of $2^{\sum_{i=1}^{10} X_i}$. To see this, consider the possible day-over-day changes in the number of bacteria in the Petri dish: (i) stays the same; (ii) doubles; (iii) quadruples; (iv) or is halved. Each of the changes in the number can be represented as a power of two. For example, if the number starts with value 1e9 then doubles, stays the same, quadruples, and halves in the subsequent 4 days,  the number of bacteria can be expressed succinctly as: 
@@ -2166,9 +2166,9 @@ Hence: $G'(0) = p_1$.
 
 How to extend the ideas of last section to more general random variables? First try: moment generating functions (MGF).\footnote{Also known as the \emph{Laplace transform}, up to reparameterization.}
 
-\point{Idea:} in the previous section, we looked at the expectation of $s^X$. If $X$ is non integer-valued, and we plug in a negative $s$, we get $\sqrt{-1}$. In an attempt to avoid complex numbers, the MFG $M(t)$ use the reparameterization $s = e^t > 0$ to avoid complex numbers, yielding:\footnote{However, as we will see soon, complex numbers are in some sense inevitable to do this in full generality.}
+\point{Idea:} in the previous section, we looked at the expectation of $s^X$. If $X$ is non integer-valued, and we plug in a negative $s$, we can get $\sqrt{-1}$. In an attempt to avoid complex numbers, the MFG $M(t)$ use the reparameterization $s = e^t > 0$ to avoid complex numbers, yielding:\footnote{However, as we will see soon, complex numbers are in some sense inevitable to do this in full generality.}
 \[ M(t) = \E[e^{tX}]. \]
-As with the PGF, this expectation may diverge for some values of $t$. As we shall see this is more problematic here since we get into situations where this is defined only at $t=0$, in which case the MGF clearly does not characterizes the distribution.
+As with the PGF, this expectation may diverge for some values of $t$. As we shall see this is more problematic here since we get into situations where $M(t)$ is defined only at $t=0$, in which case the MGF clearly does not characterizes the distribution.
 
 \point{Exercise:} compute the MGF of a standard normal distribution. Hint: complete the square to use known normalization of the normal density.
 
@@ -2177,7 +2177,7 @@ As with the PGF, this expectation may diverge for some values of $t$. As we shal
 
 \subsection{Characteristic function}
 
-We would like to have a construction that is defined for all real random variables, and that has our two desiderata. 
+We would like to have a construction that is defined for all real random variables, and that has our two desiderata (nice behavior under independent sums, characterization). 
 
 \point{Idea:} in the last section we use the function $f(t) = e^t$, which is a function into an unbounded space, $f : \R \to [0, \infty)$. Let us try to map into a bounded space. To do this, let us wrap around the line into a circle as follows:
 \begin{center}
@@ -2185,7 +2185,7 @@ We would like to have a construction that is defined for all real random variabl
 \end{center}
 Let us formalize this construction using some light complex analysis.
 
-\point{Recall:} a complex number $c \in \C$ can be written as: $c = a + b i$ where $i = \sqrt{-1}$, i.e. such that $i^2 = -1$.
+\point{Recall:} a complex number $c \in \C$ can be written as: $c = a + b i$ where $i = \sqrt{-1}$, i.e. such that $i^2 = -1$. The \emph{modulus} of a complex number is defined as $|c| = \sqrt(a^2 + b^2)$. 
 
 \point{Definition:} a complex random variable is defined as $Z = X + iY$, and we define its expectation as $\E Z = \E X + i\E Y$.
 
@@ -2196,7 +2196,7 @@ Let us formalize this construction using some light complex analysis.
 	&= (1 - \frac{x^2}{2!} + \dots) + i(x - \frac{x^3}{3!} + \dots) \\
 	&= \cos x + i \sin x.
 \end{align*}
-So, $|e^{ix}| = 1$ and we have something like we wanted in our picture above! Now clearly, if I give you some real value random variable $Y$,
+So, $|e^{ix}| = 1$ and we have something like we wanted in our picture above! Moreover $e^{i(x+y)} = e^{ix} e^{iy}$ (check!). Now clearly, if I give you some real value random variable $Y$,
 \[ \E[e^{itY}] = \E[\cos(tY)] + i \E[\sin(tY)], \]
 is always well defined and finite since $\sin$ and $\cos$ are bounded!
 
@@ -2290,7 +2290,7 @@ where all we know about $h$ is that $h(t) \to 0$ when $t \to 0$.
 &= \left(1 - \frac{(-t^2/2) + h(t/\sqrt{n}) t^2}{n} \right)^n
 \end{align*}
 
-\point{From real analysis:} $e^x = \lim_{n\to\infty} (1 + x/n)^n$.
+\point{From real analysis:} $e^x = \lim_{n\to\infty} (1 + x/n)^n$. This formula also holds for complex $x$.
 
 \point{Extension:} if $x_n \to x$, then $e^x = \lim_{n\to\infty} (1 + x_n/n)^n$.
 
@@ -2368,7 +2368,7 @@ How to tackle the weak limit of this sequence of random variables?
 \point{Technique:} Taylor expansion of $\phi$ around the mean $\mu$, 
 \[\phi(\bar Y_n) = \phi(\mu) + \phi'(\mu)(\bar Y_n - \mu) + \dots.\]
 Informally plugging the above into Equation~(\ref{eq:clt-for-delta}), we get
-\[ \sqrt{n}(\phi(\bar Y_n) - \phi(\mu)) \approx \phi'(\mu) (\bar Y_n - \mu). \]
+\[ \sqrt{n}(\phi(\bar Y_n) - \phi(\mu)) \approx \phi'(\mu) \; \sqrt{n} (\bar Y_n - \mu) \approx \phi'(\mu) T. \]
 
 \point{Theorem (delta method):} if $\phi : \R^k \to \R^m$ is differentiable at $\mu$, and 
 \[ \sqrt{n}(T_n - \mu) \dcv T \] 
