@@ -2587,9 +2587,11 @@ Let $T_1, T_2, \dots$ denote the arrival times, i.e. $T_1 = \inf\{t : N_{[0,t]} 
 Then:
 \begin{eqnarray}
 \P(T_1 > t) &=& \P(N_{[0,t]} = 0) \\
-&=& \frac{e^{t - 0} (t-0)^n}{n!} \;\;\text{ with }n=0 \\
-&=& 1 - \text{CDF of an exponential}
+&=& \frac{e^{-(t - 0)} (t-0)^n}{n!} \;\;\text{ with }n=0 \\
+&=& 1 - \text{CDF of an exponential},
 \end{eqnarray}
+where we used that $N_{[0,t]}$ is Poisson distributed with mean parameter 
+$\lambda = \mu([0, t]) = t$. 
 Similarly, each inter-arrival times $T_i - T_{i-1}$ are also exponential(1).
 
 
@@ -2663,9 +2665,12 @@ We now compute the characteristic function as follows:
 \E[ e^{itY} ] &= \prod_j \E[e^{ita_j N_j}] \\
 &= \prod_j e^{\lambda_j (e^{ita_j} - 1)} \\
 &= \exp\left( \sum_j \lambda_j (e^{it a_j} - 1)\right) \\
-&= \exp\left( \int (e^{itf(x)} - 1)\mu(\ud x)\right).
+&= \exp\left( \int (e^{itf(x)} - 1)\mu(\ud x)\right),
 \end{align*}
-Next, for arbitrary $f$, use DCT to obtain:
+where we use $f(x) = a_j$ when $x \in A_j$, and that the characteristic function of a Poisson 
+random variable is given by:
+\[ \E[e^{t N_j}] = \exp(\lambda_j (e^{it} - 1)).\]
+Next, for arbitrary $f$, use MCT to obtain:
 \[ \E[ e^{itY} ] = \exp\left( \int (e^{itf(x)} - 1)		 \mu(\ud x)\right). \]
 
 
@@ -2698,7 +2703,7 @@ The interpretation of $E$ is that you know the true outcome is somewhere in $E$,
   \item $Y$ is observed, (e.g. $Y = \1_E$ in the motivating example)
   \item $X$ is the variable you would like to predict (e.g. $X = \1_A$ in the motivating example).
 \end{itemize}
-The conditional expectation of $X$ given $Y$ is a new estimator random variable $\delta = f(Y)$, which can be interpreted as the ``best'' estimator of $X$ based on $Y$. Notation: this random variable $\delta$ is denote by $\E[X|Y]$.
+The conditional expectation of $X$ given $Y$ is an estimator (a random variable obtained as a transformation of the data) $\delta = f(Y)$, which can be interpreted as the ``best'' estimator of $X$ based on $Y$. Notation: this random variable $\delta$ is denote by $\E[X|Y]$.
 
 \point{Notion of optimality:} consider the optimization program
 \[ \text{minimize}\ \E(f(Y) - X)^2, \]
@@ -2707,11 +2712,11 @@ where minimization is performed over functions $f$ (technically, over measurable
 \point{Exercise:} show that in the two children problem, you obtain:
 \[ f^*(y) = \bracearraycond{0 \;\;&\text{if }y=0\\ 2/3\;\;&\text{if }y=1\\\text{any value}\;\;&\text{otherwise.}} \] 
 
-\point{Solution:} we have:
+\point{Solution:} enumerating the outcomes in the order $(b, b), (b, g), (g, b), (g, g)$ and recalling that $Y$ is the indicator that there is one girl and $X$ the indicator that the second is a girl, we have:
 \begin{align*} \E(f(Y) - X)^2 &= \frac{1}{4}\left[ (f(0) - 0)^2 + (f(1) - 1)^2 + (f(1) - 0)^2 + (f(1) - 1)^2 \right] \\ 
 &= \frac{f(0)^2 + 3 f(1)^2 - 4f(1) +2}{4},
 \end{align*}
-hence we see right away that $f(0) = 0$ and that the values of $f$ are unimportant except at $y=0$ and $y=1$. To find $f_1 = f(1)$, we compute the derivative with respect to $f_1$ and get
+hence we see right away that $f^*(0) = 0$ and that the values of $f$ are unimportant except at $y=0$ and $y=1$. To find $f_1 = f^*(1)$, we compute the derivative with respect to $f_1$ and get
 \[ \frac{\ud}{\ud f_1} \left(  \frac{3 f_1^2 - 4 f_1 +2}{4}\right) = \frac{3}{2} f_1 - 1, \]
 hence finding the root we get indeed $f_1 = 2/3$.
 
