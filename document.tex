@@ -2765,13 +2765,13 @@ using the hint.
 &=& \sum_{i=1}^n \P(A|Y=a_i) \P(Y = a_i).
 \end{eqnarray*}
 Now, let: 
-\begin{equation} 
+\begin{equation}\label{eq:f-cond-map} 
 f(y) = \bracearraycond{
   \P(A|Y=y) &\text{if }y\in\{a_1, \dots, a_n\} \\ 
   \text{arbitrary,} & \text{otherwise.}
 }
 \end{equation}
-Conditioning on a random variable can be thought as introducing a nice notation for this identity, $\P(A|Y) := f(Y)$. This also provides a way to generalize to conditioning into a non-discrete random variable.
+Conditioning on a random variable can be thought as introducing a nice notation for this identity, $\P(A|Y) := f(Y)$, where $f$ is defined in (\ref{eq:f-cond-map}). Note that from that definition, $\P(A|Y)$ is a random variable.  This also provides a way to generalize to conditioning into a non-discrete random variable.
 
 \point{Next:} we first generalize the above to cases where we select only a subset of the blocks in the partition. To formalize this, let $B \subset \{a_1, \dots, a_n\}$, then a set of blocks can be denoted as $H \defeq (Y \in B)$, i.e. $H \in \sigma(Y)$. With this notation, show that:
 \[ \P(A \cap H) = \E[ \1_H \P(A | Y)]. \]
@@ -2792,9 +2792,9 @@ Moreover this random variable is almost sure unique.
 
 \point{Proof of existence of conditional expectation:} let $\othersigma = \sigma(Y)$, and define, for all $H \in \othersigma$, $\nu(H) = \P(A \cap H)$ and $\mu(H) = \P(H)$. Since $\mu(H) = 0 \Longrightarrow \nu(H) = 0$, it follows by Radon-Lebesgue-Nikodym that there is a $f \in \othersigma$ such that $\nu(H) = \int_H f \ud \mu$. This yields the result with $f = \P(A|Y)$. 
 
-\point{Proof of uniqueness:} suppose there are two random variables $Z_1 = \P(A|Y)$ and another one $Z_2$ both satisfying the two conditions in the definition of conditional probability. We have $\E[\1_H Z_1] = \P(A\cap H) = \E[\1_H Z_2]$, therefore $\E[\1_H (Z_1 - Z_2)] = 0$ for all $H \in \sigma(Y)$. Take $H = (D > 0)$, we get by Chebyshev, $\E[\1_H D] = 0 \Longrightarrow \P(D > 0) = 0$. By a symmetrical argument on $Z_2 - Z_1$, $\P(D < 0) = 0$.
+\point{Proof of uniqueness:} suppose there are two random variables $Z_1 = \P(A|Y)$ and another one $Z_2$ both satisfying the two conditions in the definition of conditional probability. We have $\E[\1_H Z_1] = \P(A\cap H) = \E[\1_H Z_2]$, therefore $\E[\1_H (Z_1 - Z_2)] = 0$ for all $H \in \sigma(Y)$. Take $H = (D > 0)$, we get by Markov's inequality, $\E[\1_H D] = 0 \Longrightarrow \P(D > 0) = 0$. By a symmetrical argument on $Z_2 - Z_1$, $\P(D < 0) = 0$.
 
-\point{Definition of conditional expectation:} a generalization of the above yield also the definition conditional expectation.  Let $X, Y \in \L_1$ be defined on a common probability space. Then there exists a random variable, denoted $\E[X|Y]$, such that:
+\point{Definition of conditional expectation:} a generalization of the above yields the definition of conditional expectation.  Let $X, Y \in \L_1$ be defined on a common probability space. Then there exists a random variable, denoted $\E[X|Y]$, such that:
 \begin{enumerate}
 \item $\E[X|Y] \in \sigma(Y)$, (i.e. $\E[X|Y]$ is an estimator of $X$ based on $Y$)
 \item for all $H \in \sigma(Y)$, $\E[ \1_H X ] = \E[ \1_H \E[X|Y] ]$.
@@ -2814,14 +2814,14 @@ f_Y(y) &\defeq& \int f(x, y) \ud x.
 
 \point{Terminology:} the function $f_Y(\cdot)$ is called the marginal density, and the function $f_{X|Y}(\cdot|y)$, the conditional density. Note that these are indeed densities. 
 
-\point{Property:} when $X,g(Y) \in \L_1$, \[ \E[ X g(Y) | Y] = g(Y) \E[X|Y]. \]
+\point{Property:} suppose $g$ is measurable and $X,g(Y) \in \L_1$, \[ \E[ X g(Y) | Y] = g(Y) \E[X|Y]. \]
 
-\point{Proof:} we have to show that the RHS satisfies the two axioms of conditional expectation. For (1), clearly it is of the form $f(Y)$. For (2), let $H \in \sigma(Y)$, and suppose first that $g(y) = \1_B$, implying that $g(Y) = \1_G$, $G \in \sigma(Y)$. We get:
+\point{Proof:} we have to show that the RHS satisfies the two axioms of conditional expectation. For (1), clearly it is of the form $f(Y)$. For (2), let $H \in \sigma(Y)$, and suppose first that $g(y) = \1_B$, implying that $g(Y) = \1_G$, for $G = g^{-1}(B)$ and hence $G \in \sigma(Y)$ by measurability of $g$. We get:
 \begin{eqnarray*}
 \E[ \1_H X \1_G ] &=& \E[ \1_H \1_G \E[X|Y] ] \Leftrightarrow \\
 \E[ \1_{H'} X ] &=& \E[ \1_{H'} \E[X|Y] ],
 \end{eqnarray*}
-which is true since $H' \in \sigma(Y)$. Complete the proof using the DCT.
+which is true since $H' = H \cap G \in \sigma(Y)$. Complete the proof using the DCT.
 \begin{center}
 	\includegraphics[width=0.6\linewidth]{figures/cond-exp-property} 
 \end{center}
@@ -2846,11 +2846,10 @@ Note:
 
 \point{Motivation:} a complete order over estimator. 
 
-\point{Frequentist notion of optimality:} since in the MLE (Maximum Likelihood Estimation) framework we do not place a prior on $\theta = X$, the performance of an estimator $\delta$ depends on the true parameter $\theta$:
+\point{Frequentist notion of optimality:} since in the frequentist framework we do not place a prior on $\theta = X$, the performance of an estimator $\delta$ depends on the true parameter $\theta$:
 \[ \text{MSE}_\theta(\delta) = \E_\theta[(\delta - \theta)^2] = \E[(\delta - \theta)^2 | \theta]. \]
-The MLE mimizes this objective function.
 
-\point{Issue:} the space of functions (of $\theta$ in this case) is not a complete order. There is not a notion of an a.s. best estimator under the above criterion.
+\point{Issue:} the space of functions (of $\theta$ in this case) is not a complete order. There is not a notion of a single best estimator under the above criterion.
 
 \point{Solution:} restrict the class of estimators, e.g. to unbiased ones.
 
@@ -2936,7 +2935,7 @@ Suppose in the remaining of the section that $Y \in \L_2$.
 \begin{align*}
 \| X + Y \|_2^2 &= \E | X + Y |^2 \\
 &\le \E [ (|X| + |Y|) |X + Y| ] \\
-&= \E [ |X|\times|X + Y| ] + \E [ |Y|\times|X + Y| ] \\
+&= \E [ |X|\cdot|X + Y| ] + \E [ |Y|\cdot|X + Y| ] \\
 &\le \| X \|_2 \|X + Y\|_2 + \| Y \|_2 \|X + Y\|_2 \;\text{ (using Cauchy-Schwarz)}  \\
 &= ( \| X \|_2 + \| Y \|_2 ) \|X + Y\|_2.
 \end{align*} 
@@ -3031,7 +3030,7 @@ It is much easier to simulate from order 2 than order 1. Why? At the same time, 
 	\includegraphics[width=0.5\linewidth]{figures/graph-model-cond} 
 \end{center}
 
-\point{Bayes ball algorithm for independence.} The algorithm works in the same way but with the following extended rule set taking into account shaded nodes:
+\point{Bayes ball algorithm for conditional independence.} The algorithm works in the same way but with the following extended rule set taking into account shaded nodes:
 \begin{center}
 	\includegraphics[width=0.4\linewidth]{figures/bayes-ball-full-rules} 
 \end{center}
