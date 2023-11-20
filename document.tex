@@ -3072,11 +3072,11 @@ It is much easier to simulate from order 2 than order 1. Why? At the same time, 
 \end{enumerate}
 
 
-\subsection{Representation under the homogeneity condition}
+\subsection{Representation under the homogeneity condition}\label{sec:state-diagram}
 
-\point{Note:} from the previous part on conditioning, we have that $\P(X_{n+1} = y | X_n) = f(X_n)$ for some $f(x)$. In fact, this function will also depend on $y$ and $n$. We denote it by $p_n(x \to y)$ and call it the transition probability.
+\point{Note:} from the previous part on conditioning, we have that $\P(X_{n+1} = y | X_n) = f(X_n)$ for some $f(x)$. In general, this function could depend on $y$ and $n$. We denote it by $p_n(x \to y)$ and call it the transition probability.
 
-\point{Definition:} a Markov chain is homogeneous is $p_n(x \to y) = p_{n+1}(x \to y)$ for all $n, x, y$. We denote it by $p(x \to y)$. 
+\point{Definition:} a Markov chain is homogeneous if $p_n(x \to y) = p_{n+1}(x \to y)$ for all $n, x, y$. We denote it by $p(x \to y)$. 
 
 \point{Visualization:} of $p(x \to y)$ via a \emph{state diagram}. Consider a directed graph where the nodes are the points in $\states$ and where the is an edge $(x \to y) \in E$ if and only if $p(x \to y) > 0$. Informally, this encodes the sparsity patterns of the transition probabilities.
 \begin{center}
@@ -3089,7 +3089,7 @@ It is much easier to simulate from order 2 than order 1. Why? At the same time, 
   \item an initial distribution with pmf $\mu$, $\P(X = x) = \mu(x)$. 
 \end{enumerate} 
 
-\point{Notation:} it is often useful to have the initial distribution put all the mass on a single point $x$, in which case we write $\P_x$. E.g. $\P_x(X_1 = y) = p(x \to y)$. 
+\point{Notation:} it is often useful to have the initial distribution put all the mass on a single point $x$, in which case we write $\P_x$. 
 
 
 \subsection{First connection with linear algebra: Chapman-Kolmogorov equation}
@@ -3150,7 +3150,7 @@ We will cover two main results, used in different contexts:
 
 \subsection{Law of large number for Markov chains}
 
-\point{Definition:} a directed path $x \leadsto y$ in the state diagram of a Markov chain is a list of connected edges $x = x_1 \to x_2 \to \dots \to x_n = y$ where $(x_i \to x_{i+1}) \in E$.
+\point{Definition:} a directed path $x \leadsto y$ in the state diagram of a Markov chain is a list of connected edges $x = x_1 \to x_2 \to \dots \to x_n = y$ where $(x_i \to x_{i+1}) \in E$, where $E$ is the set of edges in the \emph{state diagram} introduced in Section~\ref{sec:state-diagram}.
 
 \point{Definition:} a Markov chain is irreducible if there is a directed path between each ordered pair of states.
 
