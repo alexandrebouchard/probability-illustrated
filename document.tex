@@ -3049,6 +3049,27 @@ It is much easier to simulate from order 2 than order 1. Why? At the same time, 
 	\item Do the ``important exercise" in \ref{sec:bayes-rule}.
 \end{enumerate}
 
+\subsection{Solutions for exercise set 5} 
+
+\point{Proof of Bayes rule for densities:} we show that $\phi(Y)$ with $\psi$ given in Section~\ref{sec:bayes-rule} satisfies the two axioms defining a conditional expectation. By construction, $\psi(Y) \in \sigma(Y)$, so it remains to show that the ``generalized law of total expectation'' holds. Since we assume $H \in \sigma(Y)$, we can write it as $H = (Y \in B)$ for some measurable set $B$. By the assumption that $(X, Y)$ have joint density $f(x, y)$ and the ``law of the unconscious statistician'' proven earlier in the course, we have
+
+\begin{align*} 
+\E[\1_H \E[X | Y]] &= \int \int_B \psi(y) f(x, y) \ud x \ud  y \\ 
+&=   \int_B \psi(y) \left( \int  f(x, y) \ud x \right) \ud  y \quad \text{(Tonelli)} \\ 
+&= \int_B \psi(y) f_Y(y) \ud  y \quad \text{(Definition of marginal density)} 
+\end{align*}
+
+Now define $P = \{ y : f_Y(y) > 0\}$ to be the support of the marginal density of $Y$ and note:
+
+\begin{align*} 
+	 \int_B \psi(y) f_Y(y) \ud  y &=  \int_{B \cap P} \psi(y) f_Y(y) \ud  y \\
+	 &=  \int_{B \cap P} \left( \frac{\int x f(x, y) \ud x}{f_Y(y)} \right) f_Y(y) \ud  y \\
+	 &=  \int_{B}  \int x f(x, y) \ud x \ud  y \\
+	 &= \E[ \1_H X]. 
+\end{align*}
+
+See earlier section for solutions or partial solutions for the other exercises.
+
 
 \section{Markov chains}
 
@@ -3139,7 +3160,7 @@ It is much easier to simulate from order 2 than order 1. Why? At the same time, 
 \begin{itemize}
   \item always assume homogeneity,
   \item start by assuming finite $\states$, then relax later on.
-\end{itemize}
+\end{itemize} 
 
 We will cover two main results, used in different contexts:
 \begin{enumerate}
