@@ -1153,9 +1153,9 @@ Taking expectations on both sides:
 \point{Proof:} define $X \defeq |Y - \mu|$, and apply the preceding lemma with $p = 2$.
 
 \point{Corollary 3 (Chernoff bound):} if $X$ is any random variable, then
-\[ \P(X \ge \alpha) \le \inf_t \frac{\E[e^{tX}]}{e^{t\alpha}}. \]
+\[ \P(X \ge \alpha) \le \inf_{t>0} \frac{\E[e^{tX}]}{e^{t\alpha}}. \]
 
-\point{Proof:} For any fixed $t$, the function $f(x) = e^{tx}$ is strictly increasing, so we can use the same reasoning as Chebyshev's. Since the inequality if true for all $t$, the left-hand side is bounded by the infimum over $t$.
+\point{Proof:} For any fixed $t > 0$, the function $f(x) = e^{tx}$ is strictly increasing, so we can use the same reasoning as Chebyshev's. Since the inequality if true for all $t$, the left-hand side is bounded by the infimum over $t > 0$.
 
 \point{Note:} the quantity $\E[e^{tX}]$, viewed as a function of $t$, is called the \emph{moment generating function}. We will meet this object again. 
 
