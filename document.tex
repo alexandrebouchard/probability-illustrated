@@ -1406,7 +1406,7 @@ Since the moment generating function for individual variables are often easy to 
 \subsection{Computing integrals using calculus}\label{sec:calculus}
 
 When $\Omega = [a, b] \subset \R$, $\mu$ is uniform, and $f$ is bounded, then the Lebesgues integral $\int f \ud \mu$ behaves in the same way as the standard Riemann integral (as long as the latter exists, which is true iff the set of discontinuities of $f$ have measure zero). Hence you can in principle use the \point{fundamental theorem of calculus} to compute these integrals: if there is a function $F$ such that $F'(x) = f(x)$ for all $x \in \Omega$, then 
-\[ \int f \ud \mu = \int f(x) \ud x = F(b) - F(a). \]
+\[ \int f \ud \mu = \int_a^b f(x) \ud x = F(b) - F(a). \]
 It also follows that $F$ is the \CDF\ of $X$.  
 
 The limitation of this approach is that even when $f$ is a simple close-form expression (expressed in terms of $+, -, *, /, \exp, \log$), the CDF $F$ might not have such a close-form expression (example: $f(x) = \exp(-x^2)$).
