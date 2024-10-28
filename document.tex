@@ -1708,7 +1708,7 @@ Let $X_i : \Omega \to \R$ be iid, with $\E[X_i] = \mu, |\mu| < \infty$, and defi
 
 \point{Proposition:} let $X_i : \Omega \to \R$ be iid, with $\E[X_i] = \mu, |\mu| < \infty$, and defined $S_n = X_1 + \dots + X_n$. Then for all $\epsilon > 0$, \[ \lim_{n\to\infty} \P\left( \left| \frac{1}{n} S_n - \mu\right| \ge \epsilon \right) = 0. \]
 
-\point{Visualization:} suppose $\mu = 0$, and note that $\left( \left| \frac{1}{n} S_n -0\right| \ge \epsilon \right) = ( |S_n| > \epsilon n)$. On a graph where the x-axis is $n$ and the y-axis is $S_n$ (the same picture we used for train trajectories), consider the cone specified by $\epsilon n$ and $-\epsilon n$. The event $( |S_n| > \epsilon n)$ can be understood as selecting the trajectories that are outside the cone at step $n$. The probabilities of these events should go to zero as $n\to\infty$.
+\point{Visualization:} suppose $\mu = 0$, and note that $\left( \left| \frac{1}{n} S_n -0\right| \ge \epsilon \right) = ( |S_n| \ge \epsilon n)$. On a graph where the x-axis is $n$ and the y-axis is $S_n$ (the same picture we used for train trajectories), consider the cone specified by $\epsilon n$ and $-\epsilon n$. The event $( |S_n| \ge \epsilon n)$ can be understood as selecting the trajectories that are outside the cone at step $n$. The probabilities of these events should go to zero as $n\to\infty$.
 \begin{center}
 \includegraphics[width=0.7\linewidth]{figures/LLN}
 \end{center}
@@ -1756,11 +1756,12 @@ The definition of ``$\to$'' used in the previous section is used in other contex
 
 \point{Lemma} connecting this notion of convergence back to convergence in probability as well as the notions of i.o. and ev.: $X_n \ascv X$ if and only if for all $\epsilon > 0$, $\P(|X_n - X| > \epsilon\io) = 0$.
 
-\point{Proof:} we have: \[\omega \in (X_n \to X) \Longleftrightarrow \forall \epsilon>0, \omega\in (|X_n-X| \le \epsilon \ev),\] and hence:
+\point{Proof:} let $C_\epsilon = (|X_n - X| > \epsilon\io)$. By monotonicity of the $C_\epsilon$, we have $\P(C_\epsilon) = 0$ for all $\epsilon > 0$ if and only if $\P(C_{1/n}) = 0$ for all $n \in \N$.  Note 
 \begin{eqnarray*}
-X_n \ascv X &\Longleftrightarrow& \forall \epsilon >0, \P(|X_n - X| \le \epsilon \ev) = 1 \\
-&\Longleftrightarrow& \forall \epsilon > 0, \P(|X_n - X| > \epsilon \io) = 0.
-\end{eqnarray*}
+\P(X_n \ascv X) &=& 1 - \P(\cup_{n=1}^\infty C_{1/n} ) \\
+&=& 1 - \sum_{n=1}^\infty \P(C_{1/n}),
+\end{eqnarray*} 
+hence $\P(X_n \to X) = 1$ if and only if $\P(C_{1/n}) = 0$ for all $n \in \N$. 
 
 \point{Strong law of large numbers:} under the same conditions as the WLLN, this says \[ \frac{1}{n} S_n \ascv \mu. \]
 
