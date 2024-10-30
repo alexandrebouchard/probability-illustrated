@@ -1780,13 +1780,7 @@ X_3 &=& \1_{[1/2+1/3,1/2+1/3+1/4]\text{ mod }2\pi}\\
 
 \point{Proposition:} convergence a.s. implies convergence in probability.
 
-\point{Proof:} according to our earlier lemma, we have for all $\epsilon > 0$, $\P(|X_n - X| > \epsilon\io) = 0$. Then, if we let $A_n \defeq (|X_n - X| > \epsilon)$:
-\begin{eqnarray*}
-0 &=& \P\left( \bigcap_{k=1}^\infty \bigcup_{n \ge k} A_n \right) \\
-&=& \lim_{k\to\infty} \P\left( \bigcup_{n\ge k} A_n \right) \text{ (by monotonicity of }\P\text{)} \\
-&\ge& \lim_{k\to\infty} \P(A_k) \ge 0.
-\end{eqnarray*}
-It follows that $\lim_{k\to\infty} \P(A_k) = 0$.
+ 
 
 
 \subsection{Toward Central Limit Theorems} 
@@ -2057,11 +2051,10 @@ where $Y$ is a standard normal.
 
 \point{Scheff\'e's theorem:} if $X_n$ have density $f_n$ such that $f_n \to f$ pointwise, where $f$ is the density of $X$, then $X_n \dcv X$.
 
-\point{Proof:} dominated convergence.
 
 \point{Continuous mapping I:}  if $g$ is continuous, $X_n \ascv X$, then $g(X_n) \ascv g(X)$. 
 
-\point{Proof:} follows directly from definition of continuity.
+\point{Proof:} follows directly from definition of continuity. 
 
 \point{Continuous mapping II:} if $g$ is continuous, $X_n \dcv X$,  $g(X_n) \dcv g(X)$. 
 
