@@ -2439,7 +2439,7 @@ It is easy to show that for all $t$, $\varphi_{X_n}(t) \to  \varphi_{X}(t)$.
 \end{itemize}
 Assume $X_{n,j} \sim \Bern(p_{n,j})$, where
 \begin{enumerate}
-  \item we have convergence of row sums to $\lambda$: $\lim_{n\to\infty} \sum_{j=1}^n p_{n,j} = \lambda$,
+  \item we have convergence of row sums of probabilities to $\lambda$: $\lim_{n\to\infty} \sum_{j=1}^n p_{n,j} = \lambda$,
   \item and as we look at larger and larger row indices $n$ the Bernoulli probabilities become uniformly rare across the columns $j$: $\lim_{n\to\infty} \max_j p_{n,j} = 0$.
 \end{enumerate}
 Then: $S_n = X_{n,1} + X_{n,2} + \dots + X_{n,n}$ is such that $S_n \dcv X$, where $X \sim \Poi(\lambda)$.
@@ -2465,7 +2465,7 @@ Then: $S_n = X_{n,1} + X_{n,2} + \dots + X_{n,n}$ is such that $S_n \dcv X$, whe
   \item Say $Y_i \iidsim \Bern(1e-9)$, and let $S_n = Y_1 + Y_2 + \dots + Y_n$.  
   \item By the Poisson convergence section, $S_n$ is approximately Poisson distributed, with rate parameter $\lambda$.
   \item Now let us view the genome as one line segment $[0, 3]$ (a continuous approximation of the discrete DNA strand). 
-  \item What is the approximate probability of the number of mutation in the first half of the genome? Last quarter? Are those independent?
+  \item What is the approximate distribution of the number of mutations in the first half of the genome? Last quarter? Are those independent?
 \end{itemize}
 \begin{center}
 	\includegraphics[width=0.5\linewidth]{figures/pp-genome} 
@@ -2782,7 +2782,7 @@ Moreover this random variable is almost sure unique.
 
 \newcommand\othersigma{{\mathcal G}}
 
-\point{Ingredient for the proof: Radon-Lebesgue-Nikodym theorem} let $(\Omega, \othersigma)$ denote a measurable space with two measures $\nu$ and $\mu$. Then $\mu(A) = 0 \Rightarrow \nu(A) = 0$ (a property called ``$\nu$ is absolutely continuous with respect to $\mu$'', denoted $\nu \ll \mu$), if and only if $\nu$ has a density with respect to $\mu$, i.e. $\nu(A) = \int_A f \ud \nu$ for some $f \in \othersigma$.
+\point{Ingredient for the proof: Radon-Lebesgue-Nikodym theorem} let $(\Omega, \othersigma)$ denote a measurable space with two measures $\nu$ and $\mu$. Then $\mu(A) = 0 \Rightarrow \nu(A) = 0$ (a property called ``$\nu$ is absolutely continuous with respect to $\mu$'', denoted $\nu \ll \mu$), if and only if $\nu$ has a density with respect to $\mu$, i.e. $\nu(A) = \int_A f \ud \mu$ for some $f \in \othersigma$.
 
 \point{Proof of existence of conditional expectation:} let $\othersigma = \sigma(Y)$, and define, for all $H \in \othersigma$, $\nu(H) = \P(A \cap H)$ and $\mu(H) = \P(H)$. Since $\mu(H) = 0 \Longrightarrow \nu(H) = 0$, it follows by Radon-Lebesgue-Nikodym that there is a $f \in \othersigma$ such that $\nu(H) = \int_H f \ud \mu$. This yields the result with $f = \P(A|Y)$. 
 
@@ -3083,7 +3083,7 @@ See earlier section for solutions or partial solutions for the other exercises.
   	\includegraphics[width=0.3\linewidth]{figures/discrete-graph} 
   \end{center}
   To make this more interesting, consider the vertices of the graph given by the location of a knight on a game of chess (8x8 square), and the edges given by the moves allowed for the knight (L shaped moves moving by one square in one axis, and 2 in the other axis). 
-  \item The Wright-Fisher model: suppose that $N$ bacteria can live in a Petri dish. There are two species, blue and green bacteria. In the first day, there are $X_1$ green and $N-X_1$ blue bacteria. In the next day, there are still $N$ bacteria, the descendants from the previous generation. The parent of each of the $N$ in day 2 are selected independently and uniformaly from those in day 1. The color is inherited without mutation. This mean: \[ \P(X_n = k | X_n) = \binom{N}{k} \left(\frac{X_n}{N}\right)^k \left( 1 - \frac{X_n}{N}\right)^{N-k}. \]Note that $X_n = 0 \Rightarrow X_{n+1} = 0$, and $X_n = N \Rightarrow X_{n+1} = N$. These are called absorbing states.  
+  \item The Wright-Fisher model: suppose that $N$ bacteria can live in a Petri dish. There are two species, blue and green bacteria. In the first day, there are $X_1$ green and $N-X_1$ blue bacteria. In the next day, there are still $N$ bacteria, the descendants from the previous generation. The parent of each of the $N$ in day 2 are selected independently and uniformaly from those in day 1. The color is inherited without mutation. This mean: \[ \P(X_{n+1} = k | X_n) = \binom{N}{k} \left(\frac{X_n}{N}\right)^k \left( 1 - \frac{X_n}{N}\right)^{N-k}. \]Note that $X_n = 0 \Rightarrow X_{n+1} = 0$, and $X_n = N \Rightarrow X_{n+1} = N$. These are called absorbing states.  
 \end{enumerate}
 
 
@@ -3145,7 +3145,7 @@ See earlier section for solutions or partial solutions for the other exercises.
   \item Exercise (using an argument similar to the one used for the Chapman-Kolmogorov equation): \[ h(x) = \sum_{y\in\states} p(x\to y) h(y). \]
 \end{enumerate}
 
-\point{Main result:} these constraints can be used to find the numerical value of $h(x)$. More precisely, $h(x)$ is the minimum function satisfying the above three conditions.
+\point{Main result:} these constraints can be used to find the numerical value of $h(x)$. More precisely, $h(x)$ is the minimum function satisfying the above three conditions, i.e., if $h'$ satisfies the three conditions above, then $h(x) \le h'(x)$ for all $x \in \states$. 
 
 
 \subsection{Asymptotic behavior: overview}
@@ -3290,12 +3290,12 @@ Note that for the first example, we write the gcd relative to two different star
   \item $X_n$ and $Y_n$ make their transitions independently until they meet for the first time, at which point they stay together forever.
   \item Note: $X_0 \sim \pi \Rightarrow X_n \sim \pi$ for all $n$. 
   \item Let $T$ denote the time the two chains meet: $T = \inf\{n : X_n = Y_n\}$.
-  \item It is therefore enough to show that the two chain meet ``quickly,'' formally that $\P(T > n) \to 0$. This is where aperiodicity is used! What happens if not irreducible? Consider counter example at the beginning of the section to understand the importance of irreducibility.
+  \item It is therefore enough to show that the two chain meet ``quickly,'' formally that $\P(T > n) \to 0$. This is where aperiodicity and irreducibility are used! What happens if not irreducible? If not aperiodic? Consider counter example at the beginning of the section to understand the importance of irreducibility and aperiodicity.
   \item To conclude the argument, note first that
   \begin{align*}
   	\P(X_n = y, T \le n) &= \sum_{m=1}^n \sum_x \P(T=m, X_m = x, X_n = y) \\
   	&= \sum_{m=1}^n \sum_x \P(T=m, X_m = x) \P(X_n = y | T=m, X_m = x) \text{ (chain rule)} \\ &= \sum_{m=1}^n \sum_x \P(T=m, Y_m = x) \P(X_n = y | T=m, X_m = x) \text{ (by def. of $T$)}\\
-  	&= \sum_{m=1}^n \sum_x \P(T=m, Y_m = x) \P(Y_n = y | T=m, Y_m = x) \text{ (by homogeneity)} \\
+  	&= \sum_{m=1}^n \sum_x \P(T=m, Y_m = x) \P(Y_n = y | T=m, Y_m = x) \text{ (marginals match)} \\
   	&= \P(Y_n = y, T \le n)\\
   \end{align*}
   which implies
