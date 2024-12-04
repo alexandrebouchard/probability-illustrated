@@ -1,4 +1,6 @@
 #!/bin/bash
 
 latexmk -quiet -pdf -bibtex  document.tex
-cp document.pdf ~/courses/547/web/files/notes.pdf
+cp document.pdf ~/web/pub/probability-illustrated.pdf
+
+echo Run web-deploy to complete publication process
